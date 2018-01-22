@@ -1,5 +1,5 @@
 FROM fluent/fluentd:debian
-MAINTAINER DORU Mihai doru.mihai@haufe-lexware.com
+MAINTAINER Lee Myring mail@thinkstack.io
 LABEL Description="FluentD aggregator docker image" Version="0.1"
 
 RUN ["mkdir", "-p", "/fluentd/certs"]

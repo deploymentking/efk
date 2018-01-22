@@ -1,14 +1,21 @@
-FROM ubuntu
+FROM fluentd:debian
 MAINTAINER Lee Myring mail@thinkstack.io
 LABEL Description="Ubuntu instance to test source of log data" Version="0.1"
 
-RUN ["mkdir", "-p", "/fluentd/certs"]
-RUN ["mkdir", "-p", "/fluentd/log"]
-
-ADD ./certs/ca_cert.pem /fluentd/certs
-ADD ./config/td-agent-shipper.conf /fluentd/etc
-
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
-    && apt update \
-    && apt upgrade
-    && apt install -y $buildDeps \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y $buildDeps \
+    && apt-get install td-agent \
+    && mkdir -p /logsource/certs /logsource/log
+
+#COPY ./certs/ca_cert.pem /logsource/certs
+#COPY ./config/td-agent-shipper-tls.conf /logsource/etc
+#COPY ./config/install-td-agent.sh /
+
+#RUN ./install-td-agent.sh
+#RUN sudo systemctl start td-agent
+RUN sudo td-agent-gem install fluent-plugin-elasticsearch
+
+RUN tail /var/log/td-agent/td-agent.log
+

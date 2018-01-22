@@ -1,0 +1,45 @@
+version: '2'
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    command: elasticsearch -Enetwork.host=0.0.0.0
+    expose:
+      - "9200"
+      - "9300"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.1
+    hostname: kibana
+    expose:
+      - "5601"
+    links:
+      - elasticsearch
+
+  fluentd:
+    build: ./fluentd
+    env_file:
+      - ./fluentd/fluentd.properties
+    volumes:
+      - ./fluentd/config:/fluentd/etc
+      - ./fluentd/certs:/fluentd/certs
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    links:
+      - elasticsearch
+    logging:
+        driver: "json-file"
+        options:
+            max-size: 100m
+            max-file: "5"
+
+  nginx:
+    build: ./nginx
+    hostname: nginx
+    ports:
+      - "80:80"
+    links:
+      - kibana
+    restart:
+        always
