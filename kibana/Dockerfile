@@ -1,0 +1,3 @@
+ARG ELK_VERSION
+ARG ELK_FLAVOUR
+FROM docker.elastic.co/kibana/kibana${ELK_FLAVOUR}:${ELK_VERSION}
