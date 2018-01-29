@@ -1,23 +1,12 @@
-version: '2'
+version: '3'
+
 services:
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
-    command: elasticsearch -Enetwork.host=0.0.0.0
-    expose:
-      - "9200"
-      - "9300"
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:6.1.1
-    hostname: kibana
-    expose:
-      - "5601"
-    links:
-      - elasticsearch
-
   fluentd:
-    build: ./fluentd
+    build:
+      context: ./fluentd
+      args:
+        FLUENTD_VERSION: $FLUENTD_VERSION
+    hostname: fluentd
     env_file:
       - ./fluentd/fluentd.properties
     volumes:
@@ -26,20 +15,64 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-    links:
+    networks:
+      - efk
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: 100m
+#        max-file: "5"
+
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+      args:
+        ELK_VERSION: $ELK_VERSION
+        ELK_FLAVOUR: $ELK_FLAVOUR
+    hostname: elasticsearch
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - efk
+    depends_on:
+      - fluentd
+
+  kibana:
+    build:
+      context: ./kibana
+      args:
+        ELK_VERSION: $ELK_VERSION
+        ELK_FLAVOUR: $ELK_FLAVOUR
+    hostname: kibana
+    volumes:
+      - ./kibana/config/:/usr/share/kibana/config
+    ports:
+      - "5601:5601"
+    networks:
+      - efk
+    depends_on:
       - elasticsearch
-    logging:
-        driver: "json-file"
-        options:
-            max-size: 100m
-            max-file: "5"
 
   nginx:
-    build: ./nginx
-    hostname: nginx
+    build:
+      context: ./nginx
+      args:
+        NGINX_VERSION: $NGINX_VERSION
+    volumes:
+      - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/config/htpasswd.users:/etc/nginx/htpasswd.users
     ports:
-      - "80:80"
-    links:
+      - "8080:80"
+    networks:
+      - efk
+    depends_on:
       - kibana
     restart:
-        always
+      always
+
+networks:
+  efk:
+    driver: bridge

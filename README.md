@@ -12,8 +12,10 @@ This Docker template allows for the quick deployment of a fully functioning EFK 
 
 ## Quick & Easy Startup
 
-`docker-compose up` :smile:
+`docker-compose -f docker-compose.yml -f logsource/docker-compose.yml -p efk up` :smile:
 
-You can then access Kibana on [http://localhost:80](http://localhost:80) and login with the default username & password.
+### OSS Setup
+You can then access Kibana on [http://localhost:5601](http://localhost:5601)
 
-
+### Default Setup
+You can then access Kibana on [http://localhost:8080](http://localhost:8080) and login with the default username & password.
