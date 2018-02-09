@@ -1,5 +1,5 @@
 FROM fluentd:debian
-MAINTAINER Lee Myring mail@thinkstack.io
+LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Ubuntu instance to test source of log data" Version="0.1"
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
@@ -13,8 +13,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
 #COPY ./config/td-agent-shipper-tls.conf /logsource/etc
 #COPY ./config/install-td-agent.sh /
 
-#RUN ./install-td-agent.sh
-#RUN sudo systemctl start td-agent
 RUN sudo td-agent-gem install fluent-plugin-elasticsearch
 
 RUN tail /var/log/td-agent/td-agent.log
