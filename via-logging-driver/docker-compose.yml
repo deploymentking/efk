@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  web:
+  logsource_driver:
     image: httpd:latest
     ports:
       - "80:80"
@@ -10,7 +10,9 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: fluentd:24224
+        fluentd-address: localhost:24224
         tag: httpd.access
     networks:
       - efk
+    depends_on:
+      - fluentd
