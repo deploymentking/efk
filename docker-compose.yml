@@ -17,11 +17,6 @@ services:
       - "24224:24224/udp"
     networks:
       - efk
-#    logging:
-#      driver: "json-file"
-#      options:
-#        max-size: 100m
-#        max-file: "5"
 
   elasticsearch:
     build:
@@ -55,23 +50,6 @@ services:
       - efk
     depends_on:
       - elasticsearch
-
-  nginx:
-    build:
-      context: ./nginx
-      args:
-        NGINX_VERSION: $NGINX_VERSION
-    volumes:
-      - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/config/htpasswd.users:/etc/nginx/htpasswd.users
-    ports:
-      - "8080:80"
-    networks:
-      - efk
-    depends_on:
-      - kibana
-    restart:
-      always
 
 networks:
   efk:

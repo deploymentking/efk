@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      args:
+        NGINX_VERSION: $NGINX_VERSION
+    volumes:
+      - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/config/htpasswd.users:/etc/nginx/htpasswd.users
+    ports:
+      - "8080:80"
+    networks:
+      - efk
+    depends_on:
+      - kibana
+    restart:
+      always
