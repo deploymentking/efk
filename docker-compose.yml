@@ -25,6 +25,10 @@ services:
         ELK_VERSION: $ELK_VERSION
         ELK_FLAVOUR: $ELK_FLAVOUR
     hostname: elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    env_file:
+      - ./elasticsearch/elasticsearch.properties
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
@@ -34,6 +38,10 @@ services:
       - efk
     depends_on:
       - fluentd
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   kibana:
     build:
