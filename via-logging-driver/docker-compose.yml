@@ -3,6 +3,7 @@ version: '3'
 services:
   logsource_driver:
     image: httpd:latest
+    container_name: logsource_driver
     ports:
       - "80:80"
     links:

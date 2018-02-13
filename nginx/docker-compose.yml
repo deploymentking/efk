@@ -6,6 +6,8 @@ services:
       context: ./nginx
       args:
         NGINX_VERSION: $NGINX_VERSION
+    hostname: nginx
+    container_name: nginx
     volumes:
       - ./nginx/config/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/config/htpasswd.users:/etc/nginx/htpasswd.users

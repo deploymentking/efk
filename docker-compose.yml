@@ -7,6 +7,7 @@ services:
       args:
         FLUENTD_VERSION: $FLUENTD_VERSION
     hostname: fluentd
+    container_name: fluentd
     env_file:
       - ./fluentd/fluentd.properties
     volumes:
@@ -25,6 +26,7 @@ services:
         ELK_VERSION: $ELK_VERSION
         ELK_FLAVOUR: $ELK_FLAVOUR
     hostname: elasticsearch
+    container_name: elasticsearch
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     env_file:
@@ -50,6 +52,7 @@ services:
         ELK_VERSION: $ELK_VERSION
         ELK_FLAVOUR: $ELK_FLAVOUR
     hostname: kibana
+    container_name: kibana
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
