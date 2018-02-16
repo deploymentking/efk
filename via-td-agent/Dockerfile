@@ -1,19 +1,20 @@
-FROM fluentd:debian
+ARG VERSION_UBUNTU
+FROM ubuntu:${VERSION_UBUNTU}
+
 LABEL Author="Lee Myring <mail@thinkstack.io>"
-LABEL Description="Ubuntu instance to test source of log data" Version="0.1"
+LABEL Description="Ubuntu instance to test source of log data"
+LABEL Version="0.1"
 
-RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg" \
     && apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y $buildDeps \
-    && apt-get install td-agent \
-    && mkdir -p /logsource/certs /logsource/log
+    && apt-get install -yq --no-install-recommends $buildDeps \
+    && curl https://packages.treasuredata.com/GPG-KEY-td-agent | apt-key add - \
+    && echo "deb http://packages.treasuredata.com/3/ubuntu/xenial/ xenial contrib" > /etc/apt/sources.list.d/treasure-data.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends td-agent \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /etc/td-agent/certs \
+    && /etc/init.d/td-agent restart
 
-#COPY ./certs/ca_cert.pem /logsource/certs
-#COPY ./config/td-agent-shipper-tls.conf /logsource/etc
-#COPY ./config/install-td-agent.sh /
-
-RUN sudo td-agent-gem install fluent-plugin-elasticsearch
-
-RUN tail /var/log/td-agent/td-agent.log
-
+COPY ./certs /etc/td-agent/certs
+COPY ./config/td-agent-default-install.conf /etc/td-agent/td-agent.conf

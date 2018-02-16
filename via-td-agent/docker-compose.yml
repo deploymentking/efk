@@ -1,15 +1,15 @@
 version: '3'
 services:
-  web:
-    image: httpd:latest
+  logsource_td_agent:
+    build:
+      context: .
+      args:
+        VERSION_UBUNTU: $VERSION_UBUNTU
+    hostname: logsource_td_agent
+    container_name: logsource_td_agent
     ports:
       - "80:80"
     links:
       - fluentd
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: httpd.access
     networks:
       - efk
