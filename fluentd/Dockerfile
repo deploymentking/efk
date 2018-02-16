@@ -2,7 +2,7 @@ ARG VERSION_FLUENTD
 FROM fluent/fluentd:${VERSION_FLUENTD}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
-LABEL Description="Ubuntu instance to test source of log data"
+LABEL Description="Alpine FluentD instance into which other logs should aggregate"
 LABEL Version="0.1"
 
 RUN apk add --update --virtual .build-deps sudo build-base ruby-dev \
