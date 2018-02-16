@@ -1,3 +1,3 @@
-ARG ELK_VERSION
-ARG ELK_FLAVOUR
-FROM docker.elastic.co/kibana/kibana${ELK_FLAVOUR}:${ELK_VERSION}
+ARG VERSION_ELK
+ARG FLAVOUR_ELK
+FROM docker.elastic.co/kibana/kibana${FLAVOUR_ELK}:${VERSION_ELK}

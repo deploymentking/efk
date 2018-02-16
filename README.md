@@ -14,7 +14,7 @@ that will enable Basic authentication access control to kibana.
 
 ## Quick & Easy Startup - OSS
 
-- Ensure the .env file has the setting `ELK_FLAVOUR` set to a value of `-oss`
+- Ensure the .env file has the setting `FLAVOUR_ELK` set to a value of `-oss`
 - Run the following command `docker-compose -p efk up`
 
 You will then be able to access the stack via the following:
@@ -23,7 +23,7 @@ You will then be able to access the stack via the following:
 
 ## Quick & Easy Startup - Default (with XPack Extensions)
 
-- Ensure the .env file has the setting `ELK_FLAVOUR` set to an empty string
+- Ensure the .env file has the setting `FLAVOUR_ELK` set to an empty string
 - Run the following command `docker-compose -f docker-compose.yml -f nginx/docker-compose.yml -p efk up`
 
 You will then be able to access the stack via the following:
@@ -33,7 +33,7 @@ When accessing via the NGINX container you do not need to supply the username an
 `htpasswd.users` file which contains the default username and password of `elastic` and `changeme`. If you wish to use
 different credentials then replace the text in the file using the following command `htpasswd -b ./nginx/config/htpasswd.users newuser newpassword`
 
-:warning: You must use the `--build` flag on docker-compose when switching between `ELK_FLAVOUR` values e.g.
+:warning: You must use the `--build` flag on docker-compose when switching between `FLAVOUR_ELK` values e.g.
 `docker-compose -p efk up --build`
 
 ## Logging to EFK via Docker logging driver

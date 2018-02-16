@@ -5,7 +5,7 @@ services:
     build:
       context: ./fluentd
       args:
-        FLUENTD_VERSION: $FLUENTD_VERSION
+        VERSION_FLUENTD: $VERSION_FLUENTD
     hostname: fluentd
     container_name: fluentd
     env_file:
@@ -23,8 +23,8 @@ services:
     build:
       context: ./elasticsearch
       args:
-        ELK_VERSION: $ELK_VERSION
-        ELK_FLAVOUR: $ELK_FLAVOUR
+        VERSION_ELK: $VERSION_ELK
+        FLAVOUR_ELK: $FLAVOUR_ELK
     hostname: elasticsearch
     container_name: elasticsearch
     environment:
@@ -49,8 +49,8 @@ services:
     build:
       context: ./kibana
       args:
-        ELK_VERSION: $ELK_VERSION
-        ELK_FLAVOUR: $ELK_FLAVOUR
+        VERSION_ELK: $VERSION_ELK
+        FLAVOUR_ELK: $FLAVOUR_ELK
     hostname: kibana
     container_name: kibana
     volumes:
