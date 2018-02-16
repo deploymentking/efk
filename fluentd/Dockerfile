@@ -1,15 +1,15 @@
-ARG FLUENTD_VERSION
-FROM fluent/fluentd:${FLUENTD_VERSION}
+ARG VERSION_FLUENTD
+FROM fluent/fluentd:${VERSION_FLUENTD}
 
-RUN ["mkdir", "-p", "/fluentd/certs"]
-RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri"]
-#
-#RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
-#    && apt-get update \
-#    && apt-get install -y --no-install-recommends $buildDeps \
-#    && sudo gem install fluent-plugin-elasticsearch --no-rdoc --no-ri \
-#    && sudo gem install fluent-plugin-rewrite-tag-filter --no-rdoc --no-ri \
-#    && sudo gem install fluent-plugin-secure-forward --no-rdoc --no-ri \
-#    && sudo gem sources --clear-all \
-#    && SUDO_FORCE_REMOVE=yes apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false $buildDeps \
-#    && rm -rf /var/lib/apt/lists/* /usr/lib/ruby/gems/*/cache/*.gem
+LABEL Author="Lee Myring <mail@thinkstack.io>"
+LABEL Description="Ubuntu instance to test source of log data"
+LABEL Version="0.1"
+
+RUN apk add --update --virtual .build-deps sudo build-base ruby-dev \
+    && sudo gem install fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-secure-forward\
+    && sudo gem sources --clear-all \
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem \
+    && mkdir -p /fluentd/certs
+
+COPY ./certs /fluentd/certs
