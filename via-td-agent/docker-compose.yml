@@ -2,7 +2,7 @@ version: '3'
 services:
   logsource_td_agent:
     build:
-      context: .
+      context: ./via-td-agent
       args:
         VERSION_UBUNTU: $VERSION_UBUNTU
     hostname: logsource_td_agent
