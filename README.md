@@ -43,3 +43,7 @@ different credentials then replace the text in the file using the following comm
 ## Logging to EFK via td-agent
 
 - Run the following command `docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up`
+
+The Docker container running the td-agent has a JAR installed from which logs are produced. To modify the JAR in order
+to produce different output re-compile the [java-logger](https://github.com/DeploymentKing/java-logger) GitHub project.
+See the README of that project for further information
