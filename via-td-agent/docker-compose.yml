@@ -7,6 +7,7 @@ services:
         VERSION_UBUNTU: $VERSION_UBUNTU
     hostname: logsource_td_agent
     container_name: logsource_td_agent
+    command: java -Dlogger.loopCount=$LOGGER_LOOP_COUNT -Dlogger.sleep=$LOGGER_THREAD_SLEEP -jar /java-logger.jar
     ports:
       - "80:80"
     links:
