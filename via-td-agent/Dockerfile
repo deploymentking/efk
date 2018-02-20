@@ -20,5 +20,4 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg software-propertie
     && /etc/init.d/td-agent restart
 
 COPY ./certs /etc/td-agent/certs
-COPY ./config/td-agent-default-install.conf /etc/td-agent/td-agent.conf
 COPY ./executables /

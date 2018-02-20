@@ -6,17 +6,24 @@ services:
       context: ./via-td-agent
       args:
         VERSION_UBUNTU: $VERSION_UBUNTU
-    hostname: logsource_td_agent
-    container_name: logsource_td_agent
     command: java -Dlogger.loopCount=$LOGGER_LOOP_COUNT -Dlogger.sleep=$LOGGER_THREAD_SLEEP -cp /java-logger-$VERSION_JAVA_LOGGER.jar io.thinkstack.logger.slf4j.$LOGGER_ENTRY_POINT
-    ports:
-      - "80:80"
-    links:
-      - fluentd
+    container_name: logsource_td_agent
     depends_on:
       elasticsearch:
         condition: service_healthy
       fluentd:
         condition: service_healthy
+    environment:
+      FLUENTD_AGGREGATOR_ADDR: fluentd
+      FLUENTD_AGGREGATOR_PORT: 24224
+      FLUENTD_SOURCE_PROJECT: logsource_td_agent
+      FLUENTD_TAIL_TAG: via-td-agent
+    hostname: logsource_td_agent
+    links:
+      - fluentd
     networks:
       - efk
+    ports:
+      - "80:80"
+    volumes:
+      - ./via-td-agent/config/td-agent-simple.conf:/etc/td-agent/td-agent.conf
