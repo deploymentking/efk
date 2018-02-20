@@ -13,3 +13,6 @@ RUN apk add --update --virtual .build-deps sudo build-base ruby-dev \
     && mkdir -p /fluentd/certs
 
 COPY ./certs /fluentd/certs
+
+HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
+    CMD nc -z localhost 24224 || exit 1

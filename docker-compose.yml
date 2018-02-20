@@ -1,24 +1,6 @@
-version: '3'
+version: '2.1'
 
 services:
-  fluentd:
-    build:
-      context: ./fluentd
-      args:
-        VERSION_FLUENTD: $VERSION_FLUENTD
-    hostname: fluentd
-    container_name: fluentd
-    env_file:
-      - ./fluentd/fluentd.properties
-    volumes:
-      - ./fluentd/config:/fluentd/etc
-      - ./fluentd/certs:/fluentd/certs
-    ports:
-      - "24224:24224"
-      - "24224:24224/udp"
-    networks:
-      - efk
-
   elasticsearch:
     build:
       context: ./elasticsearch
@@ -38,12 +20,31 @@ services:
       - "9300:9300"
     networks:
       - efk
-    depends_on:
-      - fluentd
     ulimits:
       memlock:
         soft: -1
         hard: -1
+
+  fluentd:
+    build:
+      context: ./fluentd
+      args:
+        VERSION_FLUENTD: $VERSION_FLUENTD
+    hostname: fluentd
+    container_name: fluentd
+    env_file:
+      - ./fluentd/fluentd.properties
+    volumes:
+      - ./fluentd/config:/fluentd/etc
+      - ./fluentd/certs:/fluentd/certs
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - efk
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   kibana:
     build:
@@ -60,7 +61,8 @@ services:
     networks:
       - efk
     depends_on:
-      - elasticsearch
+      fluentd:
+        condition: service_healthy
 
 networks:
   efk:

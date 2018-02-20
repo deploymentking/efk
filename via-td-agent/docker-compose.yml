@@ -1,4 +1,5 @@
-version: '3'
+version: '2.1'
+
 services:
   logsource_td_agent:
     build:
@@ -7,10 +8,15 @@ services:
         VERSION_UBUNTU: $VERSION_UBUNTU
     hostname: logsource_td_agent
     container_name: logsource_td_agent
-    command: java -Dlogger.loopCount=$LOGGER_LOOP_COUNT -Dlogger.sleep=$LOGGER_THREAD_SLEEP -cp /java-logger.jar io.thinkstack.logger.slf4j.$LOGGER_ENTRY_POINT
+    command: java -Dlogger.loopCount=$LOGGER_LOOP_COUNT -Dlogger.sleep=$LOGGER_THREAD_SLEEP -cp /java-logger-$VERSION_JAVA_LOGGER.jar io.thinkstack.logger.slf4j.$LOGGER_ENTRY_POINT
     ports:
       - "80:80"
     links:
       - fluentd
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      fluentd:
+        condition: service_healthy
     networks:
       - efk
