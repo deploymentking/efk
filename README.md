@@ -20,13 +20,17 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Install supporting tools](#install-supporting-tools)
 - [Quick & Easy Startup - OSS](#quick--easy-startup---oss)
 - [Quick & Easy Startup - Default (with XPack Extensions)](#quick--easy-startup---default-with-xpack-extensions)
-- [Docker Clean Up](#docker-clean-up)
 - [Log Sources](#log-sources)
   * [Logging via driver](#logging-via-driver)
     + [Launch Command](#launch-command)
   * [Logging via td-agent](#logging-via-td-agent)
     + [Launch Command](#launch-command-1)
+- [Getting started with Kibana](#getting-started-with-kibana)
+  * [Define index pattern](#define-index-pattern)
+  * [View logs](#view-logs)
+- [Docker Clean Up](#docker-clean-up)
 - [References](#references)
+- [Useful Articles](#useful-articles)
 
 <!-- tocstop -->
 
@@ -74,27 +78,6 @@ different credentials then replace the text in the file using the following comm
 :warning: You must use the `--build` flag on docker-compose when switching between `FLAVOUR_ELK` values e.g.
 ```bash
 docker-compose -p efk up --build
-```
-
-## Docker Clean Up
-When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
-images and volumes that can be purged from your system. I use the following to perform a cleanup of my Docker environment.
-
-```bash
-# Delete all exited containers and their associated volume
-docker ps --quiet --filter status=exited | xargs docker rm -v
-# Delete all images, containers, volumes, and networks — that aren't associated with a container
-docker system prune --force --volumes
-```
-
-:warning: Quite destructive commands follow...
-```bash
-# Delete all containers
-docker ps --quiet --all | xargs docker rm -f
-# Delete forcefully all images that match the name passed into the filter e.g. efk_*
-docker image ls --quiet --filter 'reference=efk_*:*' | xargs docker rmi -f
-# Delete everything? EVERYTHING!
-docker system prune --all
 ```
 
 ## Log Sources
@@ -149,6 +132,27 @@ button
 - The selected fields should move from the "Available Fields" section to the "Selected Fields" section
 - If using the logging driver you can trigger new logs to appear by navigating to the [Apache web server](http://localhost)
 and refreshing the page a few times
+
+## Docker Clean Up
+When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
+images and volumes that can be purged from your system. I use the following to perform a cleanup of my Docker environment.
+
+```bash
+# Delete all exited containers and their associated volume
+docker ps --quiet --filter status=exited | xargs docker rm -v
+# Delete all images, containers, volumes, and networks — that aren't associated with a container
+docker system prune --force --volumes
+```
+
+:warning: Quite destructive commands follow...
+```bash
+# Delete all containers
+docker ps --quiet --all | xargs docker rm -f
+# Delete forcefully all images that match the name passed into the filter e.g. efk_*
+docker image ls --quiet --filter 'reference=efk_*:*' | xargs docker rmi -f
+# Delete everything? EVERYTHING!
+docker system prune --all
+```
 
 ## References
 - [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
