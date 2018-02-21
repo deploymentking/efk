@@ -5,7 +5,7 @@ This project allows for the quick deployment of a fully functioning EFK Stack.
 - (F)luentD
 - (K)ibana
 
-The intended use is as a local development environment to try out FluentD configuration before deployment to an environment.
+The intended use is as a local development environment to try out Fluentd configuration before deployment to an environment.
 I have also included an optional NGINX web server that enables Basic authentication access control to kibana (if using
 the XPack extension). In addition to this, there are a collection of "sources" that feed the EFK stack. For example the
 folder `via-td-agent` contains Docker files that can launch and configure an Ubuntu box that will install the td-agent
@@ -128,6 +128,35 @@ project mentioned [here](#references). See the README of that project for furthe
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up
 ```
 
+## Getting started with Kibana
+Once the stack has launched it should be possible to access kibana via [http://localhost:5601](http://localhost:5601).
+It is not possible to instantly see the log output, first it is necessary to setup an index pattern. Kibana uses index
+patterns to retrieve data from Elasticsearch indices for things like visualizations.
+
+### Define index pattern
+- Navigate to the [Management](http://localhost:5601/app/kibana#/management/kibana/index?_g=()) page
+- Define the index pattern by putting `fluentd*` in the "Index pattern" text box
+- Click the "Next step" button
+- Configure the settings by selecting `@timestamp` in the "Time Filter field name" drop-down list box
+- Click the "Create index pattern" button
+
+### View logs
+- Navigate to the [Discover](http://localhost:5601/app/kibana#/discover?_g=()) page
+- Click the "Auto-refresh" button
+- Select `5 seconds` from the drop-down panel
+- Select the fields you wish to summarize in the table by hovering over the field name and clicking the contextual "add"
+button
+- The selected fields should move from the "Available Fields" section to the "Selected Fields" section
+- If using the logging driver you can trigger new logs to appear by navigating to the [Apache web server](http://localhost)
+and refreshing the page a few times
+
 ## References
 - [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
 - [java-logger](https://github.com/DeploymentKing/java-logger)
+- [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
+- [ELK Docker Images](https://www.docker.elastic.co/)
+- [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
+
+## Useful Articles
+- [How To Centralize Your Docker Logs with Fluentd and ElasticSearch on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-centralize-your-docker-logs-with-fluentd-and-elasticsearch-on-ubuntu-16-04)
+- [Free Alternative to Splunk Using Fluentd](https://docs.fluentd.org/v1.0/articles/free-alternative-to-splunk-by-fluentd)
