@@ -2,11 +2,14 @@ version: '2.1'
 
 services:
   logsource_driver:
-    image: httpd:latest
-    hostname: logsource_driver
     container_name: logsource_driver
-    ports:
-      - "80:80"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      fluentd:
+        condition: service_healthy
+    hostname: logsource_driver
+    image: httpd:alpine
     links:
       - fluentd
     logging:
@@ -15,6 +18,6 @@ services:
         fluentd-address: localhost:24224
         tag: httpd.access
     networks:
-      efk
-    depends_on:
-      - fluentd
+      - efk
+    ports:
+      - "80:80"
