@@ -22,9 +22,11 @@ and run a Java JAR from which we can control the type of logging to be sent to E
 - [Quick & Easy Startup - Default (with XPack Extensions)](#quick--easy-startup---default-with-xpack-extensions)
 - [Docker Clean Up](#docker-clean-up)
 - [Log Sources](#log-sources)
-  * [Logging via Docker logging driver](#logging-via-docker-logging-driver)
+  * [Logging via driver](#logging-via-driver)
     + [Launch Command](#launch-command)
-  * [Logging to EFK via td-agent](#logging-to-efk-via-td-agent)
+  * [Logging via td-agent](#logging-via-td-agent)
+    + [Launch Command](#launch-command-1)
+- [References](#references)
 
 <!-- tocstop -->
 
@@ -81,7 +83,7 @@ images and volumes that can be purged from your system. I use the following to p
 ```bash
 # Delete all exited containers and their associated volume
 docker ps --quiet --filter status=exited | xargs docker rm -v
-# Delete all images, containers, volumes, and networks — that are dangling (not associated with a container)
+# Delete all images, containers, volumes, and networks — that aren't associated with a container
 docker system prune --force --volumes
 ```
 
@@ -97,7 +99,7 @@ docker system prune --all
 
 ## Log Sources
 
-### Logging via Docker logging driver
+### Logging via driver
 This is a simple log source that simply uses the log driver feature of Docker
 
 ```yaml
@@ -108,20 +110,24 @@ logging:
     tag: httpd.access
 ```
 
-The docker image `httpd:alpine` is used to create a simple Apache web server
+The docker image `httpd:alpine` is used to create a simple Apache web server. This will output the logs of the httpd 
+process to STDOUT which gets picked up by the logging driver above.
 
 #### Launch Command
 ```bash
 docker-compose -f docker-compose.yml -f via-logging-driver/docker-compose.yml -p efk up
 ```
 
-### Logging to EFK via td-agent
+### Logging via td-agent
+This source is based on an Ubuntu box with OpenJDK Java installed along with the td-agent. The executable is a JAR stored
+in the executables folder that will log output controlled by log4j2 via slf4j. The JAR is controlled by the java-logger
+project mentioned [here](#references). See the README of that project for further information.
 
-- Run the following command `docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up`
-
-The Docker container running the td-agent has a JAR installed from which logs are produced. To modify the JAR in order
-to produce different output re-compile the [java-logger](https://github.com/DeploymentKing/java-logger) GitHub project.
-See the README of that project for further information
+#### Launch Command
+```bash
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up
+```
 
 ## References
 - [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
+- [java-logger](https://github.com/DeploymentKing/java-logger)
