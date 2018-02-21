@@ -25,6 +25,8 @@ and run a Java JAR from which we can control the type of logging to be sent to E
     + [Launch Command](#launch-command)
   * [Logging via td-agent](#logging-via-td-agent)
     + [Launch Command](#launch-command-1)
+    + [Changing the JAR log output type](#changing-the-jar-log-output-type)
+    + [Changing the td-agent configuration](#changing-the-td-agent-configuration)
 - [Getting started with Kibana](#getting-started-with-kibana)
   * [Define index pattern](#define-index-pattern)
   * [View logs](#view-logs)
@@ -111,27 +113,36 @@ project mentioned [here](#references). See the README of that project for furthe
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up
 ```
 
+#### Changing the JAR log output type
+In order to change the kind of logging output from the JAR, e.g. from single line logs to multi-line logs, the environment
+variable `LOGGER_ENTRY_POINT` needs to be set. This can be achieved via the .env file found in the root of the project.
+Simply uncomment the desired class.
+
+#### Changing the td-agent configuration
+To try out different configuration options simply change the `FLUENTD_CONF` setting in the docker-compose environment
+section and then rebuild the stack
+
 ## Getting started with Kibana
 Once the stack has launched it should be possible to access kibana via [http://localhost:5601](http://localhost:5601).
 It is not possible to instantly see the log output, first it is necessary to setup an index pattern. Kibana uses index
 patterns to retrieve data from Elasticsearch indices for things like visualizations.
 
 ### Define index pattern
-- Navigate to the [Management](http://localhost:5601/app/kibana#/management/kibana/index?_g=()) page
-- Define the index pattern by putting `fluentd*` in the "Index pattern" text box
+- Click this [link](http://localhost:5601/app/kibana#/management/kibana/index?_g=()) to navigate to the "Create index pattern" page
+- Step 1 of 2: Define index pattern: type `fluentd*` into the "Index pattern" text box
 - Click the "Next step" button
-- Configure the settings by selecting `@timestamp` in the "Time Filter field name" drop-down list box
+- Step 2 of 2: Configure settings: select `@timestamp` in the "Time Filter field name" drop-down list box
 - Click the "Create index pattern" button
 
 ### View logs
-- Navigate to the [Discover](http://localhost:5601/app/kibana#/discover?_g=()) page
-- Click the "Auto-refresh" button
-- Select `5 seconds` from the drop-down panel
-- Select the fields you wish to summarize in the table by hovering over the field name and clicking the contextual "add"
-button
+- Click this [link](http://localhost:5601/app/kibana#/discover?_g=()) to navigate to the Discover page
+- Click the "Auto-refresh" button at the top right of the page
+- Select `5 seconds` from the drop-down panel that immediately appears
+- Select the fields you wish to summarize in the table next to the left hand menu by hovering over the field name and
+clicking the contextual "add" button. Select at least the "log" and "message" fields
 - The selected fields should move from the "Available Fields" section to the "Selected Fields" section
-- If using the logging driver you can trigger new logs to appear by navigating to the [Apache web server](http://localhost)
-and refreshing the page a few times
+- If using the logging driver you can trigger new logs to appear by clicking this [link](http://localhost) and refreshing
+the page a few times
 
 ## Docker Clean Up
 When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,

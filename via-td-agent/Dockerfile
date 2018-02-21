@@ -16,8 +16,11 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg software-propertie
     && update-alternatives --config java \
     && update-alternatives --config javac \
     && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p /etc/td-agent/certs \
-    && /etc/init.d/td-agent restart
+    && mkdir -p /etc/td-agent/certs
 
-COPY ./certs /etc/td-agent/certs
+COPY ./config /etc/td-agent/
 COPY ./executables /
+
+RUN chmod 755 /entrypoint.sh && chown -R td-agent:td-agent /etc/td-agent
+
+ENTRYPOINT ["/entrypoint.sh"]
