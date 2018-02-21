@@ -79,14 +79,20 @@ When running multiple stack updates or rebuilding stacks it is easy to build up 
 images and volumes that can be purged from your system. I use the following to perform a cleanup of my Docker environment.
 
 ```bash
+# Delete all exited containers and their associated volume
+docker ps --quiet --filter status=exited | xargs docker rm -v
+# Delete all images, containers, volumes, and networks — that are dangling (not associated with a container)
+docker system prune --force --volumes
+```
+
+:warning: Quite destructive commands follow...
+```bash
 # Delete all containers
-docker ps -aq | xargs docker rm
-# Delete all volumes from exited containers
-docker ps --filter status=exited -q | xargs docker rm -v
-# Delete all dangling images
-docker images --filter dangling=true -q | xargs docker rmi
-# Delete forcefully all images that match the name efk_*
-docker image ls -q -f 'reference=efk_*:*' | xargs docker rmi -f
+docker ps --quiet --all | xargs docker rm -f
+# Delete forcefully all images that match the name passed into the filter e.g. efk_*
+docker image ls --quiet --filter 'reference=efk_*:*' | xargs docker rmi -f
+# Delete everything? EVERYTHING!
+docker system prune --all
 ```
 
 ## Log Sources
@@ -95,11 +101,11 @@ docker image ls -q -f 'reference=efk_*:*' | xargs docker rmi -f
 This is a simple log source that simply uses the log driver feature of Docker
 
 ```yaml
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: httpd.access
+logging:
+  driver: fluentd
+  options:
+    fluentd-address: localhost:24224
+    tag: httpd.access
 ```
 
 The docker image `httpd:alpine` is used to create a simple Apache web server
@@ -116,3 +122,6 @@ docker-compose -f docker-compose.yml -f via-logging-driver/docker-compose.yml -p
 The Docker container running the td-agent has a JAR installed from which logs are produced. To modify the JAR in order
 to produce different output re-compile the [java-logger](https://github.com/DeploymentKing/java-logger) GitHub project.
 See the README of that project for further information
+
+## References
+- [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
