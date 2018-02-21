@@ -119,8 +119,8 @@ variable `LOGGER_ENTRY_POINT` needs to be set. This can be achieved via the .env
 Simply uncomment the desired class.
 
 #### Changing the td-agent configuration
-To try out different configuration options simply change the `FLUENTD_CONF` setting in the docker-compose environment
-section and then rebuild the stack
+To try out different configuration options simply change the `FLUENTD_CONF` setting in the `via-td-agent/docker-compose.yml`
+environment section to one of the files that are listed in `via-td-agent/config` and then rebuild the stack.
 
 ## Getting started with Kibana
 Once the stack has launched it should be possible to access kibana via [http://localhost:5601](http://localhost:5601).
