@@ -20,9 +20,11 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Install supporting tools](#install-supporting-tools)
 - [Quick & Easy Startup - OSS](#quick--easy-startup---oss)
 - [Quick & Easy Startup - Default (with XPack Extensions)](#quick--easy-startup---default-with-xpack-extensions)
+- [Docker Clean Up](#docker-clean-up)
 - [Log Sources](#log-sources)
   * [Logging via Docker logging driver](#logging-via-docker-logging-driver)
-- [Logging to EFK via td-agent](#logging-to-efk-via-td-agent)
+    + [Launch Command](#launch-command)
+  * [Logging to EFK via td-agent](#logging-to-efk-via-td-agent)
 
 <!-- tocstop -->
 
