@@ -26,7 +26,8 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Logging via td-agent](#logging-via-td-agent)
     + [Launch Command](#launch-command-1)
     + [Changing the JAR log output type](#changing-the-jar-log-output-type)
-    + [Changing the td-agent configuration](#changing-the-td-agent-configuration)
+    + [Changing the td-agent configuration file](#changing-the-td-agent-configuration-file)
+    + [Changing the contents of a td-agent conf file](#changing-the-contents-of-a-td-agent-conf-file)
     + [Adding a new environment variable for use in the container](#adding-a-new-environment-variable-for-use-in-the-container)
 - [Getting started with Kibana](#getting-started-with-kibana)
   * [Define index pattern](#define-index-pattern)
@@ -119,9 +120,18 @@ In order to change the kind of logging output from the JAR, e.g. from single lin
 variable `LOGGER_ENTRY_POINT` needs to be set. This can be achieved via the .env file found in the root of the project.
 Simply uncomment the desired class.
 
-#### Changing the td-agent configuration
+#### Changing the td-agent configuration file
 To try out different configuration options simply change the `FLUENTD_CONF` setting in the `via-td-agent/docker-compose.yml`
 environment section to one of the files that are listed in `via-td-agent/config` and then rebuild the stack.
+
+#### Changing the contents of a td-agent conf file
+In order to test changes made to a config file that is already configured to be used by the td-agent service simply make
+the changes in the file on the host machine and then restart the td-agent service. The file is linked to the container
+via the volume mount so the changes are immediately available to the container.
+
+```bash
+service td-agent restart
+```
 
 #### Adding a new environment variable for use in the container
 In order to make a new environment variable available to the td-agent process in the container it is necessary to add
