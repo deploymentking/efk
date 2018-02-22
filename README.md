@@ -131,7 +131,7 @@ the variable to a number of files to make sure it gets propagated successfully. 
 | --- | --- |
 | .env | Contains a list of all the environment variables that can be passed to the container |
 | via-td-agent/docker-compose.yml | This passes a sub-set of the environment variables to the docker container |
-| via-td-agent/executables/entrypoint.sh | This takes a sub-set of the environment variables within the container ans makes them available to the td-agent service via /etc/default/td-agent |
+| via-td-agent/executables/entrypoint.sh | This takes a sub-set of the environment variables within the container and makes them available to the td-agent service via /etc/default/td-agent |
 | via-td-agent/config/td-agent-*.conf | The configuration files can make use of any variables defined in /etc/default/td-agent |
 
 If you run the command below within this repo you will see an example of which files need to be changed and how.
