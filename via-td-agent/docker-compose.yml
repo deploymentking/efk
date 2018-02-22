@@ -25,3 +25,5 @@ services:
     hostname: logsource_td_agent
     networks:
       - efk
+    volumes:
+      - ./via-td-agent/config/:/etc/td-agent/

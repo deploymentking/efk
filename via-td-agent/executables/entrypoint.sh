@@ -13,7 +13,7 @@ service td-agent restart
 
 nohup java -Dlogger.loopCount=${LOGGER_LOOP_COUNT} \
     -Dlogger.sleep=${LOGGER_THREAD_SLEEP} \
-    -cp /java-logger-${VERSION_JAVA_LOGGER}.jar \
+    -cp ./java-logger-${VERSION_JAVA_LOGGER}.jar \
     io.thinkstack.logger.slf4j.${LOGGER_ENTRY_POINT} &
 
 tail -F /var/log/td-agent/td-agent.log

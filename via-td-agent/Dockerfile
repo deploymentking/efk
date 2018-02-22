@@ -18,9 +18,8 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg software-propertie
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /etc/td-agent/certs
 
-COPY ./config /etc/td-agent/
-COPY ./executables /
+COPY ./executables /bin
 
-RUN chmod 755 /entrypoint.sh && chown -R td-agent:td-agent /etc/td-agent
+RUN chmod 755 /bin/entrypoint.sh && chown -R td-agent:td-agent /etc/td-agent
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/entrypoint.sh"]
