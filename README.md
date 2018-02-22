@@ -27,6 +27,7 @@ and run a Java JAR from which we can control the type of logging to be sent to E
     + [Launch Command](#launch-command-1)
     + [Changing the JAR log output type](#changing-the-jar-log-output-type)
     + [Changing the td-agent configuration](#changing-the-td-agent-configuration)
+    + [Adding a new environment variable for use in the container](#adding-a-new-environment-variable-for-use-in-the-container)
 - [Getting started with Kibana](#getting-started-with-kibana)
   * [Define index pattern](#define-index-pattern)
   * [View logs](#view-logs)
@@ -121,6 +122,22 @@ Simply uncomment the desired class.
 #### Changing the td-agent configuration
 To try out different configuration options simply change the `FLUENTD_CONF` setting in the `via-td-agent/docker-compose.yml`
 environment section to one of the files that are listed in `via-td-agent/config` and then rebuild the stack.
+
+#### Adding a new environment variable for use in the container
+In order to make a new environment variable available to the td-agent process in the container it is necessary to add
+the variable to a number of files to make sure it gets propagated successfully. The files to update are:
+
+| File | Description |
+| --- | --- |
+| .env | Contains a list of all the environment variables that can be passed to the container |
+| via-td-agent/docker-compose.yml | This passes a sub-set of the environment variables to the docker container |
+| via-td-agent/executables/entrypoint.sh | This takes a sub-set of the environment variables within the container ans makes them available to the td-agent service via /etc/default/td-agent |
+| via-td-agent/config/td-agent-*.conf | The configuration files can make use of any variables defined in /etc/default/td-agent |
+
+If you run the command below within this repo you will see an example of which files need to be changed and how.
+```bash
+git diff 66af1ad..857f181
+```
 
 ## Getting started with Kibana
 Once the stack has launched it should be possible to access kibana via [http://localhost:5601](http://localhost:5601).
