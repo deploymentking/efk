@@ -220,6 +220,8 @@ docker system prune --all
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
+- [Fluentd UI](https://github.com/fluent/fluentd-ui)
+- [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
 
 ## Useful Articles
 - [How To Centralize Your Docker Logs with Fluentd and ElasticSearch on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-centralize-your-docker-logs-with-fluentd-and-elasticsearch-on-ubuntu-16-04)
