@@ -112,8 +112,20 @@ project mentioned [here](#references). See the README of that project for furthe
 
 #### Launch Command
 ```bash
-docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
 ```
+
+You will then be able to access the configuration of td-agent via the following:
+- Fluentd UI @ [http://localhost:9292](http://localhost:9292)
+
+#### Accessing the Fluentd UI
+Once the stack is up and running, accessing the above URL will display a page prompting for a username and password.
+
+- username: admin
+- password: changeme
+
+After the credentials above have been submitted, click the "Setup td-agent" button and then click the "Create" button.
+The dashboard should be displayed. From here it is fairly obvious what you can change by navigating around the UI.
 
 #### Changing the JAR log output type
 In order to change the kind of logging output from the JAR, e.g. from single line logs to multi-line logs, the environment
@@ -124,12 +136,22 @@ Simply uncomment the desired class.
 To try out different configuration options simply change the `FLUENTD_CONF` setting in the `via-td-agent/docker-compose.yml`
 environment section to one of the files that are listed in `via-td-agent/config` and then rebuild the stack.
 
+```bash
+# ctrl+c to stop the stack (if not running in detached mode)
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk down
+docker image ls --quiet --filter 'reference=efk_logsource_td_agent:*' | xargs docker rmi -f
+# Run the following command if you wish to rebuild all the images from scratch
+# docker image ls --quiet --filter 'reference=efk_logsource_td_agent:*' | xargs docker rmi -f
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
+```
+
 #### Changing the contents of a td-agent conf file
 In order to test changes made to a config file that is already configured to be used by the td-agent service simply make
 the changes in the file on the host machine and then restart the td-agent service. The file is linked to the container
 via the volume mount so the changes are immediately available to the container.
 
 ```bash
+docker exec -it logsource_td_agent /bin/bash
 service td-agent restart
 ```
 
