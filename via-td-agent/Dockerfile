@@ -5,7 +5,7 @@ LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Ubuntu instance to test source of log data"
 LABEL Version="0.1"
 
-RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg software-properties-common" \
+RUN buildDeps="sudo make gcc g++ libc-dev libssl-dev libxml2-dev libxslt1-dev ruby-dev curl gnupg software-properties-common net-tools" \
     && apt-get update \
     && apt-get install -yq --no-install-recommends $buildDeps \
     && curl https://packages.treasuredata.com/GPG-KEY-td-agent | apt-key add - \
@@ -16,9 +16,11 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev curl gnupg software-propertie
     && update-alternatives --config java \
     && update-alternatives --config javac \
     && rm -rf /var/lib/apt/lists/* \
+    && echo 'gem: --no-document' > /etc/gemrc \
+    && gem install fluentd-ui --no-ri --no-rdoc \
     && mkdir -p /etc/td-agent/certs
 
-COPY ./executables /bin
+COPY ./bin /bin
 
 RUN chmod 755 /bin/entrypoint.sh && chown -R td-agent:td-agent /etc/td-agent
 
