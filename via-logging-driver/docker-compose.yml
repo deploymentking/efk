@@ -1,14 +1,14 @@
 version: '2.1'
 
 services:
-  logsource_driver:
-    container_name: logsource_driver
+  logsource:
+    container_name: logsource
     depends_on:
       elasticsearch:
         condition: service_healthy
       fluentd:
         condition: service_healthy
-    hostname: logsource_driver
+    hostname: logsource
     image: httpd:alpine
     links:
       - fluentd
