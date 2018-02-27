@@ -139,9 +139,9 @@ environment section to one of the files that are listed in `via-td-agent/config`
 ```bash
 # ctrl+c to stop the stack (if not running in detached mode)
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk down
-docker image ls --quiet --filter 'reference=efk_logsource_td_agent:*' | xargs docker rmi -f
+docker image ls --quiet --filter 'reference=efk_logsource:*' | xargs docker rmi -f
 # Run the following command if you wish to rebuild all the images from scratch
-# docker image ls --quiet --filter 'reference=efk_logsource_td_agent:*' | xargs docker rmi -f
+# docker image ls --quiet --filter 'reference=efk_logsource:*' | xargs docker rmi -f
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
 ```
 
@@ -151,7 +151,7 @@ the changes in the file on the host machine and then restart the td-agent servic
 via the volume mount so the changes are immediately available to the container.
 
 ```bash
-docker exec -it logsource_td_agent /bin/bash
+docker exec -it logsource /bin/bash
 service td-agent restart
 ```
 
@@ -169,6 +169,24 @@ the variable to a number of files to make sure it gets propagated successfully. 
 If you run the command below within this repo you will see an example of which files need to be changed and how.
 ```bash
 git diff 66af1ad..857f181
+```
+
+### Encrypted logging with TLS
+Use the following command to create some certificates to be used for testing purposes
+```bash
+openssl req -new -x509 -sha256 -days 1095 -newkey rsa:2048 -keyout fluentd.key -out fluentd.crt
+
+# Country Name (2 letter code) []:GB
+# State or Province Name (full name) []:England
+# Locality Name (eg, city) []:Frome
+# Organization Name (eg, company) []:Think Stack Limited
+# Organizational Unit Name (eg, section) []:Think Stack Limited Certificate Authority
+# Common Name (eg, fully qualified host name) []:fluentd
+# Email Address []:mail@thinkstack.io
+```
+
+```bash
+echo -e '\x93\xa9debug.tls\xceZr\xbc1\x81\xa3foo\xa3bar' | openssl s_client -connect localhost:24224
 ```
 
 ## Getting started with Kibana
