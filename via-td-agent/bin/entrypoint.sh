@@ -15,11 +15,11 @@ service td-agent restart
 nohup java -Dlogger.filePath=${LOGGER_FILE_PATH} \
            -Dlogger.loopCount=${LOGGER_LOOP_COUNT} \
            -Dlogger.sleep=${LOGGER_THREAD_SLEEP} \
-           -cp /bin/java-logger-${VERSION_JAVA_LOGGER}.jar \
+           -cp /bin/java-logger-${LOGGER_VERSION}.jar \
            io.thinkstack.logger.slf4j.${LOGGER_ENTRY_POINT} &
 
 # Option 1: Use this to keep the container running
-# tail -F /var/log/td-agent/td-agent.log
+tail -F /var/log/td-agent/td-agent.log
 
 # Option 2: Run fluentd-ui to bring up the rails app
-fluentd-ui start
+# fluentd-ui start

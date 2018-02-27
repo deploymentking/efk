@@ -1,29 +1,20 @@
 version: '2.1'
 
 services:
-  logsource_td_agent:
+  logsource:
     build:
       context: ./via-td-agent
       args:
         VERSION_UBUNTU: $VERSION_UBUNTU
-    container_name: logsource_td_agent
+    container_name: logsource
     depends_on:
       elasticsearch:
         condition: service_healthy
       fluentd:
         condition: service_healthy
-    environment:
-      FLUENTD_CONF: $FLUENTD_CONF
-      FLUENTD_AGGREGATOR_ADDR: $FLUENTD_AGGREGATOR_ADDR
-      FLUENTD_AGGREGATOR_PORT: $FLUENTD_AGGREGATOR_PORT
-      FLUENTD_SOURCE_PROJECT: $FLUENTD_SOURCE_PROJECT
-      FLUENTD_TAIL_TAG: $FLUENTD_TAIL_TAG
-      VERSION_JAVA_LOGGER: $VERSION_JAVA_LOGGER
-      LOGGER_FILE_PATH: $LOGGER_FILE_PATH
-      LOGGER_LOOP_COUNT: $LOGGER_LOOP_COUNT
-      LOGGER_THREAD_SLEEP: $LOGGER_THREAD_SLEEP
-      LOGGER_ENTRY_POINT: $LOGGER_ENTRY_POINT
-    hostname: logsource_td_agent
+    env_file:
+      - ./via-td-agent/fluentd.properties
+    hostname: logsource
     networks:
       - efk
     ports:

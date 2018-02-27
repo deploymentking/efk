@@ -15,9 +15,9 @@ RUN buildDeps="sudo make gcc g++ libc-dev libssl-dev libxml2-dev libxslt1-dev ru
     && apt-get install -y --no-install-recommends openjdk-8-jdk openjdk-8-jre td-agent \
     && update-alternatives --config java \
     && update-alternatives --config javac \
-    && rm -rf /var/lib/apt/lists/* \
     && echo 'gem: --no-document' > /etc/gemrc \
     && gem install fluentd-ui --no-ri --no-rdoc \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem \
     && mkdir -p /etc/td-agent/certs
 
 COPY ./bin /bin
