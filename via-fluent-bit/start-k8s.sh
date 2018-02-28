@@ -22,7 +22,13 @@ kubectl get service
 echo
 echo "${green}Listing pods...${reset}"
 kubectl get pods
+kubectl get pods --namespace default
+kubectl get pods --namespace kube-system
 
 echo
 echo "${green}Launching k8s dashboard...${reset}"
 minikube dashboard
+
+echo
+echo "${green}Tailing fluent-bit logs...${reset}"
+kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit

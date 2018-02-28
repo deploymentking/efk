@@ -44,5 +44,7 @@ kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
 # The next step is to create a ConfigMap that will be used by our Fluent Bit DaemonSet:
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-configmap.yaml
-# Fluent Bit to Elasticsearch on Minikube
-kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-ds-minikube.yaml
+# Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
+kubectl apply -f ./config/fluent-bit-ds-minikube.yaml
+# Create a deployment of two Nginx pods
+kubectl apply -f ./config/nginx.yaml
