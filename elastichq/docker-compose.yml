@@ -1,0 +1,17 @@
+version: '2.1'
+
+services:
+  elastichq:
+    build:
+      context: ./elasticHQ
+      args:
+        VERSION_PYTHON: $VERSION_PYTHON
+    container_name: elastichq
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    hostname: elastichq
+    networks:
+      - efk
+    ports:
+      - "5555:5000"
