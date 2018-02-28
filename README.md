@@ -211,6 +211,14 @@ clicking the contextual "add" button. Select at least the "log" and "message" fi
 - If using the logging driver you can trigger new logs to appear by clicking this [link](http://localhost) and refreshing
 the page a few times
 
+## Getting started with ElasticHQ
+This application is used to perform analysis of metrics in the elasticsearch cluster.
+
+### Launch Command
+```bash
+docker-compose -f docker-compose.yml -f elastichq/docker-compose.yml -p efk up --build
+```
+
 ## Docker Clean Up
 When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
 images and volumes that can be purged from your system. I use the following to perform a cleanup of my Docker environment.
@@ -240,6 +248,7 @@ docker system prune --all
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
 - [Fluentd UI](https://github.com/fluent/fluentd-ui)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
+- [ElasticHQ](http://www.elastichq.org/)
 
 ## Useful Articles
 - [How To Centralize Your Docker Logs with Fluentd and ElasticSearch on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-centralize-your-docker-logs-with-fluentd-and-elasticsearch-on-ubuntu-16-04)
