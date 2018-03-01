@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Setting color variables
-source scripts/common.sh
+source ./scripts/common.sh
 
 # Check if Minikube, kubectl and Virtualbox are installed
 echo "${green}Checking pre-requisites...${reset}"
@@ -13,7 +13,7 @@ type minikube >/dev/null 2>&1 || { echo >&2 "${yellow}Minikube required but it's
 # Set up variables
 DASHBOARD_PORT=30000
 
-source scripts/configure-minikube.sh
+source ./scripts/configure-minikube.sh
 
 echo
 echo "${green}Listing services...${reset}"

@@ -1,12 +1,12 @@
 version: '2.1'
 
 services:
-  logsource:
+  logsource_agent:
     build:
       context: ./via-td-agent
       args:
         VERSION_UBUNTU: $VERSION_UBUNTU
-    container_name: logsource
+    container_name: logsource_agent
     depends_on:
       elasticsearch:
         condition: service_healthy
@@ -14,7 +14,7 @@ services:
         condition: service_healthy
     env_file:
       - ./via-td-agent/fluentd.properties
-    hostname: logsource
+    hostname: logsource_agent
     networks:
       - efk
     ports:
