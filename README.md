@@ -36,6 +36,10 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [View logs](#view-logs)
 - [Getting started with ElasticHQ](#getting-started-with-elastichq)
   * [Launch Command](#launch-command-2)
+- [Useful Commands](#useful-commands)
+  * [General minikube commands](#general-minikube-commands)
+  * [Test internet connectivity in minikube](#test-internet-connectivity-in-minikube)
+  * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
 - [References](#references)
 - [Useful Articles](#useful-articles)
@@ -233,6 +237,30 @@ docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -f elast
 
 You will then be able to access the configuration of td-agent via the following:
 - Fluentd UI @ [http://localhost:5000](http://localhost:5000)
+
+## Useful Commands
+
+### General minikube commands
+```bash
+kubectl cluster-info
+kubectl cluster-info dump
+kubectl config view
+```
+
+### Test internet connectivity in minikube
+```bash
+minikube ssh
+# Commands to run during the SSH connection to the minikube VM
+cat /etc/resolv.conf | egrep -v '^#'
+ip route
+ping -c 4 google.com
+```
+
+### Useful Elasticsearch commands
+```bash
+curl -X GET http://localhost:9200/_cat/indices?v
+curl -X GET http://localhost:9200/_cluster/health?pretty=true
+```
 
 ## Docker Clean Up
 When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
