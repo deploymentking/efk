@@ -25,15 +25,24 @@ and run a Java JAR from which we can control the type of logging to be sent to E
     + [Launch Command](#launch-command)
   * [Logging via td-agent](#logging-via-td-agent)
     + [Launch Command](#launch-command-1)
+    + [Accessing the Fluentd UI](#accessing-the-fluentd-ui)
     + [Changing the JAR log output type](#changing-the-jar-log-output-type)
     + [Changing the td-agent configuration file](#changing-the-td-agent-configuration-file)
     + [Changing the contents of a td-agent conf file](#changing-the-contents-of-a-td-agent-conf-file)
     + [Adding a new environment variable for use in the container](#adding-a-new-environment-variable-for-use-in-the-container)
+  * [Encrypted logging with TLS](#encrypted-logging-with-tls)
 - [Getting started with Kibana](#getting-started-with-kibana)
   * [Define index pattern](#define-index-pattern)
   * [View logs](#view-logs)
+- [Getting started with ElasticHQ](#getting-started-with-elastichq)
+  * [Launch Command](#launch-command-2)
+- [Useful Commands](#useful-commands)
+  * [General minikube commands](#general-minikube-commands)
+  * [Test internet connectivity in minikube](#test-internet-connectivity-in-minikube)
+  * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
 - [References](#references)
+- [External Projects](#external-projects)
 - [Useful Articles](#useful-articles)
 
 <!-- tocstop -->
@@ -115,12 +124,17 @@ project mentioned [here](#references). See the README of that project for furthe
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
 ```
 
+#### Accessing the Fluentd UI
+If Option 2 is used in the via-td-agent `entrypoint.sh` script then the UI will be available once the stack is up and 
+running. However, if Option 1 is used to tail the logs in the running container then the following command will need
+to be used in order to start the Fluentd UI.
+
+```bash
+docker exec -it logsource fluentd-ui start
+```
+
 You will then be able to access the configuration of td-agent via the following:
 - Fluentd UI @ [http://localhost:9292](http://localhost:9292)
-
-#### Accessing the Fluentd UI
-Once the stack is up and running, accessing the above URL will display a page prompting for a username and password.
-
 - username: admin
 - password: changeme
 
@@ -211,6 +225,44 @@ clicking the contextual "add" button. Select at least the "log" and "message" fi
 - If using the logging driver you can trigger new logs to appear by clicking this [link](http://localhost) and refreshing
 the page a few times
 
+## Getting started with ElasticHQ
+This application is used to perform analysis of metrics in the elasticsearch cluster. When the application UI loads, the
+address of the elasticsearch cluster needs to be added in order to view the metric. The default value is localhost:9200.
+This should be changed to `elasticsearch:9200` because the connection context is between running docker containers in the
+`efk` network.
+
+### Launch Command
+```bash
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -f elastichq/docker-compose.yml -p efk up --build
+```
+
+You will then be able to access the configuration of td-agent via the following:
+- Fluentd UI @ [http://localhost:5000](http://localhost:5000)
+
+## Useful Commands
+
+### General minikube commands
+```bash
+kubectl cluster-info
+kubectl cluster-info dump
+kubectl config view
+```
+
+### Test internet connectivity in minikube
+```bash
+minikube ssh
+# Commands to run during the SSH connection to the minikube VM
+cat /etc/resolv.conf | egrep -v '^#'
+ip route
+ping -c 4 google.com
+```
+
+### Useful Elasticsearch commands
+```bash
+curl -X GET http://localhost:9200/_cat/indices?v
+curl -X GET http://localhost:9200/_cluster/health?pretty=true
+```
+
 ## Docker Clean Up
 When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
 images and volumes that can be purged from your system. I use the following to perform a cleanup of my Docker environment.
@@ -233,14 +285,26 @@ docker system prune --all
 ```
 
 ## References
-- [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
-- [java-logger](https://github.com/DeploymentKing/java-logger)
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
-- [Fluentd UI](https://github.com/fluent/fluentd-ui)
+- [Fluent Bit](http://fluentbit.io/documentation/0.13/)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
+- [ElasticHQ](http://www.elastichq.org/)
+
+## External Projects
+- [Fluentd UI](https://github.com/fluent/fluentd-ui)
+- [Fluent Bit in Kubernetes](https://github.com/fluent/fluent-bit-kubernetes-logging/)
+- [java-logger](https://github.com/DeploymentKing/java-logger)
+- [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
 
 ## Useful Articles
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [How to remove docker images containers and volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
 - [How To Centralize Your Docker Logs with Fluentd and ElasticSearch on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-centralize-your-docker-logs-with-fluentd-and-elasticsearch-on-ubuntu-16-04)
 - [Free Alternative to Splunk Using Fluentd](https://docs.fluentd.org/v1.0/articles/free-alternative-to-splunk-by-fluentd)
+- [Elasticsearch monitoring and management plugins](https://blog.codecentric.de/en/2014/03/elasticsearch-monitoring-and-management-plugins/)
+- [Add entries to pod hosts file with host aliases](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
+- [Exploring fluentd via EFK Stack for Docker Logging](http://kelonsoftware.com/fluentd-docker-logging/)
+- [Logging Kubernetes Pods using Fluentd and Elasticsearch](http://blog.raintown.org/2014/11/logging-kubernetes-pods-using-fluentd.html)
+- [Sharing a local registry with minikube](https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615)
