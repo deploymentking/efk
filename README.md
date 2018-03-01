@@ -308,3 +308,4 @@ docker system prune --all
 - [Exploring fluentd via EFK Stack for Docker Logging](http://kelonsoftware.com/fluentd-docker-logging/)
 - [Logging Kubernetes Pods using Fluentd and Elasticsearch](http://blog.raintown.org/2014/11/logging-kubernetes-pods-using-fluentd.html)
 - [Sharing a local registry with minikube](https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615)
+- [Don’t be terrified of building native extensions](http://patshaughnessy.net/2011/10/31/dont-be-terrified-of-building-native-extensions)
