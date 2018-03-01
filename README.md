@@ -291,6 +291,8 @@ docker system prune --all
 - [Fluent Bit](http://fluentbit.io/documentation/0.13/)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
 - [ElasticHQ](http://www.elastichq.org/)
+- [log4j2 Appenders](https://logging.apache.org/log4j/2.x/manual/appenders.html)
+- [log4j2 Configuration](http://logging.apache.org/log4j/2.x/manual/configuration.html)
 
 ## External Projects
 - [Fluentd UI](https://github.com/fluent/fluentd-ui)
@@ -309,3 +311,4 @@ docker system prune --all
 - [Logging Kubernetes Pods using Fluentd and Elasticsearch](http://blog.raintown.org/2014/11/logging-kubernetes-pods-using-fluentd.html)
 - [Sharing a local registry with minikube](https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615)
 - [Don’t be terrified of building native extensions](http://patshaughnessy.net/2011/10/31/dont-be-terrified-of-building-native-extensions)
+- [Parse Syslog Messages Robustly](https://www.fluentd.org/guides/recipes/parse-syslog)
