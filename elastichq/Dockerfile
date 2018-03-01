@@ -13,7 +13,7 @@ WORKDIR /elasticHQ
 
 RUN pip install -r requirements.txt
 
-CMD ["python", "manage.py", "runserver"]
+CMD ["python", "application.py", "--port", "5000", "--host", "0.0.0.0"]
 
 HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
     CMD nc -z localhost 5000 || exit 1

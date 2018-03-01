@@ -25,13 +25,17 @@ and run a Java JAR from which we can control the type of logging to be sent to E
     + [Launch Command](#launch-command)
   * [Logging via td-agent](#logging-via-td-agent)
     + [Launch Command](#launch-command-1)
+    + [Accessing the Fluentd UI](#accessing-the-fluentd-ui)
     + [Changing the JAR log output type](#changing-the-jar-log-output-type)
     + [Changing the td-agent configuration file](#changing-the-td-agent-configuration-file)
     + [Changing the contents of a td-agent conf file](#changing-the-contents-of-a-td-agent-conf-file)
     + [Adding a new environment variable for use in the container](#adding-a-new-environment-variable-for-use-in-the-container)
+  * [Encrypted logging with TLS](#encrypted-logging-with-tls)
 - [Getting started with Kibana](#getting-started-with-kibana)
   * [Define index pattern](#define-index-pattern)
   * [View logs](#view-logs)
+- [Getting started with ElasticHQ](#getting-started-with-elastichq)
+  * [Launch Command](#launch-command-2)
 - [Docker Clean Up](#docker-clean-up)
 - [References](#references)
 - [Useful Articles](#useful-articles)
@@ -115,12 +119,17 @@ project mentioned [here](#references). See the README of that project for furthe
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
 ```
 
+#### Accessing the Fluentd UI
+If Option 2 is used in the via-td-agent `entrypoint.sh` script then the UI will be available once the stack is up and 
+running. However, if Option 1 is used to tail the logs in the running container then the following command will need
+to be used in order to start the Fluentd UI.
+
+```bash
+docker exec -it logsource fluentd-ui start
+```
+
 You will then be able to access the configuration of td-agent via the following:
 - Fluentd UI @ [http://localhost:9292](http://localhost:9292)
-
-#### Accessing the Fluentd UI
-Once the stack is up and running, accessing the above URL will display a page prompting for a username and password.
-
 - username: admin
 - password: changeme
 
@@ -212,12 +221,18 @@ clicking the contextual "add" button. Select at least the "log" and "message" fi
 the page a few times
 
 ## Getting started with ElasticHQ
-This application is used to perform analysis of metrics in the elasticsearch cluster.
+This application is used to perform analysis of metrics in the elasticsearch cluster. When the application UI loads, the
+address of the elasticsearch cluster needs to be added in order to view the metric. The default value is localhost:9200.
+This should be changed to `elasticsearch:9200` because the connection context is between running docker containers in the
+`efk` network.
 
 ### Launch Command
 ```bash
-docker-compose -f docker-compose.yml -f elastichq/docker-compose.yml -p efk up --build
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -f elastichq/docker-compose.yml -p efk up --build
 ```
+
+You will then be able to access the configuration of td-agent via the following:
+- Fluentd UI @ [http://localhost:5000](http://localhost:5000)
 
 ## Docker Clean Up
 When running multiple stack updates or rebuilding stacks it is easy to build up a collection of dangling containers,
