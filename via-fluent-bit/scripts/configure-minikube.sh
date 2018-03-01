@@ -10,7 +10,7 @@ echo "${green}Configuring Minikube...${reset}"
 minikube config set cpus 2
 minikube config set memory 2048
 minikube config set disk-size 10g
-#minikube addons enable efk
+minikube addons disable efk
 minikube config view
 
 # Start up minikube and set Docker registry context
@@ -42,9 +42,15 @@ kubectl config set-context $(kubectl config current-context) --namespace=logging
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-service-account.yaml
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role.yaml
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
+
 # The next step is to create a ConfigMap that will be used by our Fluent Bit DaemonSet:
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-configmap.yaml
+
 # Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
 kubectl apply -f ./config/fluent-bit-ds-minikube.yaml
+
 # Create a deployment of two Nginx pods
-kubectl apply -f ./config/nginx.yaml
+#kubectl apply -f ./config/nginx.yaml
+
+# Create a deployment of two Apache pods
+kubectl apply -f ./config/apache.yaml
