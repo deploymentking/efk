@@ -31,5 +31,5 @@ minikube dashboard
 
 echo
 echo "${green}Tailing fluent-bit logs...${reset}"
-continueAfterContainerCreated 'kubectl get --no-headers pods --namespace=logging -l k8s-app=fluent-bit-logging -o=custom-columns=:.status.phase'
+continueAfterContainerCreated logging k8s-app=fluent-bit-logging
 kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit

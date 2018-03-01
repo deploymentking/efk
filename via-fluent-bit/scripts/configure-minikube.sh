@@ -49,8 +49,5 @@ kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes
 # Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
 kubectl apply -f ./config/fluent-bit-ds-minikube.yaml
 
-# Create a deployment of two Nginx pods
-#kubectl apply -f ./config/nginx.yaml
-
 # Create a deployment of two Apache pods
 kubectl apply -f ./config/apache.yaml
