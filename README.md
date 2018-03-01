@@ -42,6 +42,7 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
 - [References](#references)
+- [External Projects](#external-projects)
 - [Useful Articles](#useful-articles)
 
 <!-- tocstop -->
@@ -284,15 +285,25 @@ docker system prune --all
 ```
 
 ## References
-- [Docker Cleanup](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
-- [java-logger](https://github.com/DeploymentKing/java-logger)
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
-- [Fluentd UI](https://github.com/fluent/fluentd-ui)
+- [Fluent Bit](http://fluentbit.io/documentation/0.13/)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
 - [ElasticHQ](http://www.elastichq.org/)
 
+## External Projects
+- [Fluentd UI](https://github.com/fluent/fluentd-ui)
+- [Fluent Bit in Kubernetes](https://github.com/fluent/fluent-bit-kubernetes-logging/)
+- [java-logger](https://github.com/DeploymentKing/java-logger)
+- [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
+
 ## Useful Articles
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [How to remove docker images containers and volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
 - [How To Centralize Your Docker Logs with Fluentd and ElasticSearch on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-centralize-your-docker-logs-with-fluentd-and-elasticsearch-on-ubuntu-16-04)
 - [Free Alternative to Splunk Using Fluentd](https://docs.fluentd.org/v1.0/articles/free-alternative-to-splunk-by-fluentd)
+- [Elasticsearch monitoring and management plugins](https://blog.codecentric.de/en/2014/03/elasticsearch-monitoring-and-management-plugins/)
+- [Add entries to pod hosts file with host aliases](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
+- [Exploring fluentd via EFK Stack for Docker Logging](http://kelonsoftware.com/fluentd-docker-logging/)
+- [Logging Kubernetes Pods using Fluentd and Elasticsearch](http://blog.raintown.org/2014/11/logging-kubernetes-pods-using-fluentd.html)
