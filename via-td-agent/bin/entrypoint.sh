@@ -19,7 +19,7 @@ nohup java -Dlogger.filePath=${LOGGER_FILE_PATH} \
            io.thinkstack.logger.slf4j.${LOGGER_ENTRY_POINT} &
 
 # Option 1: Use this to keep the container running
-tail -F /var/log/td-agent/td-agent.log
+# tail -F /var/log/td-agent/td-agent.log
 
 # Option 2: Run fluentd-ui to bring up the rails app
-# fluentd-ui start
+fluentd-ui start

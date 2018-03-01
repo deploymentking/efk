@@ -42,6 +42,7 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
+      - "5140:5140"
     volumes:
       - ./fluentd/config:/fluentd/etc
       - ./fluentd/certs:/fluentd/certs
