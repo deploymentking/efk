@@ -14,4 +14,4 @@ services:
     networks:
       - efk
     ports:
-      - "5555:5000"
+      - "5000:5000"
