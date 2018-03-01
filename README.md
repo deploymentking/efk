@@ -307,3 +307,4 @@ docker system prune --all
 - [Add entries to pod hosts file with host aliases](https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/)
 - [Exploring fluentd via EFK Stack for Docker Logging](http://kelonsoftware.com/fluentd-docker-logging/)
 - [Logging Kubernetes Pods using Fluentd and Elasticsearch](http://blog.raintown.org/2014/11/logging-kubernetes-pods-using-fluentd.html)
+- [Sharing a local registry with minikube](https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615)
