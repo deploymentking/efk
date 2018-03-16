@@ -11,6 +11,7 @@ minikube config set cpus 2
 minikube config set memory 2048
 minikube config set disk-size 10g
 minikube addons disable efk
+minikube addons enable heapster
 minikube config view
 
 # Start up minikube and set Docker registry context
@@ -44,7 +45,10 @@ kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes
 kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
 
 # The next step is to create a ConfigMap that will be used by our Fluent Bit DaemonSet:
-kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/output/elasticsearch/fluent-bit-configmap.yaml
+kubectl apply -f ./config/fluent-bit-configmap.yaml
+
+# The next step is to create a ConfigMap that will be used to make certificates available on the DaemonSet:
+kubectl apply -f ./config/fluent-bit-configmap-certs.yaml
 
 # Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
 kubectl apply -f ./config/fluent-bit-ds-minikube.yaml

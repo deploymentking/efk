@@ -17,12 +17,16 @@ spec:
     spec:
       containers:
       - name: fluent-bit
-        image: fluent/fluent-bit:0.12.14
+        image: fluent/fluent-bit:0.12.15
         env:
         - name: FLUENT_ELASTICSEARCH_HOST
           value: "10.0.2.2"
         - name: FLUENT_ELASTICSEARCH_PORT
           value: "9200"
+        - name: FLUENTD_HOST
+          value: "10.0.2.2"
+        - name: FLUENTD_PORT
+          value: "24224"
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -31,6 +35,8 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
+        - name: fluent-bit-certs
+          mountPath: /fluent-bit/certs
         - name: mnt
           mountPath: /mnt
           readOnly: true
@@ -45,6 +51,10 @@ spec:
       - name: fluent-bit-config
         configMap:
           name: fluent-bit-config
+      - name: fluent-bit-certs
+        configMap:
+          name: fluent-bit-certs
+          defaultMode: 0400
       - name: mnt
         hostPath:
           path: /mnt
