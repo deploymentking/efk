@@ -17,7 +17,7 @@ data:
 
     @INCLUDE input-kubernetes.conf
     @INCLUDE filter-kubernetes.conf
-    @INCLUDE output-unsecure-fluentd.conf
+    @INCLUDE output-secure-fluentd.conf
 
   input-kubernetes.conf: |
     [INPUT]
@@ -36,15 +36,6 @@ data:
         Match          kube.*
         Kube_URL       https://kubernetes.default.svc:443
         Merge_JSON_Log On
-
-  output-elasticsearch.conf: |
-    [OUTPUT]
-        Name            es
-        Match           *
-        Host            ${FLUENT_ELASTICSEARCH_HOST}
-        Port            ${FLUENT_ELASTICSEARCH_PORT}
-        Logstash_Format On
-        Retry_Limit     False
 
   output-unsecure-fluentd.conf: |
     [OUTPUT]
@@ -67,8 +58,8 @@ data:
         Shared_Key      AllYourBaseAreBelongToUs
         tls             on
         tls.verify      off
-        tls.crt_file    /fluent-bit/certs/fluentd.crt
-        tls.debug       4
+        tls.ca_file     /fluent-bit/certs/fluentd.crt
+        tls.debug       3
 
   parsers.conf: |
     [PARSER]
