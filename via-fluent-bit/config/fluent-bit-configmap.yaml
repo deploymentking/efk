@@ -58,7 +58,7 @@ data:
         Shared_Key      AllYourBaseAreBelongToUs
         tls             on
         tls.verify      off
-        tls.ca_file     /fluent-bit/certs/fluentd.crt
+        tls.ca_file     /fluent-bit/certs/wildcard.audiusasite.com
         tls.debug       3
 
   parsers.conf: |
