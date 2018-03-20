@@ -19,14 +19,8 @@ spec:
       - name: fluent-bit
         image: fluent/fluent-bit:0.12.15
         env:
-        - name: FLUENT_ELASTICSEARCH_HOST
-          value: "10.0.2.2"
-        - name: FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
-#        - name: FLUENTD_HOST
-#          value: "10.0.2.2"
         - name: FLUENTD_HOST
-          value: aoafluentd-prod-001-server-000.audiusasite.com
+          value: aoafluentd-prod-000-server-000.audiusasite.com
         - name: FLUENTD_PORT
           value: "24224"
         volumeMounts:
