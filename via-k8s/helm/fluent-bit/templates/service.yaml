@@ -17,3 +17,28 @@ spec:
   selector:
     app: {{ template "fluent-bit.name" . }}
     release: {{ .Release.Name }}
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace | quote }}
+  name:  {{ template "fluent-bit.fullname" . }}
+  labels:
+    run: apache
+    k8s-app: fluent-bit
+    app: {{ template "fluent-bit.name" . }}
+    chart: {{ template "fluent-bit.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
+      protocol: TCP
+  selector:
+    run: apache
+    app: {{ template "fluent-bit.name" . }}
+    release: {{ .Release.Name }}
