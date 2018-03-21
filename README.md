@@ -1,5 +1,7 @@
 # Fluentd Log Aggregation
 
+[![Build Status](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation)
+
 This project allows for the quick deployment of a fully functioning EFK Stack.
 - (E)lasticsearch
 - (F)luentD

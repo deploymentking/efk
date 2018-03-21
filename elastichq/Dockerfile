@@ -1,12 +1,15 @@
-ARG VERSION_PYTHON
-FROM python:${VERSION_PYTHON}
+FROM python:alpine3.6
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
+LABEL Maintainer="Lee Myring"
 LABEL Description="ElasticHQ instance"
 LABEL Version="0.1"
 
-RUN apk add --update bash git openssh \
+EXPOSE 5000
+
+RUN apk add --update musl-dev gcc bash git openssh \
     && rm -rf /var/cache/apk/* \
+    && pip install --upgrade pip \
     && git clone https://github.com/ElasticHQ/elasticsearch-HQ /elasticHQ
 
 WORKDIR /elasticHQ

@@ -34,7 +34,7 @@ echo "${green}Launching grafana dashboard...${reset}"
 continueAfterContainerCreated kube-system k8s-app=influx-grafana
 minikube addons open heapster
 
-echo
-echo "${green}Tailing fluent-bit logs...${reset}"
-continueAfterContainerCreated logging k8s-app=fluent-bit-logging
-kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit
+#echo
+#echo "${green}Tailing fluent-bit logs...${reset}"
+#continueAfterContainerCreated logging k8s-app=fluent-bit-logging
+#kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit
