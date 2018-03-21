@@ -2,6 +2,8 @@
 
 require 'dockerspec'
 require 'dockerspec/serverspec'
+require 'coveralls'
+Coveralls.wear!
 
 describe 'Elasticsearch Installation' do
   describe docker_build('elastichq/Dockerfile', rm: true) do
