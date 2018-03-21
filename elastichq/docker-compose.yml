@@ -4,8 +4,6 @@ services:
   elastichq:
     build:
       context: ./elasticHQ
-      args:
-        VERSION_PYTHON: $VERSION_PYTHON
     container_name: elastichq
     depends_on:
       elasticsearch:

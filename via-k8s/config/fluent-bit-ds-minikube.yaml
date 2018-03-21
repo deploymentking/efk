@@ -20,7 +20,7 @@ spec:
         image: fluent/fluent-bit:0.12.15
         env:
         - name: FLUENTD_HOST
-          value: aoafluentd-prod-000-server-000.audiusasite.com
+          value: aoafluentd-prod-server-000.audiusasite.com
         - name: FLUENTD_PORT
           value: "24224"
         volumeMounts:
