@@ -1,6 +1,7 @@
 # Fluentd Log Aggregation
 
 [![Build Status](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation)
+[![Coverage Status](https://coveralls.io/repos/github/DeploymentKing/fluentd-log-aggregation/badge.svg?branch=master)](https://coveralls.io/github/DeploymentKing/fluentd-log-aggregation?branch=master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 This project allows for the quick deployment of a fully functioning EFK Stack.
@@ -47,6 +48,8 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Test internet connectivity in minikube](#test-internet-connectivity-in-minikube)
   * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
+- [Testing](#testing)
+- [Contributing](#contributing)
 - [References](#references)
 - [External Projects](#external-projects)
 - [Useful Articles](#useful-articles)
@@ -307,6 +310,17 @@ docker image ls --quiet --filter 'reference=efk_*:*' | xargs docker rmi -f
 docker system prune --all
 ```
 
+## Testing
+
+See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/TESTING.md).
+
+## Contributing
+
+Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregator/issues/new) with any questions or problems.
+
+See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/CONTRIBUTING.md).
+
+
 ## References
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
@@ -322,6 +336,7 @@ docker system prune --all
 - [Fluent Bit in Kubernetes](https://github.com/fluent/fluent-bit-kubernetes-logging/)
 - [java-logger](https://github.com/DeploymentKing/java-logger)
 - [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
+- [Dockerspec](https://github.com/zuazo/dockerspec)
 
 ## Useful Articles
 - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
