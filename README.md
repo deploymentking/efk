@@ -48,6 +48,8 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Test internet connectivity in minikube](#test-internet-connectivity-in-minikube)
   * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
+- [Testing](#testing)
+- [Contributing](#contributing)
 - [References](#references)
 - [External Projects](#external-projects)
 - [Useful Articles](#useful-articles)
