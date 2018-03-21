@@ -1,6 +1,6 @@
 {{- if .Values.rbac.create -}}
-apiVersion: v1
-kind: ServiceAccount
+apiVersion: {{ template "rbac.apiVersion" . }}
+kind: ClusterRole
 metadata:
   labels:
     app: {{ template "fluent-bit.name" . }}
@@ -8,4 +8,10 @@ metadata:
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
   name: {{ template "fluent-bit.fullname" . }}
+rules:
+- apiGroups: [""]
+  resources:
+  - namespaces
+  - pods
+  verbs: ["get", "list", "watch"]
 {{- end -}}

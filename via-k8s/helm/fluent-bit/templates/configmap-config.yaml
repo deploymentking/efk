@@ -1,18 +1,16 @@
+{{- if (empty .Values.existingConfigMap) -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-configmap
-  namespace: {{ .Values.namespace | quote }}
+  name: {{ template "fluent-bit.fullname" . }}-config
   labels:
-    k8s-app: fluent-bit
-    app: {{ template "fluent-bit.name" . }}
-    chart: {{ template "fluent-bit.chart" . }}
+    app: {{ template "fluent-bit.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
   # Configuration files: server, input, filters and output
   # ======================================================
 {{ (.Files.Glob "conf/*").AsConfig | indent 2 }}
-  # Certificate files:
-  # ==================
-{{ (.Files.Glob "certs/*").AsConfig | indent 2 }}
+{{- end -}}
+

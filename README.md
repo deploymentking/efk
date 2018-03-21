@@ -66,7 +66,8 @@ Install
 
 ### Install supporting tools
 ```bash
-brew cask install docker
+brew install bash curl kubernetes-cli kubernetes-helm
+brew cask install docker minikube virtualbox
 ```
 
 ## Quick & Easy Startup - OSS

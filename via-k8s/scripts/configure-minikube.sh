@@ -33,6 +33,9 @@ echo
 echo "${green}Setting the Docker Registry to point to Minikube for this terminal window...${reset}"
 eval $(minikube docker-env)
 
+#kubectl apply -f ./config/tiller-serviceaccount.yaml
+#helm init --service-account tiller
+
 #echo
 #echo "${green}Creating the namespace and cluster setup...${reset}"
 #kubectl create namespace logging
