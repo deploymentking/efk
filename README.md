@@ -1,6 +1,7 @@
 # Fluentd Log Aggregation
 
 [![Build Status](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation)
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 This project allows for the quick deployment of a fully functioning EFK Stack.
 - (E)lasticsearch
