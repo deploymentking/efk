@@ -312,13 +312,14 @@ docker system prune --all
 
 ## Testing
 
-See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/TESTING.md).
+See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/blob/master/TESTING.md).
 
 ## Contributing
 
-Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregator/issues/new) with any questions or problems.
+Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregation/issues/new) with any questions or problems.
 
-See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-
+gation/blob/master/CONTRIBUTING.md).
 
 
 ## References
