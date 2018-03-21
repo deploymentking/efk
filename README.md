@@ -308,6 +308,17 @@ docker image ls --quiet --filter 'reference=efk_*:*' | xargs docker rmi -f
 docker system prune --all
 ```
 
+## Testing
+
+See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/TESTING.md).
+
+## Contributing
+
+Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregator/issues/new) with any questions or problems.
+
+See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregator/blob/master/CONTRIBUTING.md).
+
+
 ## References
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
@@ -323,6 +334,7 @@ docker system prune --all
 - [Fluent Bit in Kubernetes](https://github.com/fluent/fluent-bit-kubernetes-logging/)
 - [java-logger](https://github.com/DeploymentKing/java-logger)
 - [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
+- [Dockerspec](https://github.com/zuazo/dockerspec)
 
 ## Useful Articles
 - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
