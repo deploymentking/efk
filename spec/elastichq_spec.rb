@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'dockerspec'
-require 'dockerspec/serverspec'
-require 'coveralls'
-Coveralls.wear!
+require 'spec_helper'
 
 describe 'Elasticsearch Installation' do
   describe docker_build('elastichq/Dockerfile', rm: true) do

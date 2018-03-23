@@ -19,6 +19,7 @@ bin/*
 # RubyMine
 .idea/*
 
+coverage
 target
 coverage
 VERSION
