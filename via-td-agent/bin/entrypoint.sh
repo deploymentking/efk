@@ -6,6 +6,7 @@ export FLUENTD_AGGREGATOR_PORT=${FLUENTD_AGGREGATOR_PORT}
 export FLUENTD_SOURCE_PROJECT=${FLUENTD_SOURCE_PROJECT}
 export FLUENTD_TAIL_TAG=${FLUENTD_TAIL_TAG}
 export LOGGER_FILE_PATH=${LOGGER_FILE_PATH}
+export FLUENTD_UI_ENABLED=${FLUENTD_UI_ENABLED}
 TD_AGENT_OPTIONS="-c /etc/td-agent/${FLUENTD_CONF}"
 EOF
 
@@ -18,8 +19,10 @@ nohup java -Dlogger.filePath=${LOGGER_FILE_PATH} \
            -cp /bin/java-logger-${LOGGER_VERSION}.jar \
            io.thinkstack.logger.slf4j.${LOGGER_ENTRY_POINT} &
 
-# Option 1: Use this to keep the container running
-# tail -F /var/log/td-agent/td-agent.log
-
-# Option 2: Run fluentd-ui to bring up the rails app
-fluentd-ui start
+if [ "$FLUENTD_UI_ENABLED" = true ] ; then
+    # Run fluentd-ui to bring up the rails app...or...
+    fluentd-ui start
+else
+    # ...use this to keep the container running
+    tail -F -n 100 /var/log/td-agent/td-agent.log
+fi
