@@ -24,6 +24,7 @@ services:
         hard: -1
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
   fluentd:
     build:

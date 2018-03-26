@@ -20,5 +20,6 @@ bin/*
 .idea/*
 
 target
+coverage
 VERSION
 output.log
