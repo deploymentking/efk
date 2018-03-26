@@ -134,9 +134,9 @@ docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk u
 ```
 
 #### Accessing the Fluentd UI
-If Option 2 is used in the via-td-agent `entrypoint.sh` script then the UI will be available once the stack is up and 
-running. However, if Option 1 is used to tail the logs in the running container then the following command will need
-to be used in order to start the Fluentd UI.
+If the environment variable `FLUENTD_UI_ENABLED` is set to true in via-td-agent's `fluentd.properties` file then the UI
+will be available once the stack is up and running otherwise the logs will be tailed to keep the container alive. The
+following command will need to be used in order to start the Fluentd UI if it is not running.
 
 ```bash
 docker exec -it logsource_agent fluentd-ui start
