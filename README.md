@@ -93,7 +93,7 @@ You will then be able to access the stack via the following:
 - Kibana @ [http://localhost:8080](http://localhost:8080)
 
 When accessing via the NGINX container you do not need to supply the username and password credentials as it uses the 
-`htpasswd.users` file which contains the default username and password of `elastic` and `changeme`. If you wish to use
+`htpasswd.users` file which contains the default username and password of `kibana` and `kibana`. If you wish to use
 different credentials then replace the text in the file using the following command 
 `htpasswd -b ./nginx/config/htpasswd.users newuser newpassword`
 
