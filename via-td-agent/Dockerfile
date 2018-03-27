@@ -5,6 +5,8 @@ LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Ubuntu instance to test source of log data"
 LABEL Version="0.1"
 
+EXPOSE 9292
+
 RUN buildDeps="sudo make gcc g++ libc-dev libssl-dev libxml2-dev libxslt1-dev ruby-dev curl gnupg software-properties-common net-tools" \
     && apt-get update \
     && apt-get install -yq --no-install-recommends $buildDeps \

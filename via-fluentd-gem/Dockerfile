@@ -40,6 +40,7 @@ RUN eval "$(rbenv init -)"; rbenv install $RBENV_VERSION \
     && eval "$(rbenv init -)"; gem update --system --no-document  \
     && eval "$(rbenv init -)"; gem install bundler --force --no-document \
     && eval "$(rbenv init -)"; gem install fluentd --no-document \
+    && eval "$(rbenv init -)"; rbenv rehash $RBENV_VERSION \
     && mkdir -p /etc/fluent/certs /var/log/fluentd-gem/ \
     && rm -rf /tmp/*
 
