@@ -93,7 +93,7 @@ You will then be able to access the stack via the following:
 - Kibana @ [http://localhost:8080](http://localhost:8080)
 
 When accessing via the NGINX container you do not need to supply the username and password credentials as it uses the 
-`htpasswd.users` file which contains the default username and password of `elastic` and `changeme`. If you wish to use
+`htpasswd.users` file which contains the default username and password of `kibana` and `kibana`. If you wish to use
 different credentials then replace the text in the file using the following command 
 `htpasswd -b ./nginx/config/htpasswd.users newuser newpassword`
 
@@ -134,12 +134,12 @@ docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk u
 ```
 
 #### Accessing the Fluentd UI
-If Option 2 is used in the via-td-agent `entrypoint.sh` script then the UI will be available once the stack is up and 
-running. However, if Option 1 is used to tail the logs in the running container then the following command will need
-to be used in order to start the Fluentd UI.
+If the environment variable `FLUENTD_UI_ENABLED` is set to true in via-td-agent's `fluentd.properties` file then the UI
+will be available once the stack is up and running otherwise the logs will be tailed to keep the container alive. The
+following command will need to be used in order to start the Fluentd UI if it is not running.
 
 ```bash
-docker exec -it logsource_agent fluentd-ui start
+docker exec -it agent fluentd-ui start
 ```
 
 You will then be able to access the configuration of td-agent via the following:
@@ -162,7 +162,7 @@ environment section to one of the files that are listed in `via-td-agent/config`
 ```bash
 # ctrl+c to stop the stack (if not running in detached mode)
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk down
-docker image ls --quiet --filter 'reference=efk_logsource_agent:*' | xargs docker rmi -f
+docker image ls --quiet --filter 'reference=efk_agent:*' | xargs docker rmi -f
 docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
 ```
 
@@ -172,7 +172,7 @@ the changes in the file on the host machine and then restart the td-agent servic
 via the volume mount so the changes are immediately available to the container.
 
 ```bash
-docker exec -it logsource_agent /bin/bash
+docker exec -it agent /bin/bash
 service td-agent restart
 ```
 

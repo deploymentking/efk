@@ -8,8 +8,6 @@ services:
         VERSION_ELK: $VERSION_ELK
         FLAVOUR_ELK: $FLAVOUR_ELK
     container_name: elasticsearch
-    env_file:
-      - ./elasticsearch/elasticsearch.properties
     environment:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     hostname: elasticsearch
@@ -24,6 +22,7 @@ services:
         hard: -1
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
   fluentd:
     build:
