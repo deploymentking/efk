@@ -2,20 +2,40 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Minikube stores its logs in a separate directory.
+# enable if started in minikube.
+on_minikube: false
+
 namespace: logging
 
 replicaCount: 2
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  apache:
+    repository: httpd
+    tag: latest
+    pullPolicy: IfNotPresent
+  fluent_bit:
+    repository: fluent/fluent-bit
+    tag: 0.12.15
+    pullPolicy: Always
+
+backend:
+  type: forward
+  forward:
+    host: fluentd
+    port: 24224
 
 #service:
 #  type: ClusterIP
 #  port: 80
 service:
+  run: apache
   type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+  protocol: TCP
 
 ingress:
   enabled: false
@@ -47,3 +67,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+## Install Default RBAC roles and bindings
+rbac:
+  ## If true, create & use RBAC resources
+  create: false
+  ## Ignored if rbac.create is true
+  serviceAccountName: default
