@@ -22,24 +22,11 @@ readonlyrest:
       - "indices:admin/template/put"
     verbosity: info
 
-  - name: "::LOGSTASH::"
-    type: allow
-    # auth_key is good for testing, but replace it with `auth_key_sha1`!
-    auth_key: logstash:logstash
-    actions:
-      - "cluster:monitor/main"
-      - "indices:admin/types/exists"
-      - "indices:data/read/*"
-      - "indices:data/write/*"
-      - "indices:admin/template/*"
-      - "indices:admin/create"
-    indices: ["logstash-*"]
-    verbosity: error
-
   - name: "::FLUENTD::"
     type: allow
-    # auth_key is good for testing, but replace it with `auth_key_sha1`!
-    auth_key: fluentd:fluentd
+    # auth_key is good for testing, but replace it with `auth_key_sha256`!
+    # auth_key: fluentd:fluentd
+    auth_key_sha256: 9545566c208f39b107b456430dd3b4b5b08eaa6c2abc62b2d6bcbb79c95b619c
     actions:
       - "cluster:monitor/main"
       - "indices:admin/types/exists"
@@ -54,15 +41,17 @@ readonlyrest:
   - name: "::KIBANA-SRV::"
     type: allow
     # auth_key is good for testing, but replace it with `auth_key_sha256`!
-    auth_key: kibana:kibana
+    # auth_key: kibana:kibana
+    auth_key_sha256: ab8aa94dd63debfa31ef8a9eae9582dcb252c06cdb6313e123546cc8edfeaf3e
     hosts: [kibana]
     kibana_access: admin
     verbosity: error # don't log successful request
 
   - name: "::ELASTICHQ::"
     type: allow
-    # auth_key is good for testing, but replace it with `auth_key_sha1`!
-    auth_key: elastichq:elastichq
+    # auth_key is good for testing, but replace it with `auth_key_sha256`!
+    # auth_key: elastichq:elastichq
+    auth_key_sha256: ccdff8600d84f900fe3419c286524788f8102581a40e591cd765ac724634bf15
     actions:
       - "cluster:monitor/*"
       - "indices:monitor/*"
@@ -70,8 +59,9 @@ readonlyrest:
 
   - name: "::TERMINAL::"
     type: allow
-    # auth_key is good for testing, but replace it with `auth_key_sha1`!
-    auth_key: terminal:password
+    # auth_key is good for testing, but replace it with `auth_key_sha256`!
+    # auth_key: terminal:password
+    auth_key_sha256: fc8d9571165e073ac292f6b42b2ff9d36b80a19e6396e1de30b0a83881cd4b2a
     actions:
       - "cluster:monitor/*"
     verbosity: error
