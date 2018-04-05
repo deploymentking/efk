@@ -34,7 +34,7 @@ readonlyrest:
       - "indices:data/write/*"
       - "indices:admin/template/*"
       - "indices:admin/create"
-    indices: ["fluentd-*"]
+    indices: ["fluentd-*", "k8s-*", "gem-*"]
     verbosity: error
 
   # We trust Kibana's server side process, full access granted via HTTP authentication
