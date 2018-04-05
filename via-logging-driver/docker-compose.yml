@@ -1,5 +1,6 @@
 version: '2.1'
 
+# This can ONLY be used when the TLS settings are not specified in the Fluentd aggregator
 services:
   logsource_driver:
     container_name: logsource_driver
@@ -15,8 +16,8 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: localhost:24224
-        tag: httpd.access
+        fluentd-address: fluentd:24224
+        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
     networks:
       - efk
     ports:

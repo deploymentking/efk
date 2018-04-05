@@ -352,3 +352,4 @@ gation/blob/master/CONTRIBUTING.md).
 - [Sharing a local registry with minikube](https://blog.hasura.io/sharing-a-local-registry-for-minikube-37c7240d0615)
 - [Don’t be terrified of building native extensions](http://patshaughnessy.net/2011/10/31/dont-be-terrified-of-building-native-extensions)
 - [Parse Syslog Messages Robustly](https://www.fluentd.org/guides/recipes/parse-syslog)
+- [Docker Logging via EFK Stack with Docker Compose](https://docs.fluentd.org/v0.12/articles/docker-logging-efk-compose)
