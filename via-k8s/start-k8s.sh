@@ -34,7 +34,7 @@ echo "${green}Launching grafana dashboard...${reset}"
 continueAfterContainerCreated kube-system k8s-app=influx-grafana
 minikube addons open heapster
 
-#source ./scripts/configure-redis.sh
+source ./scripts/configure-redis.sh
 
 echo
 echo "${green}Tailing fluent-bit logs...${reset}"
