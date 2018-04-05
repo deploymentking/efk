@@ -17,7 +17,7 @@ services:
       driver: fluentd
       options:
         fluentd-address: fluentd:24224
-        tag: "{{.ImageName}}/{{.Name}}/{{.ID}}"
+        tag: "via-{{.ImageName}}/{{.Name}}/{{.ID}}"
     networks:
       - efk
     ports:
