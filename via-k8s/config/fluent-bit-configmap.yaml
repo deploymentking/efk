@@ -34,7 +34,7 @@ data:
         Name              tail
         Tag               redis.**
         Path              /var/log/containers/redis-*.log
-        Parser            docker
+        Parser            redis
         DB                /var/log/flb_redis.db
         Mem_Buf_Limit     5MB
         Skip_Long_Lines   On
@@ -92,9 +92,9 @@ data:
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   apache_error
-        Format regex
-        Regex  ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<log>.*)$
+        Name        apache_error
+        Format      regex
+        Regex       ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<log>.*)$
 
     [PARSER]
         Name        nginx
@@ -115,6 +115,14 @@ data:
         Time_Key    time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
         Time_Keep   On
+
+    [PARSER]
+        Name        redis
+        Format      regex
+        Regex       ^(?<pid>\[\d*\]) (?<time>\d{2}\s\w{2,}\s\d{2}:\d{2}:\d{2}\.\d{3}) (?<level>.) (?<log>.*)$
+        types       pid:integer
+        Time_Key    time
+        Time_Format %d %b %H:%M:%S.%3N
 
     [PARSER]
         Name        syslog
