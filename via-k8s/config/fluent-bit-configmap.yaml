@@ -120,9 +120,8 @@ data:
         Name        redis
         Format      regex
         Regex       ^(?<pid>\[\d*\]) (?<time>\d{2}\s\w{2,}\s\d{2}:\d{2}:\d{2}\.\d{3}) (?<level>.) (?<log>.*)$
-        types       pid:integer
         Time_Key    time
-        Time_Format %d %b %H:%M:%S.%3N
+        Time_Format %d %b %H:%M:%S.%L
 
     [PARSER]
         Name        syslog
