@@ -15,33 +15,41 @@ data:
         Daemon        off
         Parsers_File  parsers.conf
 
-    @INCLUDE input-kubernetes.conf
-    @INCLUDE filter-kubernetes.conf
-    @INCLUDE filter-record-modifier.conf
+    @INCLUDE inputs.conf
+    @INCLUDE filters.conf
     @INCLUDE output-secure-fluentd.conf
 
-  input-kubernetes.conf: |
+  inputs.conf: |
     [INPUT]
         Name              tail
-        Tag               kube.*
-        Path              /var/log/containers/*.log
+        Tag               kube.**
+        Path              /var/log/containers/kube-*.log
         Parser            docker
         DB                /var/log/flb_kube.db
         Mem_Buf_Limit     5MB
         Skip_Long_Lines   On
         Refresh_Interval  10
 
-  filter-kubernetes.conf: |
+    [INPUT]
+        Name              tail
+        Tag               redis.**
+        Path              /var/log/containers/redis-*.log
+        Parser            docker
+        DB                /var/log/flb_redis.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+  filters.conf: |
     [FILTER]
         Name           kubernetes
-        Match          kube.*
+        Match          *
         Kube_URL       https://kubernetes.default.svc:443
         Merge_JSON_Log On
 
-  filter-record-modifier.conf: |
     [FILTER]
         Name    record_modifier
-        Match   kube.*
+        Match   *
         Record  sourceProject via-k8s
 
   output-unsecure-fluentd.conf: |
@@ -57,7 +65,7 @@ data:
   output-secure-fluentd.conf: |
     [OUTPUT]
         Name            forward
-        Match           kube.*
+        Match           *
         Host            ${FLUENTD_HOST}
         Port            ${FLUENTD_PORT}
         Logstash_Format On
@@ -70,17 +78,17 @@ data:
 
   parsers.conf: |
     [PARSER]
-        Name   apache
-        Format regex
-        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        apache
+        Format      regex
+        Regex       ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   apache2
-        Format regex
-        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        apache2
+        Format      regex
+        Regex       ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
@@ -89,16 +97,16 @@ data:
         Regex  ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<message>.*)$
 
     [PARSER]
-        Name   nginx
-        Format regex
-        Regex ^(?<remote>[^ ]*) (?<host>[^ ]*) (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        nginx
+        Format      regex
+        Regex       ^(?<remote>[^ ]*) (?<host>[^ ]*) (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   json-test
-        Format json
-        Time_Key time
+        Name        json-test
+        Format      json
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
