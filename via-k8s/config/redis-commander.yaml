@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: redis-commander
-  namespace: logging
+  namespace: redis
 spec:
   replicas: 1
   selector:

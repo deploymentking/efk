@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  name: redis-master
+  namespace: redis
   labels:
     name: redis
     redis-sentinel: "true"
     role: master
-  name: redis-master
 spec:
   containers:
     - name: master

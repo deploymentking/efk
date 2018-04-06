@@ -37,7 +37,7 @@ eval $(minikube docker-env)
 #helm init --service-account tiller
 
 echo
-echo "${green}Creating the namespace and cluster setup...${reset}"
+echo "${green}Creating logging the namespace and cluster setup...${reset}"
 kubectl create namespace logging
 kubectl config set-context $(kubectl config current-context) --namespace=logging
 
