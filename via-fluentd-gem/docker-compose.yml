@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   gem:
@@ -9,10 +9,8 @@ services:
         VERSION_RUBY: $VERSION_RUBY
     container_name: gem
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      fluentd:
-        condition: service_healthy
+      - elasticsearch
+      - fluentd
     env_file:
       - ./via-fluentd-gem/fluentd.properties
     hostname: gem

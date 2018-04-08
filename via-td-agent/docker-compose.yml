@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   agent:
@@ -8,10 +8,8 @@ services:
         VERSION_UBUNTU: $VERSION_UBUNTU
     container_name: agent
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      fluentd:
-        condition: service_healthy
+      - elasticsearch
+      - fluentd
     env_file:
       - ./via-td-agent/fluentd.properties
     hostname: agent

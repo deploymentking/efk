@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   elastichq:
@@ -6,8 +6,7 @@ services:
       context: ./elasticHQ
     container_name: elastichq
     depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - elasticsearch
     hostname: elastichq
     networks:
       - efk
