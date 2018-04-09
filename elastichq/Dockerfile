@@ -1,4 +1,5 @@
-FROM python:alpine3.6
+ARG VERSION_ALPINE=alpine3.6
+FROM python:${VERSION_ALPINE}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Maintainer="Lee Myring"
