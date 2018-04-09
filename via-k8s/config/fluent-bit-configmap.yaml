@@ -40,6 +40,16 @@ data:
         Skip_Long_Lines   On
         Refresh_Interval  10
 
+    [INPUT]
+        Name              tail
+        Tag               apache.**
+        Path              /var/log/containers/apache-*.log
+        Parser            apache
+        DB                /var/log/flb_apache.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
   filters.conf: |
     [FILTER]
         Name            kubernetes
@@ -52,7 +62,6 @@ data:
         Match           redis.**
         Key_Name        log
         Parser          redis
-        Reserve_Data    true
 
     [FILTER]
         Name            record_modifier
