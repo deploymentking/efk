@@ -11,7 +11,7 @@ data:
   fluent-bit.conf: |
     [SERVICE]
         Flush         1
-        Log_Level     debug
+        Log_Level     info
         Daemon        off
         Parsers_File  parsers.conf
 
@@ -57,12 +57,12 @@ data:
     [FILTER]
         Name            record_modifier
         Match           kube.**
-        Record          sourceProject via-kube
+        Record          sourceProject from-k8s
 
     [FILTER]
         Name            record_modifier
         Match           redis.**
-        Record          sourceProject via-redis
+        Record          sourceProject via-k8s-redis
 
   outputs.conf: |
     [OUTPUT]
