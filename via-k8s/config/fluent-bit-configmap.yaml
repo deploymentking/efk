@@ -11,13 +11,13 @@ data:
   fluent-bit.conf: |
     [SERVICE]
         Flush         1
-        Log_Level     info
+        Log_Level     debug
         Daemon        off
         Parsers_File  parsers.conf
 
     @INCLUDE inputs.conf
     @INCLUDE filters.conf
-    @INCLUDE output-secure-fluentd.conf
+    @INCLUDE outputs.conf
 
   inputs.conf: |
     [INPUT]
@@ -42,34 +42,34 @@ data:
 
   filters.conf: |
     [FILTER]
-        Name           kubernetes
-        Match          *
-        Kube_URL       https://kubernetes.default.svc:443
-        Merge_JSON_Log On
+        Name            kubernetes
+        Match           *
+        Kube_URL        https://kubernetes.default.svc:443
+        Merge_JSON_Log  On
 
     [FILTER]
-        Name    record_modifier
-        Match   *
-        Record  sourceProject via-k8s
+        Name            parser
+        Match           redis.**
+        Key_Name        log
+        Parser          redis
+        Reserve_Data    true
 
-  output-unsecure-fluentd.conf: |
+    [FILTER]
+        Name            record_modifier
+        Match           kube.**
+        Record          sourceProject via-kube
+
+    [FILTER]
+        Name            record_modifier
+        Match           redis.**
+        Record          sourceProject via-redis
+
+  outputs.conf: |
     [OUTPUT]
         Name            forward
         Match           *
         Host            ${FLUENTD_HOST}
         Port            ${FLUENTD_PORT}
-        Logstash_Format On
-        Retry_Limit     False
-        tls             off
-
-  output-secure-fluentd.conf: |
-    [OUTPUT]
-        Name            forward
-        Match           *
-        Host            ${FLUENTD_HOST}
-        Port            ${FLUENTD_PORT}
-        Logstash_Format On
-        Retry_Limit     False
         Shared_Key      ${FLUENTD_SHARED_KEY}
         tls             on
         tls.verify      off
