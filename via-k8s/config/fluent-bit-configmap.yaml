@@ -15,47 +15,77 @@ data:
         Daemon        off
         Parsers_File  parsers.conf
 
-    @INCLUDE input-kubernetes.conf
-    @INCLUDE filter-kubernetes.conf
-    @INCLUDE output-secure-fluentd.conf
+    @INCLUDE inputs.conf
+    @INCLUDE filters.conf
+    @INCLUDE outputs.conf
 
-  input-kubernetes.conf: |
+  inputs.conf: |
     [INPUT]
         Name              tail
-        Tag               kube.*
-        Path              /var/log/containers/*.log
+        Tag               kube.**
+        Path              /var/log/containers/kube-*.log
         Parser            docker
         DB                /var/log/flb_kube.db
         Mem_Buf_Limit     5MB
         Skip_Long_Lines   On
         Refresh_Interval  10
 
-  filter-kubernetes.conf: |
+    [INPUT]
+        Name              tail
+        Tag               redis.**
+        Path              /var/log/containers/redis-*.log
+        Parser            redis
+        DB                /var/log/flb_redis.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+    [INPUT]
+        Name              tail
+        Tag               apache.**
+        Path              /var/log/containers/apache-*.log
+        Parser            apache
+        DB                /var/log/flb_apache.db
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+        Refresh_Interval  10
+
+  filters.conf: |
     [FILTER]
-        Name           kubernetes
-        Match          kube.*
-        Kube_URL       https://kubernetes.default.svc:443
-        Merge_JSON_Log On
+        Name            kubernetes
+        Match           *
+        Kube_URL        https://kubernetes.default.svc:443
+        Merge_JSON_Log  On
 
-  output-unsecure-fluentd.conf: |
+    [FILTER]
+        Name            parser
+        Match           redis.**
+        Key_Name        log
+        Parser          redis
+
+    [FILTER]
+        Name            parser
+        Match           apache.**
+        Key_Name        log
+        Parser          apache2
+
+    [FILTER]
+        Name            record_modifier
+        Match           kube.**
+        Record          sourceProject from-k8s
+
+    [FILTER]
+        Name            record_modifier
+        Match           redis.**
+        Record          sourceProject via-k8s-redis
+
+  outputs.conf: |
     [OUTPUT]
         Name            forward
         Match           *
         Host            ${FLUENTD_HOST}
         Port            ${FLUENTD_PORT}
-        Logstash_Format On
-        Retry_Limit     False
-        tls             off
-
-  output-secure-fluentd.conf: |
-    [OUTPUT]
-        Name            forward
-        Match           *
-        Host            ${FLUENTD_HOST}
-        Port            ${FLUENTD_PORT}
-        Logstash_Format On
-        Retry_Limit     False
-        Shared_Key      AllYourBaseAreBelongToUs
+        Shared_Key      ${FLUENTD_SHARED_KEY}
         tls             on
         tls.verify      off
         tls.ca_file     /fluent-bit/certs/fluentd.crt
@@ -63,35 +93,35 @@ data:
 
   parsers.conf: |
     [PARSER]
-        Name   apache
-        Format regex
-        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        apache
+        Format      regex
+        Regex       ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   apache2
-        Format regex
-        Regex  ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        apache2
+        Format      regex
+        Regex       ^(?<host>[^ ]*) [^ ]* (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^ ]*) +\S*)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   apache_error
-        Format regex
-        Regex  ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<message>.*)$
+        Name        apache_error
+        Format      regex
+        Regex       ^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\](?: \[pid (?<pid>[^\]]*)\])?( \[client (?<client>[^\]]*)\])? (?<log>.*)$
 
     [PARSER]
-        Name   nginx
-        Format regex
-        Regex ^(?<remote>[^ ]*) (?<host>[^ ]*) (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
-        Time_Key time
+        Name        nginx
+        Format      regex
+        Regex       ^(?<remote>[^ ]*) (?<host>[^ ]*) (?<user>[^ ]*) \[(?<time>[^\]]*)\] "(?<method>\S+)(?: +(?<path>[^\"]*?)(?: +\S*)?)?" (?<code>[^ ]*) (?<size>[^ ]*)(?: "(?<referer>[^\"]*)" "(?<agent>[^\"]*)")?$
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
-        Name   json-test
-        Format json
-        Time_Key time
+        Name        json-test
+        Format      json
+        Time_Key    time
         Time_Format %d/%b/%Y:%H:%M:%S %z
 
     [PARSER]
@@ -102,8 +132,15 @@ data:
         Time_Keep   On
 
     [PARSER]
+        Name        redis
+        Format      regex
+        Regex       ^(?<pid>\[\d*\]) (?<time>\d{2}\s\w{2,}\s\d{2}:\d{2}:\d{2}\.\d{3}) (?<level>.) (?<log>.*)$
+        Time_Key    time
+        Time_Format %d %b %H:%M:%S.%L
+
+    [PARSER]
         Name        syslog
         Format      regex
-        Regex       ^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$
+        Regex       ^\<(?<pri>[0-9]+)\>(?<time>[^ ]* {1,2}[^ ]* [^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<log>.*)$
         Time_Key    time
         Time_Format %b %d %H:%M:%S

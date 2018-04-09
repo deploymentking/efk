@@ -317,17 +317,16 @@ See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/blob/
 
 ## Contributing
 
-Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregation/issues/new) with any questions or problems.
+Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregation/issues/new) with any
+questions or problems.
 
-See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-
-gation/blob/master/CONTRIBUTING.md).
-
+See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/blob/master/CONTRIBUTING.md).
 
 ## References
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
 - [ELK Docker Images](https://www.docker.elastic.co/)
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
-- [Fluent Bit](http://fluentbit.io/documentation/0.13/)
+- [Fluent Bit](http://fluentbit.io/documentation/0.12/)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)
 - [ElasticHQ](http://www.elastichq.org/)
 - [log4j2 Appenders](https://logging.apache.org/log4j/2.x/manual/appenders.html)
@@ -353,3 +352,4 @@ gation/blob/master/CONTRIBUTING.md).
 - [Don’t be terrified of building native extensions](http://patshaughnessy.net/2011/10/31/dont-be-terrified-of-building-native-extensions)
 - [Parse Syslog Messages Robustly](https://www.fluentd.org/guides/recipes/parse-syslog)
 - [Docker Logging via EFK Stack with Docker Compose](https://docs.fluentd.org/v0.12/articles/docker-logging-efk-compose)
+- [Fluent Bit on Kubernetes](http://fluentbit.io/documentation/0.12/installation/kubernetes.html)

@@ -383,3 +383,4 @@ discovery.zen.minimum_master_nodes: 1
 # it unless you need it is recommended (it is disabled by default).
 #
 #http.jsonp.enable: true
+#xpack.security.enabled: false

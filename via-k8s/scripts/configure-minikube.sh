@@ -36,25 +36,25 @@ eval $(minikube docker-env)
 #kubectl apply -f ./config/tiller-serviceaccount.yaml
 #helm init --service-account tiller
 
-#echo
-#echo "${green}Creating the namespace and cluster setup...${reset}"
-#kubectl create namespace logging
-#kubectl config set-context $(kubectl config current-context) --namespace=logging
-#
-## Fluent Bit must be deployed as a DaemonSet, so on that way it will be available on every node of your Kubernetes cluster.
-## To get started run the following commands to create the namespace, service account and role setup:
-#wget https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-service-account.yaml
-#wget https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role.yaml
-#wget https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
-#
-## The next step is to create a ConfigMap that will be used by our Fluent Bit DaemonSet:
-#kubectl apply -f ./config/fluent-bit-configmap.yaml
-#
-## The next step is to create a ConfigMap that will be used to make certificates available on the DaemonSet:
-#kubectl apply -f ./config/fluent-bit-configmap-certs.yaml
-#
-## Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
-#kubectl apply -f ./config/fluent-bit-ds-minikube.yaml
-#
-## Create a deployment of two Apache pods
-#kubectl apply -f ./config/apache.yaml
+echo
+echo "${green}Creating logging the namespace and cluster setup...${reset}"
+kubectl create namespace logging
+kubectl config set-context $(kubectl config current-context) --namespace=logging
+
+# Fluent Bit must be deployed as a DaemonSet, so on that way it will be available on every node of your Kubernetes cluster.
+# To get started run the following commands to create the namespace, service account and role setup:
+kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-service-account.yaml
+kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role.yaml
+kubectl create -f https://raw.githubusercontent.com/fluent/fluent-bit-kubernetes-logging/master/fluent-bit-role-binding.yaml
+
+# The next step is to create a ConfigMap that will be used by our Fluent Bit DaemonSet:
+kubectl apply -f ./config/fluent-bit-configmap.yaml
+
+# The next step is to create a ConfigMap that will be used to make certificates available on the DaemonSet:
+kubectl apply -f ./config/fluent-bit-configmap-certs.yaml
+
+# Fluent Bit to Elasticsearch on Minikube - use custom version of config that uses 10.0.2.2 as the hostname for Elasticsearch
+kubectl apply -f ./config/fluent-bit-ds-minikube.yaml
+
+# Create a deployment of two Apache pods
+kubectl apply -f ./config/apache.yaml

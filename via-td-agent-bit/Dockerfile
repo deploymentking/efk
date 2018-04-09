@@ -1,4 +1,4 @@
-ARG VERSION_CENTOS
+ARG VERSION_CENTOS=7
 FROM centos:${VERSION_CENTOS}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"

@@ -1,4 +1,4 @@
-ARG VERSION_NGINX
+ARG VERSION_NGINX=latest
 FROM nginx:${VERSION_NGINX}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"

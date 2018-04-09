@@ -1,4 +1,4 @@
-ARG VERSION_UBUNTU
+ARG VERSION_UBUNTU=16.04
 FROM ubuntu:${VERSION_UBUNTU}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"

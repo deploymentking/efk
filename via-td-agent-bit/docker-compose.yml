@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   bit:
@@ -8,10 +8,8 @@ services:
         VERSION_CENTOS: $VERSION_CENTOS
     container_name: bit
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      fluentd:
-        condition: service_healthy
+      - elasticsearch
+      - fluentd
     env_file:
       - ./via-td-agent-bit/fluentd.properties
     hostname: bit

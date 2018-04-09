@@ -1,14 +1,12 @@
-version: '2.1'
+version: '3.6'
 
 # This can ONLY be used when the TLS settings are not specified in the Fluentd aggregator
 services:
   logsource_driver:
     container_name: logsource_driver
     depends_on:
-      elasticsearch:
-        condition: service_healthy
-      fluentd:
-        condition: service_healthy
+      - elasticsearch
+      - fluentd
     hostname: logsource_driver
     image: httpd:alpine
     links:

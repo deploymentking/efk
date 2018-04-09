@@ -20,9 +20,11 @@ spec:
         image: fluent/fluent-bit:0.12.15
         env:
         - name: FLUENTD_HOST
-          value: aoafluentd-prod-server-000.audiusasite.com
+          value: "10.0.2.2"
         - name: FLUENTD_PORT
           value: "24224"
+        - name: FLUENTD_SHARED_KEY
+          value: "AllYourBaseAreBelongToUs"
         volumeMounts:
         - name: varlog
           mountPath: /var/log

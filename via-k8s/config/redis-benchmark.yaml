@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis-benchmark
+  namespace: redis
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis-benchmark
+    spec:
+      containers:
+      - name: benchmark
+        image: redislabs/memtier_benchmark
+        resources:
+          requests:
+            cpu: "2"
+            memory: "128Mi"
+        env:
+        - name: REDIS_PORT
+          value: 26379
+        - name: REDIS_SERVER
+          value: "test"
+        - name: MEMTIER_ARGS
+          value: " -d 10 -n 20000000 --pipeline=50 "

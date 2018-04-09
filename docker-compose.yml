@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.6'
 
 services:
   elasticsearch:
@@ -31,8 +31,7 @@ services:
         VERSION_FLUENTD: $VERSION_FLUENTD
     container_name: fluentd
     depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - elasticsearch
     env_file:
       - ./fluentd/fluentd.properties
     hostname: fluentd
@@ -54,8 +53,7 @@ services:
         FLAVOUR_ELK: $FLAVOUR_ELK
     container_name: kibana
     depends_on:
-      fluentd:
-        condition: service_healthy
+      - fluentd
     hostname: kibana
     networks:
       - efk

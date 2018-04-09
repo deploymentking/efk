@@ -36,6 +36,7 @@ readonlyrest:
       - "indices:admin/create"
     indices:
       - "agent-*"
+      - "apache-*"
       - "bit-*"
       - "fluentd-*"
       - "gem-*"
@@ -44,7 +45,7 @@ readonlyrest:
     verbosity: error
 
   # We trust Kibana's server side process, full access granted via HTTP authentication
-  - name: "::KIBANA-SRV::"
+  - name: "::KIBANA::"
     type: allow
     # auth_key is good for testing, but replace it with `auth_key_sha256`!
     # auth_key: kibana:kibana

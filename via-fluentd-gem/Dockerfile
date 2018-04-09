@@ -1,4 +1,4 @@
-ARG VERSION_CENTOS
+ARG VERSION_CENTOS=7
 FROM centos:${VERSION_CENTOS}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
@@ -31,6 +31,8 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /etc/profile.d/rbenv.sh \
 
 ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
+# TODO: Use this article to convert this into a multi-stage Dockerfile
+# https://medium.com/kokster/fun-with-multi-stage-dockerfiles-7da7f11403d2
 ARG VERSION_RUBY
 ENV RBENV_VERSION ${VERSION_RUBY}
 
