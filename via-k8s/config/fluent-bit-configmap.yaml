@@ -64,6 +64,12 @@ data:
         Parser          redis
 
     [FILTER]
+        Name            parser
+        Match           apache.**
+        Key_Name        log
+        Parser          apache2
+
+    [FILTER]
         Name            record_modifier
         Match           kube.**
         Record          sourceProject from-k8s
