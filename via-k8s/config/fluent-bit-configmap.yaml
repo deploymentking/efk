@@ -72,12 +72,12 @@ data:
     [FILTER]
         Name            record_modifier
         Match           kube.**
-        Record          sourceProject from-k8s
+        Record          source from-k8s
 
     [FILTER]
         Name            record_modifier
         Match           redis.**
-        Record          sourceProject via-k8s-redis
+        Record          source via-k8s-redis
 
   outputs.conf: |
     [OUTPUT]
