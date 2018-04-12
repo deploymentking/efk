@@ -2,14 +2,14 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: apache
-  namespace: logging
+  namespace: webserver
 spec:
   replicas: 2
   template:
     metadata:
       labels:
         run: apache
-        namespace: logging
+        namespace: webserver
     spec:
       containers:
       - image: httpd:latest
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: logging
+  namespace: webserver
   name: apache
   labels:
     run: apache
