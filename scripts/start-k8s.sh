@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
-# Setting color variables
-source ./scripts/common.sh
+source ./helpers/common.sh
+source ./helpers/setup.sh
+source ./helpers/installers.sh
 
-# Check if Minikube, kubectl and Virtualbox are installed
-echo "${green}Checking pre-requisites...${reset}"
-type docker >/dev/null 2>&1 || { echo >&2 "${yellow}Docker required but it's not installed.  Aborting.${reset}"; exit 1; }
-type virtualbox >/dev/null 2>&1 || { echo >&2 "${yellow}VirtualBox required but it's not installed.  Aborting.${reset}"; exit 1; }
-type kubectl >/dev/null 2>&1 || { echo >&2 "${yellow}kubectl required but it's not installed.  Aborting.${reset}"; exit 1; }
-type minikube >/dev/null 2>&1 || { echo >&2 "${yellow}Minikube required but it's not installed.  Aborting.${reset}"; exit 1; }
+checkPreRequisites
 
-# Set up variables
-DASHBOARD_PORT=30000
+setupMinikube
 
-source ./scripts/configure-minikube.sh
+installFluentBit
+
+installApache
+
+installRedis
 
 echo
 echo "${green}Listing services...${reset}"
@@ -21,9 +20,11 @@ kubectl get service
 
 echo
 echo "${green}Listing pods...${reset}"
-kubectl get pods
 kubectl get pods --namespace default
 kubectl get pods --namespace kube-system
+kubectl get pods --namespace logging
+kubectl get pods --namespace redis
+kubectl get pods --namespace webserver
 
 echo
 echo "${green}Launching k8s dashboard...${reset}"
@@ -33,8 +34,6 @@ echo
 echo "${green}Launching grafana dashboard...${reset}"
 continueAfterContainerCreated kube-system k8s-app=influx-grafana
 minikube addons open heapster
-
-source ./scripts/configure-redis.sh
 
 echo
 echo "${green}Tailing fluent-bit logs...${reset}"
