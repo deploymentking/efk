@@ -6,10 +6,11 @@ LABEL Description="Debian Fluentd instance into which other logs should aggregat
 LABEL Version="0.1"
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
+    plugins="fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-route fluent-plugin-multi-format-parser" \
     && apt-get update \
     && apt-get install -y --no-install-recommends $buildDeps \
-    && sudo gem install fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter \
-    && sudo gem sources --clear-all \
+    && sudo fluent-gem install $plugins \
+    && sudo fluent-gem sources --clear-all \
     && rm -rf /var/lib/apt/lists/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem \
     && mkdir -p /fluentd/certs
 
