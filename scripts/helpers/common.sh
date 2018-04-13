@@ -5,6 +5,15 @@ green=`tput setaf 2`
 yellow=`tput setaf 3`
 reset=`tput sgr0`
 
+function clearDockerLog {
+    dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g');
+    rmCommand="rm $dockerLogFile";
+    screen -d -m -S dockerlogdelete ~/Library/Containers/com.docker.docker/Data/com.docker.driver.amd64-linux/tty;
+    screen -S dockerlogdelete -p 0 -X stuff "$rmCommand";
+    screen -S dockerlogdelete -p 0 -X stuff '\n';
+    screen -S dockerlogdelete -X quit
+}
+
 function checkPreRequisites {
     # Check if Minikube, kubectl and Virtualbox are installed
     echo
@@ -24,4 +33,31 @@ function continueAfterContainerCreated {
         sleep 5;
     done
     echo
+}
+
+# From https://github.com/elastic/kibana/issues/3709
+function createKibanaIndices {
+    set -euo pipefail
+
+    for index_pattern in agent-* \
+                         apache-* \
+                         bit-* \
+                         fluentd-* \
+                         gem-* \
+                         k8s-* \
+                         redis-*
+    do
+        echo
+        echo "${green}Creating index pattern $index_pattern...${reset}"
+        curl -f -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
+          "http://kibana:kibana@localhost:5601/api/saved_objects/index-pattern/$index_pattern" \
+          -d"{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"
+        if [[ ${index_pattern} == "fluentd-*" ]] ; then
+            # Make it the default index
+            echo
+            curl -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
+              "http://kibana:kibana@localhost:5601/api/kibana/settings/defaultIndex" \
+              -d"{\"value\":\"$index_pattern\"}"
+        fi
+    done
 }
