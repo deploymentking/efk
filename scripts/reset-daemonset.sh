@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Setting color variables
-source ./helpers/common.sh
+DIRECTORY=$(cd `dirname $0` && pwd)
+
+source ${DIRECTORY}/helpers/common.sh
 
 echo
 echo "${green}Deleting existing config setup...${reset}"
