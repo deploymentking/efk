@@ -42,7 +42,7 @@ function createKibanaIndices {
     for index_pattern in agent-* \
                          apache-* \
                          bit-* \
-                         fluentd-* \
+                         fluent-* \
                          gem-* \
                          k8s-* \
                          redis-*

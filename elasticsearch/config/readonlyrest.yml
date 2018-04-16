@@ -38,7 +38,7 @@ readonlyrest:
       - "agent-*"
       - "apache-*"
       - "bit-*"
-      - "fluentd-*"
+      - "fluent-*"
       - "gem-*"
       - "k8s-*"
       - "redis-*"
