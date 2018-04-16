@@ -38,7 +38,7 @@ describe 'Elasticsearch Installation' do
         %w[FLUENTD KIBANA ELASTICHQ TERMINAL].each do |name|
           it { should contain "  - name: \"::#{name}::\"" }
         end
-        %w[agent apache bit fluentd gem k8s redis].each do |index|
+        %w[agent apache bit fluent gem k8s redis].each do |index|
           it { should contain "      - \"#{index}-*\"" }
         end
         %w[
