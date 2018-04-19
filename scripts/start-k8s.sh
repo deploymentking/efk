@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DIRECTORY=$(cd `dirname $0` && pwd)
-
 source ${DIRECTORY}/helpers/common.sh
 source ${DIRECTORY}/helpers/setup.sh
 source ${DIRECTORY}/helpers/installers.sh
