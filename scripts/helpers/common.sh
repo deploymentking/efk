@@ -5,6 +5,9 @@ green=`tput setaf 2`
 yellow=`tput setaf 3`
 reset=`tput sgr0`
 
+kibanaCurlPrefix="curl -u kibana:kibana"
+kibanaUrl="http://localhost:5601"
+
 function clearDockerLog {
     dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g');
     rmCommand="rm $dockerLogFile";
@@ -49,15 +52,25 @@ function createKibanaIndices {
     do
         echo
         echo "${green}Creating index pattern $index_pattern...${reset}"
-        curl -f -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
-          "http://kibana:kibana@localhost:5601/api/saved_objects/index-pattern/$index_pattern" \
+        ${kibanaCurlPrefix} -f -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
+          "${kibanaUrl}/api/saved_objects/index-pattern/$index_pattern" \
           -d"{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"
         if [[ ${index_pattern} == "fluentd-*" ]] ; then
-            # Make it the default index
+            # Make fluentd the default index
             echo
-            curl -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
-              "http://kibana:kibana@localhost:5601/api/kibana/settings/defaultIndex" \
+            ${kibanaCurlPrefix} -X POST -H "Content-Type: application/json" -H "kbn-xsrf: anything" \
+              "${kibanaUrl}/api/kibana/settings/defaultIndex" \
               -d"{\"value\":\"$index_pattern\"}"
         fi
     done
+    echo
+}
+
+function checkURL {
+    echo "${green}Waiting for URL $2${reset}"
+    until $(eval '$1 --output /dev/null --silent --head --fail $2'); do
+        printf '.'
+        sleep 5
+    done
+    echo
 }
