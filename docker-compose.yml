@@ -62,6 +62,18 @@ services:
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
 
+  elastichq:
+    build:
+      context: ./elasticHQ
+    container_name: elastichq
+    depends_on:
+      - elasticsearch
+    hostname: elastichq
+    networks:
+      - efk
+    ports:
+      - "5000:5000"
+
 networks:
   efk:
     driver: bridge
