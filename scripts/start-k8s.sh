@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-DIRECTORY=$(cd `dirname $0` && pwd)
-source ${DIRECTORY}/helpers/common.sh
-source ${DIRECTORY}/helpers/setup.sh
-source ${DIRECTORY}/helpers/installers.sh
+directory=$(cd `dirname $0` && pwd)
+source ${directory}/helpers/common.sh
+source ${directory}/helpers/setup.sh
+source ${directory}/helpers/installers.sh
 
 checkPreRequisites
 

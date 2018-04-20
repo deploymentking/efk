@@ -23,11 +23,11 @@ function setupMinikube {
     minikube status
 
     # Set up variables
-    DASHBOARD_PORT=30000
-    MINIKUBE_IP=$(minikube ip)
+    dashboard_port=30000
+    minikube_ip=$(minikube ip)
     echo
-    echo "${green}Waiting for Minikube to start up on $MINIKUBE_IP:$DASHBOARD_PORT...${reset}"
-    until $(curl --output /dev/null --silent --head --fail http://${MINIKUBE_IP}:${DASHBOARD_PORT}); do
+    echo "${green}Waiting for Minikube to start up on $minikube_ip:$dashboard_port...${reset}"
+    until $(curl --output /dev/null --silent --head --fail http://${minikube_ip}:${dashboard_port}); do
         printf '.'
         sleep 5
     done

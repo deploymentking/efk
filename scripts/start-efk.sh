@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DIRECTORY=$(cd `dirname $0` && pwd)
-source ${DIRECTORY}/helpers/common.sh
+directory=$(cd `dirname $0` && pwd)
+source ${directory}/helpers/common.sh
 
 docker-compose -p efk -f docker-compose.yml down
 docker-compose -p efk -f docker-compose.yml up -d --build
@@ -12,6 +12,6 @@ while ! nc -z localhost 24224 </dev/null; do sleep 5; done
 
 checkURL "${kibanaCurlPrefix}" "${kibanaUrl}/app/kibana#"
 createKibanaIndices
-open "${kibanaUrl}/app/kibana#"
+open "${kibanaUrl}/app/kibana#/discover?_g=()"
 
 docker logs -f fluentd

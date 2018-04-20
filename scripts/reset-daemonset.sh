@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-DIRECTORY=$(cd `dirname $0` && pwd)
+directory=$(cd `dirname $0` && pwd)
 
-source ${DIRECTORY}/helpers/common.sh
+source ${directory}/helpers/common.sh
 
 echo
 echo "${green}Deleting existing config setup...${reset}"
@@ -10,12 +10,12 @@ kubectl delete ds fluent-bit --namespace=logging
 kubectl delete configmap fluent-bit-config --namespace=logging
 
 sleep 5
-WORK_DIR=../via-k8s/config
+work_dir=../via-k8s/config
 
 echo
 echo "${green}Recreating config setup...${reset}"
-kubectl apply -f ${WORK_DIR}/fluent-bit-configmap.yaml --namespace=logging
-kubectl apply -f ${WORK_DIR}/fluent-bit-ds-minikube.yaml --namespace=logging
+kubectl apply -f ${work_dir}/fluent-bit-configmap.yaml --namespace=logging
+kubectl apply -f ${work_dir}/fluent-bit-ds-minikube.yaml --namespace=logging
 
 echo
 echo "${green}Tailing fluent-bit logs...${reset}"
