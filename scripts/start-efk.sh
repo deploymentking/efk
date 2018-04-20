@@ -3,6 +3,8 @@
 directory=$(cd `dirname $0` && pwd)
 source ${directory}/helpers/common.sh
 
+checkPreRequisites
+
 docker-compose -p efk -f docker-compose.yml down
 docker-compose -p efk -f docker-compose.yml up -d --build
 

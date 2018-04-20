@@ -8,10 +8,11 @@ reset=`tput sgr0`
 kibanaCurlPrefix="curl -u kibana:kibana"
 kibanaUrl="http://localhost:5601"
 
-# Check if Minikube, kubectl and Virtualbox and any other essential tool are installed
+# Check if all the essential tools are installed
 function checkPreRequisites {
     echo
     echo "${green}Checking pre-requisites...${reset}"
+    type ruby >/dev/null 2>&1 || { echo >&2 "${yellow}Ruby required but it's not installed.  Aborting.${reset}"; exit 1; }
     type docker >/dev/null 2>&1 || { echo >&2 "${yellow}Docker required but it's not installed.  Aborting.${reset}"; exit 1; }
     type virtualbox >/dev/null 2>&1 || { echo >&2 "${yellow}VirtualBox required but it's not installed.  Aborting.${reset}"; exit 1; }
     type kubectl >/dev/null 2>&1 || { echo >&2 "${yellow}kubectl required but it's not installed.  Aborting.${reset}"; exit 1; }
