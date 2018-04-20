@@ -46,4 +46,13 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
+desc 'Restart the Fluentd container'
+task :fluentd_restart do
+  trap('SIGINT') do
+    puts 'Stopping log tail...'
+    exit
+  end
+  sh './scripts/reset-fluentd.sh'
+end
+
 task default: %w[style test]
