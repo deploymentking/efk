@@ -7,9 +7,6 @@ services:
       args:
         VERSION_CENTOS: $VERSION_CENTOS
     container_name: bit
-    depends_on:
-      - elasticsearch
-      - fluentd
     env_file:
       - ./via-td-agent-bit/fluentd.properties
     hostname: bit

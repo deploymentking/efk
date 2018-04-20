@@ -4,9 +4,6 @@ version: '3.6'
 services:
   logsource_driver:
     container_name: logsource_driver
-    depends_on:
-      - elasticsearch
-      - fluentd
     hostname: logsource_driver
     image: httpd:alpine
     links:

@@ -8,9 +8,6 @@ services:
         VERSION_CENTOS: $VERSION_CENTOS
         VERSION_RUBY: $VERSION_RUBY
     container_name: gem
-    depends_on:
-      - elasticsearch
-      - fluentd
     env_file:
       - ./via-fluentd-gem/fluentd.properties
     hostname: gem

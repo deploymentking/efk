@@ -55,4 +55,11 @@ task :fluentd_restart do
   sh './scripts/reset-fluentd.sh'
 end
 
+desc 'Start 1..n source containers'
+task :up do
+  ARGV.drop(1).each do |source|
+    sh "./scripts/start-source.sh #{source}"
+  end
+end
+
 task default: %w[style test]
