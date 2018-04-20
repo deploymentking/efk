@@ -1,4 +1,4 @@
-ARG VERSION_FLUENTD
+ARG VERSION_FLUENTD=v1.1.3-debian-onbuild
 FROM fluent/fluentd:${VERSION_FLUENTD}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
