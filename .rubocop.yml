@@ -46,6 +46,9 @@ Documentation:
 Style/MutableConstant:
   Enabled: false
 
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
 StringLiterals:
   EnforcedStyle: single_quotes
 

@@ -28,4 +28,22 @@ task :test do
   sh 'bundle exec rspec'
 end
 
+desc 'Start the EFK stack components (including elasticHQ)'
+task :efk do
+  trap('SIGINT') do
+    puts 'Stopping log tail...'
+    exit
+  end
+  sh './scripts/start-efk.sh'
+end
+
+desc 'Start the Kubernetes Minikube components'
+task :k8s do
+  trap('SIGINT') do
+    puts 'Stopping log tail...'
+    exit
+  end
+  sh './scripts/start-k8s.sh'
+end
+
 task default: %w[style test]
