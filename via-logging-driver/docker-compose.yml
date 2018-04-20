@@ -1,18 +1,17 @@
 version: '3.6'
 
-# This can ONLY be used when the TLS settings are not specified in the Fluentd aggregator
 services:
   logsource_driver:
-    container_name: logsource_driver
-    hostname: logsource_driver
+    container_name: driver
+    hostname: driver
     image: httpd:alpine
     links:
       - fluentd
     logging:
       driver: fluentd
       options:
-        fluentd-address: fluentd:24224
-        tag: "via-{{.ImageName}}/{{.Name}}/{{.ID}}"
+        fluentd-address: fluentd:24223
+        tag: "apache.unsecured"
     networks:
       - efk
     ports:
