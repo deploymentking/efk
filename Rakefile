@@ -66,6 +66,7 @@ task :all_sources do
     Rake::Task['start'].invoke(source)
     Rake::Task['start'].reenable
   end
+  sh 'docker ps -a --format "table {{.ID}}\t{{.Status}}\t{{.Names}}\t{{.Ports}}"'
 end
 
 desc 'Stop the entire EFK stack, any additional sources and the minikube cluster'
@@ -73,8 +74,14 @@ task :down do
   sh './scripts/stop-efk.sh || true'
 end
 
+desc 'Stop the entire EFK stack, additional sources, minikube and then delete all efk_* images'
+task :purge do
+  Rake::Task['down'].invoke
+  sh 'docker image ls --quiet --filter \'reference=efk_*:*\' | xargs docker rmi -f'
+end
+
 desc 'Bring up the EFK stack with Kubernetes and all the sources'
 task up: %w[down clean efk k8s all_sources]
 
 desc 'Run ALL the rake tasks: clean test and build'
-task everything: %w[clean style test efk k8s all_sources]
+task everything: %w[down clean style test efk k8s all_sources]
