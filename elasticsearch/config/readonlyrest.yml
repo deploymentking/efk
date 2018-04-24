@@ -41,6 +41,7 @@ readonlyrest:
       - "fluent-*"
       - "gem-*"
       - "k8s-*"
+      - "mysql-*"
       - "redis-*"
     verbosity: error
 
