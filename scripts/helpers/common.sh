@@ -40,9 +40,11 @@ function restartContainer {
 
     docker-compose -p efk -f docker-compose.yml restart ${container}
 
-    while ! nc -z localhost ${port} </dev/null; do sleep 5; done
+    if [[ ! -z ${port} ]]; then
+        while ! nc -z localhost ${port} </dev/null; do sleep 5; done
+    fi
 
-    docker logs --follow --since ${timestamp} fluentd
+    docker logs --follow --since ${timestamp} ${container}
 }
 
 # Given the start of the curl command and the URL, wait for the curl to return successfully

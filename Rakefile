@@ -46,13 +46,12 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
-desc 'Restart the Fluentd container'
-task :reset_fluentd do
+desc 'Restart a Docker container; port is optional, if supplied will wait for port to be available before tailing logs'
+task :restart, [:name, :port] do |_task, args|
   trap('SIGINT') do
-    puts 'Cancelled fluentd reset...'
     exit
   end
-  sh './scripts/reset-fluentd.sh'
+  sh "./scripts/restart-container.sh #{args[:name]} #{args[:port]}"
 end
 
 desc 'Start 1..n source containers'
@@ -81,7 +80,7 @@ task :purge do
 end
 
 desc 'Bring up the EFK stack with Kubernetes and all the sources'
-task up: %w[down clean efk k8s all_sources]
+task up: %w[down clean efk k8s]
 
 desc 'Run ALL the rake tasks: clean test and build'
 task everything: %w[down clean style test efk k8s all_sources]
