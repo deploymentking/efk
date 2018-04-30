@@ -71,6 +71,7 @@ function createKibanaIndices {
                          fluent-* \
                          gem-* \
                          k8s-* \
+                         kitchen-* \
                          redis-*
     do
         echo
