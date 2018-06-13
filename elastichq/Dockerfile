@@ -1,4 +1,4 @@
-ARG VERSION_ELASTICHQ=latest
+ARG VERSION_ELASTICHQ=release-v3.4.0
 FROM elastichq/elasticsearch-hq:${VERSION_ELASTICHQ}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"

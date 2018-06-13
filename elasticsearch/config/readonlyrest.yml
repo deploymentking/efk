@@ -44,6 +44,7 @@ readonlyrest:
       - "kitchen-*"
       - "mysql-*"
       - "redis-*"
+      - "unmatched-*"
     verbosity: error
 
   # We trust Kibana's server side process, full access granted via HTTP authentication
