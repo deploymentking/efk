@@ -42,6 +42,7 @@ readonlyrest:
       - "gem-*"
       - "k8s-*"
       - "kitchen-*"
+      - "mysql-*"
       - "redis-*"
       - "unmatched-*"
     verbosity: error
