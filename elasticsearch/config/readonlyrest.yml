@@ -47,7 +47,7 @@ readonlyrest:
     verbosity: error
 
   # We trust Kibana's server side process, full access granted via HTTP authentication
-  - name: "::KIBANA::"
+  - name: "::KIBANA-ADMIN::"
     type: allow
     # auth_key is good for testing, but replace it with `auth_key_sha256`!
     # auth_key: kibana:kibana
@@ -55,6 +55,22 @@ readonlyrest:
     hosts: [kibana]
     kibana_access: admin
     verbosity: error # don't log successful request
+
+  - name: "::KIBANA-RO::"
+    type: allow
+    # auth_key: ro:password
+    auth_key_sha256: 1f2c06fd49c4c8912253bcb0671f3279142c7a1d9f59bdf76a10534740332deb
+    hosts: [kibana]
+    kibana_access: ro
+    verbosity: error
+
+  - name: "::KIBANA-RW::"
+    type: allow
+    # auth_key: rw:password
+    auth_key_sha256: 00045d3d78f2fc23914016fb8234b94f3d99e488f75c41740ac562a22fe97bc1
+    hosts: [kibana]
+    kibana_access: rw
+    verbosity: error
 
   - name: "::ELASTICHQ::"
     type: allow
