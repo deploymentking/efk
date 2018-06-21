@@ -338,6 +338,7 @@ See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/
 - [java-logger](https://github.com/DeploymentKing/java-logger)
 - [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
 - [Dockerspec](https://github.com/zuazo/dockerspec)
+- [docker-elk](https://github.com/deviantony/docker-elk)
 
 ## Useful Articles
 - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
