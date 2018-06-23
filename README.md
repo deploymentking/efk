@@ -1,7 +1,7 @@
 # Fluentd Log Aggregation
 
-[![Build Status](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/DeploymentKing/fluentd-log-aggregation)
-[![Coverage Status](https://coveralls.io/repos/github/DeploymentKing/fluentd-log-aggregation/badge.svg?branch=master)](https://coveralls.io/github/DeploymentKing/fluentd-log-aggregation?branch=master)
+[![Build Status](https://travis-ci.org/deploymentking/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/deploymentking/fluentd-log-aggregation)
+[![Coverage Status](https://coveralls.io/repos/github/deploymentking/fluentd-log-aggregation/badge.svg?branch=master)](https://coveralls.io/github/deploymentking/fluentd-log-aggregation?branch=master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 This project allows for the quick deployment of a fully functioning EFK Stack.
@@ -338,6 +338,7 @@ See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/
 - [java-logger](https://github.com/DeploymentKing/java-logger)
 - [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
 - [Dockerspec](https://github.com/zuazo/dockerspec)
+- [docker-elk](https://github.com/deviantony/docker-elk)
 
 ## Useful Articles
 - [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
