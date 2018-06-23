@@ -5,11 +5,12 @@ services:
     build:
       context: ./elasticsearch
       args:
-        VERSION_EFK: $VERSION_EFK
         FLAVOUR_EFK: $FLAVOUR_EFK
+        VERSION_EFK: $VERSION_EFK
+        VERSION_ROR: $VERSION_ROR
     container_name: elasticsearch
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    env_file:
+      - ./elasticsearch/elasticsearch.properties
     hostname: elasticsearch
     networks:
       - efk
