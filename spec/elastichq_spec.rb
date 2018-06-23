@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'ElasticHQ Installation' do
-  describe docker_build('elastichq/Dockerfile', rm: true) do
+  describe docker_build('elastichq/Dockerfile', rm: true, log_level: 'ci') do
     it { should have_label 'Author' => 'Lee Myring <mail@thinkstack.io>' }
     it { should have_label 'Description' => 'ElasticHQ instance' }
-    it { should have_label 'Version' => '6.2.4' }
+    it { should have_label 'Version' => '1.0.0' }
     it { should have_maintainer 'Lee Myring' }
     it { should have_user 'nobody' }
 

@@ -1,11 +1,9 @@
-ARG VERSION_FLUENTD=latest
+ARG VERSION_FLUENTD=v1.2.2-debian-onbuild
 FROM fluent/fluentd:${VERSION_FLUENTD}
-
-ARG VERSION_PROJECT
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Fluentd instance"
-LABEL Version="${VERSION_PROJECT}"
+LABEL Version="1.0.0"
 
 EXPOSE 5140/tcp
 EXPOSE 5140/udp
@@ -22,6 +20,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
     && sudo fluent-gem sources --clear-all \
     && rm -rf /var/lib/apt/lists/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem \
     && mkdir -p /fluentd/certs
-
-HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
-    CMD nc -z localhost 24224 || exit 1
+#
+#HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
+#    CMD nc -z localhost 24224 || exit 1

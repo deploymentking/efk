@@ -1,11 +1,9 @@
-ARG VERSION_ELASTICHQ=latest
+ARG VERSION_ELASTICHQ=release-v3.4.0
 FROM elastichq/elasticsearch-hq:${VERSION_ELASTICHQ}
-
-ARG VERSION_PROJECT
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="ElasticHQ instance"
-LABEL Version="${VERSION_PROJECT}"
+LABEL Version="1.0.0"
 
 EXPOSE 5000
 

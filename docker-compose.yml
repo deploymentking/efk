@@ -7,8 +7,6 @@ services:
       args:
         FLAVOUR_EFK: $FLAVOUR_EFK
         VERSION_EFK: $VERSION_EFK
-        VERSION_PROJECT: $VERSION_PROJECT
-        VERSION_ROR: $VERSION_ROR
     container_name: elasticsearch
     env_file:
       - ./elasticsearch/elasticsearch.properties
@@ -31,7 +29,6 @@ services:
       context: ./fluentd
       args:
         VERSION_FLUENTD: $VERSION_FLUENTD
-        VERSION_PROJECT: $VERSION_PROJECT
     container_name: fluentd
     depends_on:
       - elasticsearch
@@ -57,7 +54,6 @@ services:
       args:
         VERSION_EFK: $VERSION_EFK
         FLAVOUR_EFK: $FLAVOUR_EFK
-        VERSION_PROJECT: $VERSION_PROJECT
     container_name: kibana
     depends_on:
       - fluentd
@@ -74,7 +70,6 @@ services:
       context: ./elasticHQ
       args:
         VERSION_ELASTICHQ: $VERSION_ELASTICHQ
-        VERSION_PROJECT: $VERSION_PROJECT
     container_name: elastichq
     depends_on:
       - elasticsearch

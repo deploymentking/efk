@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe 'Elasticsearch Installation' do
-  describe docker_build('elasticsearch/Dockerfile', rm: true) do
+  describe docker_build('elasticsearch/Dockerfile', rm: true, log_level: 'ci') do
     it { should have_label 'Author' => 'Lee Myring <mail@thinkstack.io>' }
     it { should have_label 'Description' => 'Elasticsearch instance' }
-    it { should have_label 'Version' => '6.2.4' }
+    it { should have_label 'Version' => '1.0.0' }
     it { should have_maintainer 'Lee Myring' }
     it { should have_entrypoint '/usr/local/bin/docker-entrypoint.sh' }
     it { should have_expose '9200' }

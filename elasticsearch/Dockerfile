@@ -1,17 +1,14 @@
-ARG VERSION_EFK=latest
+ARG VERSION_EFK=6.2.4
 ARG FLAVOUR_EFK="-oss"
 FROM docker.elastic.co/elasticsearch/elasticsearch${FLAVOUR_EFK}:${VERSION_EFK}
 
-ARG VERSION_PROJECT
-ARG VERSION_ROR
-
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Elasticsearch instance"
-LABEL Version="${VERSION_PROJECT}"
+LABEL Version="1.0.0"
 
 EXPOSE 9200 9300
 
-COPY ./plugins/readonlyrest-${VERSION_ROR}.zip /usr/share/elasticsearch/readonlyrest.zip
+COPY ./plugins/readonlyrest-1.16.21_es6.2.4.zip /usr/share/elasticsearch/readonlyrest.zip
 COPY ./config/ /usr/share/elasticsearch/config
 
 RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install -b -s file:///usr/share/elasticsearch/readonlyrest.zip \
