@@ -72,7 +72,7 @@ brew cask install docker minikube virtualbox
 
 ## Quick & Easy Startup - OSS
 
-Ensure the .env file has the setting `FLAVOUR_ELK` set to a value of `-oss`
+Ensure the .env file has the setting `FLAVOUR_EFK` set to a value of `-oss`
 
 ```bash
 docker-compose -p efk up
@@ -84,7 +84,7 @@ You will then be able to access the stack via the following:
 
 ## Quick & Easy Startup - Default (with XPack Extensions)
 
-Ensure the .env file has the setting `FLAVOUR_ELK` set to an empty string.
+Ensure the .env file has the setting `FLAVOUR_EFK` set to an empty string.
 
 ```bash
 docker-compose -f docker-compose.yml -f nginx/docker-compose.yml -p efk up
@@ -98,7 +98,7 @@ When accessing via the NGINX container you do not need to supply the username an
 different credentials then replace the text in the file using the following command 
 `htpasswd -b ./nginx/config/htpasswd.users newuser newpassword`
 
-:warning: You must use the `--build` flag on docker-compose when switching between `FLAVOUR_ELK` values e.g.
+:warning: You must use the `--build` flag on docker-compose when switching between `FLAVOUR_EFK` values e.g.
 ```bash
 docker-compose -p efk up --build
 ```
@@ -284,6 +284,11 @@ ip route
 ping -c 4 google.com
 ```
 
+### Tail the logs of fluent-bit
+```bash
+kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit
+```
+
 ### Useful Elasticsearch commands
 ```bash
 curl -X GET http://localhost:9200/_cat/indices?v
@@ -324,7 +329,7 @@ See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/
 
 ## References
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
-- [ELK Docker Images](https://www.docker.elastic.co/)
+- [EFK Docker Images](https://www.docker.elastic.co/)
 - [Fluentd Quickstart](https://docs.fluentd.org/v1.0/articles/quickstart)
 - [Fluent Bit](http://fluentbit.io/documentation/0.12/)
 - [Log4J2 Pattern Layout](https://logging.apache.org/log4j/log4j-2.1/manual/layouts.html#PatternLayout)

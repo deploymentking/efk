@@ -80,7 +80,7 @@ task :purge do
 end
 
 desc 'Bring up the EFK stack with Kubernetes and all the sources'
-task up: %w[down clean efk k8s]
+task up: %w[down clean efk k8s all_sources]
 
 desc 'Run ALL the rake tasks: clean test and build'
 task everything: %w[down clean style test efk k8s all_sources]

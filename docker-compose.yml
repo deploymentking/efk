@@ -5,11 +5,11 @@ services:
     build:
       context: ./elasticsearch
       args:
-        VERSION_ELK: $VERSION_ELK
-        FLAVOUR_ELK: $FLAVOUR_ELK
+        FLAVOUR_EFK: $FLAVOUR_EFK
+        VERSION_EFK: $VERSION_EFK
     container_name: elasticsearch
-    environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    env_file:
+      - ./elasticsearch/elasticsearch.properties
     hostname: elasticsearch
     networks:
       - efk
@@ -52,8 +52,8 @@ services:
     build:
       context: ./kibana
       args:
-        VERSION_ELK: $VERSION_ELK
-        FLAVOUR_ELK: $FLAVOUR_ELK
+        VERSION_EFK: $VERSION_EFK
+        FLAVOUR_EFK: $FLAVOUR_EFK
     container_name: kibana
     depends_on:
       - fluentd
@@ -68,6 +68,8 @@ services:
   elastichq:
     build:
       context: ./elasticHQ
+      args:
+        VERSION_ELASTICHQ: $VERSION_ELASTICHQ
     container_name: elastichq
     depends_on:
       - elasticsearch
