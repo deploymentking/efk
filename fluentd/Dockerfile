@@ -1,11 +1,11 @@
 ARG VERSION_FLUENTD=latest
 FROM fluent/fluentd:${VERSION_FLUENTD}
 
-ARG VERSION_EFK
+ARG VERSION_PROJECT
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Fluentd instance"
-LABEL Version="${VERSION_EFK}"
+LABEL Version="${VERSION_PROJECT}"
 
 EXPOSE 5140/tcp
 EXPOSE 5140/udp

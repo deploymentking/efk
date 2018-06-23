@@ -1,11 +1,11 @@
 ARG VERSION_ELASTICHQ=latest
 FROM elastichq/elasticsearch-hq:${VERSION_ELASTICHQ}
 
-ARG VERSION_EFK
+ARG VERSION_PROJECT
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="ElasticHQ instance"
-LABEL Version="${VERSION_EFK}"
+LABEL Version="${VERSION_PROJECT}"
 
 EXPOSE 5000
 

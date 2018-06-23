@@ -2,12 +2,12 @@ ARG VERSION_EFK=latest
 ARG FLAVOUR_EFK="-oss"
 FROM docker.elastic.co/elasticsearch/elasticsearch${FLAVOUR_EFK}:${VERSION_EFK}
 
-ARG VERSION_EFK
+ARG VERSION_PROJECT
 ARG VERSION_ROR
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Elasticsearch instance"
-LABEL Version="${VERSION_EFK}"
+LABEL Version="${VERSION_PROJECT}"
 
 EXPOSE 9200 9300
 
