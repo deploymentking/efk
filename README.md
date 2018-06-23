@@ -284,6 +284,11 @@ ip route
 ping -c 4 google.com
 ```
 
+### Tail the logs of fluent-bit
+```bash
+kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit
+```
+
 ### Useful Elasticsearch commands
 ```bash
 curl -X GET http://localhost:9200/_cat/indices?v
