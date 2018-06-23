@@ -6,21 +6,20 @@ function setupMinikube {
     echo "${green}Deleting Minikube...${reset}"
     minikube delete
 
+    # Start up minikube and set Docker registry context
+    echo
+    echo "${green}Starting Minikube...${reset}"
+    minikube start
+    minikube status
+
     # Set minikube configuration
     echo
     echo "${green}Configuring Minikube...${reset}"
     minikube config set cpus 2
     minikube config set memory 2048
     minikube config set disk-size 10g
-    minikube addons disable efk
     minikube addons enable heapster
     minikube config view
-
-    # Start up minikube and set Docker registry context
-    echo
-    echo "${green}Starting Minikube...${reset}"
-    minikube start
-    minikube status
 
     # Set up variables
     dashboard_port=30000

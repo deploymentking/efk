@@ -11,6 +11,10 @@ setupMinikube
 
 installFluentBit
 
+echo
+echo "${green}Launching k8s dashboard...${reset}"
+minikube dashboard
+
 installApache
 
 installRedis
@@ -28,12 +32,6 @@ kubectl get pods --namespace redis
 kubectl get pods --namespace webserver
 
 echo
-echo "${green}Launching k8s dashboard...${reset}"
-minikube dashboard
-
-echo
 echo "${green}Launching grafana dashboard...${reset}"
 continueAfterContainerCreated kube-system k8s-app=influx-grafana
 minikube addons open heapster
-
-#kubectl logs -f --namespace=logging $(kubectl get pods --namespace=logging -l k8s-app=fluent-bit-logging -o name) -c fluent-bit
