@@ -20,6 +20,6 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
     && sudo fluent-gem sources --clear-all \
     && rm -rf /var/lib/apt/lists/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem \
     && mkdir -p /fluentd/certs
-#
-#HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
-#    CMD nc -z localhost 24224 || exit 1
+
+HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
+    CMD nc -z localhost 24224 || exit 1
