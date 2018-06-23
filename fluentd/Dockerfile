@@ -4,10 +4,15 @@ FROM fluent/fluentd:${VERSION_FLUENTD}
 ARG VERSION_EFK
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
-LABEL Description="Debian Fluentd instance into which other logs should aggregate"
+LABEL Description="Fluentd instance"
 LABEL Version="${VERSION_EFK}"
 
-EXPOSE 24223 24224
+EXPOSE 5140/tcp
+EXPOSE 5140/udp
+EXPOSE 24223/tcp
+EXPOSE 24223/udp
+EXPOSE 24224/tcp
+EXPOSE 24224/udp
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
     plugins="fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-route fluent-plugin-multi-format-parser" \
