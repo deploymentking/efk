@@ -8,7 +8,7 @@ describe 'Kibana Installation' do
     it { should have_label 'Description' => 'Kibana instance' }
     it { should have_label 'Version' => '1.0.0' }
     it { should have_maintainer 'Lee Myring' }
-    it { should have_cmd %w[/bin/bash /usr/local/bin/kibana-docker]}
+    it { should have_cmd %w[/bin/bash /usr/local/bin/kibana-docker] }
     it { should have_expose '5601' }
     it { should have_user 'kibana' }
     it { should have_workdir '/usr/share/kibana' }
