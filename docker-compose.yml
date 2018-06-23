@@ -68,6 +68,8 @@ services:
   elastichq:
     build:
       context: ./elasticHQ
+      args:
+        VERSION_ELASTICHQ: $VERSION_ELASTICHQ
     container_name: elastichq
     depends_on:
       - elasticsearch
