@@ -1,4 +1,4 @@
-# Fluentd Log Aggregation
+# Log Aggregation using Elasticsearch, Fluentd and Kibana
 
 [![Build Status](https://travis-ci.org/deploymentking/efk.svg?branch=master)](https://travis-ci.org/deploymentking/efk)
 [![Coverage Status](https://coveralls.io/repos/github/deploymentking/efk/badge.svg?branch=master)](https://coveralls.io/github/deploymentking/efk?branch=master)
@@ -46,6 +46,7 @@ and run a Java JAR from which we can control the type of logging to be sent to E
   * [Docker status commands](#docker-status-commands)
   * [General minikube commands](#general-minikube-commands)
   * [Test internet connectivity in minikube](#test-internet-connectivity-in-minikube)
+  * [Tail the logs of fluent-bit](#tail-the-logs-of-fluent-bit)
   * [Useful Elasticsearch commands](#useful-elasticsearch-commands)
 - [Docker Clean Up](#docker-clean-up)
 - [Testing](#testing)
