@@ -1,7 +1,7 @@
 # Fluentd Log Aggregation
 
-[![Build Status](https://travis-ci.org/deploymentking/fluentd-log-aggregation.svg?branch=master)](https://travis-ci.org/deploymentking/fluentd-log-aggregation)
-[![Coverage Status](https://coveralls.io/repos/github/deploymentking/fluentd-log-aggregation/badge.svg?branch=master)](https://coveralls.io/github/deploymentking/fluentd-log-aggregation?branch=master)
+[![Build Status](https://travis-ci.org/deploymentking/efk.svg?branch=master)](https://travis-ci.org/deploymentking/efk)
+[![Coverage Status](https://coveralls.io/repos/github/deploymentking/efk/badge.svg?branch=master)](https://coveralls.io/github/deploymentking/efk?branch=master)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
 This project allows for the quick deployment of a fully functioning EFK Stack.
@@ -318,14 +318,14 @@ docker system prune --all
 
 ## Testing
 
-See [TESTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/blob/master/TESTING.md).
+See [TESTING.md](https://github.com/deploymentking/efk/blob/master/TESTING.md).
 
 ## Contributing
 
-Please do not hesitate to [open an issue](https://github.com/DeploymentKing/fluentd-log-aggregation/issues/new) with any
+Please do not hesitate to [open an issue](https://github.com/deploymentking/efk/issues/new) with any
 questions or problems.
 
-See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/blob/master/CONTRIBUTING.md).
+See [CONTRIBUTING.md](https://github.com/deploymentking/efk/blob/master/CONTRIBUTING.md).
 
 ## References
 - [Install Elasticsearch with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
@@ -340,7 +340,7 @@ See [CONTRIBUTING.md](https://github.com/DeploymentKing/fluentd-log-aggregation/
 ## External Projects
 - [Fluentd UI](https://github.com/fluent/fluentd-ui)
 - [Fluent Bit in Kubernetes](https://github.com/fluent/fluent-bit-kubernetes-logging/)
-- [java-logger](https://github.com/DeploymentKing/java-logger)
+- [java-logger](https://github.com/deploymentking/java-logger)
 - [ElasticHQ](https://github.com/ElasticHQ/elasticsearch-HQ)
 - [Dockerspec](https://github.com/zuazo/dockerspec)
 - [docker-elk](https://github.com/deviantony/docker-elk)

@@ -2,7 +2,7 @@
 
 cd ~/source/deploymentking/
 
-cat fluentd-log-aggregation-my-sql/fluentd/config/conf.d/match_mysql_star_star_out_es.conf
+cat efk-my-sql/fluentd/config/conf.d/match_mysql_star_star_out_es.conf
 
-cp -p fluentd-log-aggregation-my-sql/fluentd/config/conf.d/match_mysql_star_star_out_es.conf \
-    fluentd-log-aggregation/fluentd/config/conf.d/match_mysql_star_star_out_es.conf
+cp -p efk-my-sql/fluentd/config/conf.d/match_mysql_star_star_out_es.conf \
+    efk/fluentd/config/conf.d/match_mysql_star_star_out_es.conf
