@@ -46,6 +46,15 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
+desc 'Start the Prometheus stack component'
+task :prometheus do
+  trap('SIGINT') do
+    puts 'Cancelled Prometheus stack launch...'
+    exit
+  end
+  sh './scripts/start-prometheus.sh'
+end
+
 desc 'Restart a Docker container; port is optional, if supplied will wait for port to be available before tailing logs'
 task :restart, [:name, :port] do |_task, args|
   trap('SIGINT') do
