@@ -11,9 +11,11 @@ EXPOSE 24223/tcp
 EXPOSE 24223/udp
 EXPOSE 24224/tcp
 EXPOSE 24224/udp
+EXPOSE 24231/tcp
+EXPOSE 24231/udp
 
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
-    plugins="fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-route fluent-plugin-multi-format-parser" \
+    plugins="fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-route fluent-plugin-prometheus fluent-plugin-multi-format-parser" \
     && apt-get update \
     && apt-get install -y --no-install-recommends $buildDeps \
     && sudo fluent-gem install $plugins \
