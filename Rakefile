@@ -49,6 +49,15 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
+desc 'Start the Prometheus stack component'
+task :prometheus do
+  trap('SIGINT') do
+    puts 'Cancelled Prometheus stack launch...'
+    exit
+  end
+  sh './scripts/start-prometheus.sh'
+end
+
 desc 'Stop the entire EFK stack, additional sources, minikube and then delete all efk_* images'
 task :purge do
   Rake::Task['down'].invoke

@@ -38,12 +38,14 @@ services:
     networks:
       - efk
     ports:
+      - "5140:5140"
+      - "5140:5140/udp"
       - "24223:24223"
       - "24223:24223/udp"
       - "24224:24224"
       - "24224:24224/udp"
-      - "5140:5140"
-      - "5140:5140/udp"
+      - "24231:24231"
+      - "24231:24231/udp"
     volumes:
       - ./fluentd/config:/fluentd/etc
       - ./fluentd/certs:/fluentd/certs

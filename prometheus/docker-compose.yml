@@ -1,0 +1,18 @@
+version: '3.6'
+
+services:
+  prometheus:
+    build:
+      context: ./prometheus
+      args:
+        VERSION_PROM: $VERSION_PROM
+    container_name: prometheus
+    env_file:
+      - ./prometheus/prometheus.properties
+    hostname: prometheus
+    networks:
+      - efk
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/config/prometheus.yml:/etc/prometheus/prometheus.yml
