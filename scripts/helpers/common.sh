@@ -8,6 +8,9 @@ reset=`tput sgr0`
 kibanaCurlPrefix="curl -u kibana:kibana"
 kibanaUrl="http://localhost:5601"
 
+elasticsearchCurlPrefix="curl -u elastichq:elastichq"
+elasticsearchUrl="http://localhost:9200"
+
 # Check if all the essential tools are installed
 function checkPreRequisites {
     echo
@@ -65,6 +68,14 @@ function createKibanaIndices {
     kbn_xsrf_header="kbn-xsrf: anything"
     action=POST
 
+    # Setup the default template
+    echo
+    echo "${green}Creating default index template default_index_template_wildcard_box_type_hot...${reset}"
+    curl -X PUT "${elasticsearchUrl}/_template/default_index_template_wildcard_box_type_hot" \
+        -H 'Content-Type: application/json' \
+        -d'{"index_patterns":["*"],"settings":{"number_of_shards":"1","number_of_replicas":"0","index":{"routing":{"allocation":{"require":{"box_type":"hot"}}}}}}'
+
+    # Setup the index patterns
     for index_pattern in agent-* \
                          apache-* \
                          bit-* \

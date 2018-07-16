@@ -62,6 +62,7 @@ desc 'Stop the entire EFK stack, additional sources, minikube and then delete al
 task :purge do
   Rake::Task['down'].invoke
   sh 'docker image ls --quiet --filter \'reference=efk_*:*\' | xargs docker rmi -f'
+  sh 'docker volume prune -f'
 end
 
 desc 'Restart a Docker container; port is optional, if supplied will wait for port to be available before tailing logs'
