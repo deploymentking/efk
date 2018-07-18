@@ -64,16 +64,13 @@ function checkURL {
 function createKibanaIndices {
     set -euo pipefail
 
-    content_type="Content-Type: application/json"
-    kbn_xsrf_header="kbn-xsrf: anything"
-    action=POST
-
     # Setup the default template
     echo
     echo "${green}Creating default index template default_index_template_wildcard_box_type_hot...${reset}"
     curl -X PUT "${elasticsearchUrl}/_template/default_index_template_wildcard_box_type_hot" \
         -H 'Content-Type: application/json' \
         -d'{"index_patterns":["*"],"settings":{"number_of_shards":"1","number_of_replicas":"0","index":{"routing":{"allocation":{"require":{"box_type":"hot"}}}}}}'
+    echo
 
     # Setup the index patterns
     for index_pattern in agent-* \
@@ -85,20 +82,25 @@ function createKibanaIndices {
                          kitchen-* \
                          redis-*
     do
-        echo
-        echo "${green}Creating index pattern $index_pattern...${reset}"
-
         url="$kibanaUrl/api/saved_objects/index-pattern/$index_pattern"
-        data="{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"
 
-        ${kibanaCurlPrefix} --fail --data "$data" --request "$action" --header "$content_type" --header "$kbn_xsrf_header" ${url}
+        response=$(${kibanaCurlPrefix} --write-out %{http_code} --silent --output /dev/null ${url} -H 'kbn-xsrf: true')
 
-        if [[ ${index_pattern} == "fluent-*" ]] ; then
-            # Make fluentd the default index
-            url="$kibanaUrl/api/kibana/settings/defaultIndex"
-            data="{\"value\":\"$index_pattern\"}"
-            echo
-            ${kibanaCurlPrefix} --data "$data" --request "$action" --header "$content_type" --header "$kbn_xsrf_header" ${url}
+        if [[ "${response}" == "200" ]] ; then
+            echo "${yellow}Index pattern $index_pattern already exists...${reset}"
+        else
+            echo "${green}Creating index pattern $index_pattern...${reset}"
+
+            data="{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"
+            ${kibanaCurlPrefix} --fail --data "$data" --request "POST" --header "Content-Type: application/json" --header "kbn-xsrf: anything" ${url}
+
+            if [[ ${index_pattern} == "fluent-*" ]] ; then
+                # Make fluentd the default index
+                url="$kibanaUrl/api/kibana/settings/defaultIndex"
+                data="{\"value\":\"$index_pattern\"}"
+                echo
+                ${kibanaCurlPrefix} --data "$data" --request "POST" --header "Content-Type: application/json" --header "kbn-xsrf: anything" ${url}
+            fi
         fi
     done
     echo
