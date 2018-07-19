@@ -1,0 +1,17 @@
+---
+cluster.name: elasticsearch
+discovery.zen.minimum_master_nodes: 1
+discovery.zen.ping.unicast.hosts:
+- elasticsearch
+gateway.recover_after_nodes: 1
+gateway.expected_nodes: 1
+gateway.recover_after_time: 10m
+http.type: ssl_netty4
+network.host: 0.0.0.0
+network.publish_host: 0.0.0.0
+node.name: "warm"
+node.master: false
+node.data: true
+node.ingest: false
+search.remote.connect: false
+node.attr.box_type: warm

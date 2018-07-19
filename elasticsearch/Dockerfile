@@ -9,7 +9,6 @@ LABEL Version="1.0.0"
 EXPOSE 9200 9300
 
 COPY ./plugins/readonlyrest-1.16.21_es6.2.4.zip /usr/share/elasticsearch/readonlyrest.zip
-COPY ./config/ /usr/share/elasticsearch/config
 
 RUN /usr/share/elasticsearch/bin/elasticsearch-plugin install -b -s file:///usr/share/elasticsearch/readonlyrest.zip \
     && chown -R elasticsearch:root /usr/share/elasticsearch/plugins

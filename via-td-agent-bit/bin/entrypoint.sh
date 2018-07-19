@@ -14,6 +14,6 @@ nohup java -Dlogger.filePath=${LOGGER_FILE_PATH} \
            -cp /bin/java-logger-${LOGGER_VERSION}.jar \
            io.thinkstack.logger.slf4j.${LOGGER_ENTRY_POINT} &
 
-/usr/local/bin/td-agent-bit -c /etc/td-agent-bit/${FLUENTD_CONF}
+/usr/local/bin/td-agent-bit -v -c /etc/td-agent-bit/${FLUENTD_CONF}
 
 tail -f /dev/null
