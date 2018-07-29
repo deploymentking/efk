@@ -7,7 +7,7 @@ checkPreRequisites
 
 export $(cat .env | grep -v '^#')
 
-docker-compose -p efk -f docker-compose.yml up -d --build
+docker-compose -f docker-compose.yml up -d --build
 
 while ! nc -z localhost 9200 </dev/null; do sleep 5; done
 while ! nc -z localhost 5601 </dev/null; do sleep 5; done

@@ -76,7 +76,7 @@ brew cask install docker minikube virtualbox
 Ensure the .env file has the setting `FLAVOUR_EFK` set to a value of `-oss`
 
 ```bash
-docker-compose -p efk up
+docker-compose up
 ```
 
 You will then be able to access the stack via the following:
@@ -88,7 +88,7 @@ You will then be able to access the stack via the following:
 Ensure the .env file has the setting `FLAVOUR_EFK` set to an empty string.
 
 ```bash
-docker-compose -f docker-compose.yml -f nginx/docker-compose.yml -p efk up
+docker-compose -f docker-compose.yml -f nginx/docker-compose.yml up
 ```
 
 You will then be able to access the stack via the following:
@@ -101,7 +101,7 @@ different credentials then replace the text in the file using the following comm
 
 :warning: You must use the `--build` flag on docker-compose when switching between `FLAVOUR_EFK` values e.g.
 ```bash
-docker-compose -p efk up --build
+docker-compose up --build
 ```
 
 ## Log Sources
@@ -122,7 +122,7 @@ process to STDOUT which gets picked up by the logging driver above.
 
 #### Launch Command
 ```bash
-docker-compose -f docker-compose.yml -f via-logging-driver/docker-compose.yml -p efk up
+docker-compose -f docker-compose.yml -f via-logging-driver/docker-compose.yml up
 ```
 
 ### Logging via td-agent
@@ -132,7 +132,7 @@ project mentioned [here](#references). See the README of that project for furthe
 
 #### Launch Command
 ```bash
-docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml up --build
 ```
 
 #### Accessing the Fluentd UI
@@ -163,9 +163,9 @@ environment section to one of the files that are listed in `via-td-agent/config`
 
 ```bash
 # ctrl+c to stop the stack (if not running in detached mode)
-docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk down
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml down
 docker image ls --quiet --filter 'reference=efk_agent:*' | xargs docker rmi -f
-docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -p efk up --build
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml up --build
 ```
 
 #### Changing the contents of a td-agent conf file
@@ -257,7 +257,7 @@ This should be changed to `elasticsearch:9200` because the connection context is
 
 ### Launch Command
 ```bash
-docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -f elastichq/docker-compose.yml -p efk up --build
+docker-compose -f docker-compose.yml -f via-td-agent/docker-compose.yml -f elastichq/docker-compose.yml up --build
 ```
 
 You will then be able to access the configuration of td-agent via the following:

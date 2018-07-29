@@ -41,7 +41,7 @@ function restartContainer {
     container=$1
     port=$2
 
-    docker-compose -p efk -f docker-compose.yml restart ${container}
+    docker-compose -f docker-compose.yml restart ${container}
 
     if [[ ! -z ${port} ]]; then
         while ! nc -z localhost ${port} </dev/null; do sleep 5; done
@@ -87,8 +87,10 @@ function createKibanaIndices {
         response=$(${kibanaCurlPrefix} --write-out %{http_code} --silent --output /dev/null ${url} -H 'kbn-xsrf: true')
 
         if [[ "${response}" == "200" ]] ; then
+            echo
             echo "${yellow}Index pattern $index_pattern already exists...${reset}"
         else
+            echo
             echo "${green}Creating index pattern $index_pattern...${reset}"
 
             data="{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"
