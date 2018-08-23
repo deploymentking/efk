@@ -49,6 +49,16 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
+desc 'Show the logs of the docker-compose stack'
+task :logs do
+  trap('SIGINT') do
+    puts 'Cancelled log view...'
+    exit
+  end
+  sh 'docker-compose ps'
+  sh 'docker-compose logs -f'
+end
+
 desc 'Start the Prometheus stack component'
 task :prometheus do
   trap('SIGINT') do
