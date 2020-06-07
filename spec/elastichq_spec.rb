@@ -36,7 +36,7 @@ describe 'ElasticHQ Installation' do
       end
 
       describe command('pidof supervisord') do
-        its(:stdout) { should match /1/ }
+        its(:stdout) { should match(/1/) }
       end
 
       describe port(5000) do
