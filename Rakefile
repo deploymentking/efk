@@ -98,8 +98,7 @@ task style: %w[rubocop]
 
 desc 'Run all the tests'
 task :test do
-  sh 'bundle install'
-  sh 'bundle exec rspec'
+  sh 'source .envrc && bundle install && bundle exec rspec'
 end
 
 desc 'Bring up the EFK stack with Kubernetes and all the sources'

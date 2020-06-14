@@ -5,12 +5,17 @@ services:
     build:
       context: ./elasticsearch
       args:
-        FLAVOUR_EFK: $FLAVOUR_EFK
-        VERSION_EFK: $VERSION_EFK
+        VERSION_EFK: ${VERSION_EFK}
+    command: /usr/share/elasticsearch/custom-entrypoint.sh
     container_name: elasticsearch-master
     environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - ${ES_JAVA_OPTS:-/dev/null}
+      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
+    healthcheck:
+      test: curl --cacert $CERTS_DIR/ca.crt -s https://elasticsearch:9200 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
     hostname: elasticsearch
     networks:
       - efk
@@ -25,6 +30,9 @@ services:
         soft: -1
         hard: -1
     volumes:
+      - certs:$CERTS_DIR
+      - elasticsearch_master:/usr/share/elasticsearch/data
+      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
       - ./elasticsearch/config/master/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
@@ -32,18 +40,15 @@ services:
     build:
       context: ./elasticsearch
       args:
-        FLAVOUR_EFK: $FLAVOUR_EFK
-        VERSION_EFK: $VERSION_EFK
+        VERSION_EFK: ${VERSION_EFK}
+    command: /usr/share/elasticsearch/custom-entrypoint.sh
     container_name: elasticsearch-hot
     environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - ${ES_JAVA_OPTS:-/dev/null}
+      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
     hostname: elasticsearch-hot
     networks:
       - efk
-    ports:
-      - "9201:9200"
-      - "9301:9300"
     ulimits:
       nofile:
         soft: 65536
@@ -52,7 +57,9 @@ services:
         soft: -1
         hard: -1
     volumes:
+      - certs:$CERTS_DIR
       - elasticsearch_hot:/usr/share/elasticsearch/data
+      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
       - ./elasticsearch/config/hot/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
@@ -60,18 +67,15 @@ services:
     build:
       context: ./elasticsearch
       args:
-        FLAVOUR_EFK: $FLAVOUR_EFK
-        VERSION_EFK: $VERSION_EFK
+        VERSION_EFK: ${VERSION_EFK}
+    command: /usr/share/elasticsearch/custom-entrypoint.sh
     container_name: elasticsearch-warm
     environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - ${ES_JAVA_OPTS:-/dev/null}
+      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
     hostname: elasticsearch-warm
     networks:
       - efk
-    ports:
-      - "9202:9200"
-      - "9302:9300"
     ulimits:
       nofile:
         soft: 65536
@@ -80,73 +84,90 @@ services:
         soft: -1
         hard: -1
     volumes:
+      - certs:$CERTS_DIR
       - elasticsearch_warm:/usr/share/elasticsearch/data
+      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
       - ./elasticsearch/config/warm/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
-  fluentd:
-    build:
-      context: ./fluentd
-      args:
-        VERSION_FLUENTD: $VERSION_FLUENTD
-    container_name: fluentd
-    depends_on:
-      - elasticsearch
-    env_file:
-      - ./fluentd/fluentd.properties
-    hostname: fluentd
-    networks:
-      - efk
-    ports:
-      - "5140:5140"
-      - "5140:5140/udp"
-      - "24223:24223"
-      - "24223:24223/udp"
-      - "24224:24224"
-      - "24224:24224/udp"
-      - "24231:24231"
-      - "24231:24231/udp"
-    volumes:
-      - ./fluentd/config:/fluentd/etc
-      - ./fluentd/certs:/fluentd/certs
-
+#  fluentd:
+#    build:
+#      context: ./fluentd
+#      args:
+#        VERSION_FLUENTD: $VERSION_FLUENTD
+#    container_name: fluentd
+#    depends_on:
+#      - elasticsearch
+  #depends_on: {"es01.telemetry.internal": {"condition": "service_healthy"}}
+#    env_file:
+#      - ./fluentd/fluentd.properties
+#    hostname: fluentd
+#    networks:
+#      - efk
+#    ports:
+#      - "5140:5140"
+#      - "5140:5140/udp"
+#      - "24223:24223"
+#      - "24223:24223/udp"
+#      - "24224:24224"
+#      - "24224:24224/udp"
+#      - "24231:24231"
+#      - "24231:24231/udp"
+#    volumes:
+#      - ./fluentd/config:/fluentd/etc
+#      - ./fluentd/certs:/fluentd/certs
+#
   kibana:
     build:
       context: ./kibana
       args:
-        VERSION_EFK: $VERSION_EFK
-        FLAVOUR_EFK: $FLAVOUR_EFK
+        VERSION_EFK: ${VERSION_EFK}
     container_name: kibana
     depends_on:
-      - fluentd
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}
+      SERVER_SSL_KEYPASSPHRASE: ${KEY_PASSPHRASE}
     hostname: kibana
     networks:
       - efk
     ports:
-      - "5601:5601"
+      - 5601:5601
     volumes:
+      - certs:/usr/share/kibana/config/certificates
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
 
-  elastichq:
-    build:
-      context: ./elasticHQ
-      args:
-        VERSION_ELASTICHQ: $VERSION_ELASTICHQ
-    container_name: elastichq
-    depends_on:
-      - elasticsearch
-    hostname: elastichq
-    networks:
-      - efk
-    ports:
-      - "5000:5000"
+#  elastichq:
+#    build:
+#      context: ./elasticHQ
+#      args:
+#        VERSION_ELASTICHQ: ${VERSION_ELASTICHQ}
+#    container_name: elastichq
+#    depends_on:
+#      - elasticsearch
+#    environment:
+#      HQ_DEFAULT_URL: https://elasticsearch:9200
+#      HQ_ENABLE_SSL: "True"
+#      HQ_CA_CERTS: /usr/share/elastichq/ca/ca.crt
+#      HQ_VERIFY_CERTS: "False"
+#    hostname: elastichq
+#    networks:
+#      - efk
+#    ports:
+#      - 5000:5000
+#    volumes:
+#      - certs:/usr/share/elastichq
 
 networks:
   efk:
     driver: bridge
 
 volumes:
+  certs:
+    driver: local
   elasticsearch_hot:
+    driver: local
+  elasticsearch_master:
     driver: local
   elasticsearch_warm:
     driver: local

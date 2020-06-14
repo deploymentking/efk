@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+set -x
+
 directory=$(cd `dirname $0` && pwd)
 source ${directory}/helpers/common.sh
 
 checkPreRequisites
 
-export $(cat .env | grep -v '^#')
+source ../.envrc
 
 docker-compose -f docker-compose.yml up -d --build
 
