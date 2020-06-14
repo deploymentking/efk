@@ -1,4 +1,4 @@
-ARG VERSION_PROM=v2.18.1
+ARG VERSION_PROM=v2.3.1
 FROM prom/prometheus:${VERSION_PROM}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
