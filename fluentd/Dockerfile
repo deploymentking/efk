@@ -1,9 +1,9 @@
-ARG VERSION_FLUENTD=v1.1.3-debian-onbuild
+ARG VERSION_FLUENTD=v1.11.0-debian-1.0
 FROM fluent/fluentd:${VERSION_FLUENTD}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
 LABEL Description="Fluentd instance"
-LABEL Version="1.0.0"
+LABEL Version="2.0.0"
 
 EXPOSE 5140/tcp
 EXPOSE 5140/udp
@@ -14,14 +14,16 @@ EXPOSE 24224/udp
 EXPOSE 24231/tcp
 EXPOSE 24231/udp
 
-RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl" \
+USER root
+RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev netcat openssl apt-utils" \
     plugins="fluent-plugin-elasticsearch fluent-plugin-rewrite-tag-filter fluent-plugin-route fluent-plugin-prometheus fluent-plugin-multi-format-parser" \
     && apt-get update \
     && apt-get install -y --no-install-recommends $buildDeps \
-    && sudo fluent-gem install $plugins \
-    && sudo fluent-gem sources --clear-all \
-    && rm -rf /var/lib/apt/lists/* /home/fluent/.gem/ruby/2.3.0/cache/*.gem \
-    && mkdir -p /fluentd/certs
+    && fluent-gem install $plugins \
+    && fluent-gem sources --clear-all \
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir -p /fluentd/certs \
+    && chmod 777 /fluentd/log/
 
-HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
-    CMD nc -z localhost 24224 || exit 1
+USER 1000
+HEALTHCHECK --interval=5s --timeout=2s --retries=15 CMD nc -z localhost 24224 || exit 1

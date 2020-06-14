@@ -1,4 +1,4 @@
-ARG VERSION_NGINX=1.15
+ARG VERSION_NGINX=1.19
 FROM nginx:${VERSION_NGINX}
 
 LABEL Author="Lee Myring <mail@thinkstack.io>"
