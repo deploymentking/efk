@@ -3,17 +3,17 @@
 require 'spec_helper'
 
 describe 'ElasticHQ Installation' do
-  describe docker_build('elastichq/Dockerfile', rm: true, log_level: 'ci') do
+  describe docker_build('elastichq/Dockerfile', tag: 'efk_elastichq', rm: true, log_level: 'ci') do
     it { should have_label 'Author' => 'Lee Myring <mail@thinkstack.io>' }
     it { should have_label 'Description' => 'ElasticHQ instance' }
-    it { should have_label 'Version' => '1.0.0' }
+    it { should have_label 'Version' => '2.0.0' }
     it { should have_maintainer 'Lee Myring' }
     it { should have_user 'nobody' }
 
     its(:arch) { should eq 'amd64' }
     its(:os) { should eq 'linux' }
 
-    describe docker_run(described_image) do
+    describe docker_run(described_image, tag: 'efk_elastichq') do
       describe file('/src') do
         it { should be_directory }
       end
