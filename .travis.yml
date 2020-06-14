@@ -1,22 +1,20 @@
-language: ruby
-
-sudo: required
-
-services: docker
-
-env:
-  - CERTS_DIR=/usr/share/elasticsearch/config/certificates
-  - COMPOSE_PROJECT_NAME=efk
-  - ES_JAVA_OPTS="ES_JAVA_OPTS=-Xms256m -Xmx256m "
-  - VERSION_CENTOS=7
-  - VERSION_EFK=7.7.1
-  - VERSION_ELASTICHQ=release-v3.5.12
-  - VERSION_FLUENTD=v1.11.0-debian-1.0
-  - VERSION_NGINX=1.19
-  - VERSION_PROJECT=2.0.0
-  - VERSION_PROM=v2.18.1
-  - VERSION_RUBY=2.7.1
-  - VERSION_UBUNTU=20.10
-
-script: travis_retry bundle exec rspec
-
+jobs:
+  include:
+    - stage: test
+      language: ruby
+      sudo: required
+      services: docker
+      env:
+        - CERTS_DIR=/usr/share/elasticsearch/config/certificates
+        - COMPOSE_PROJECT_NAME=efk
+        - ES_JAVA_OPTS="ES_JAVA_OPTS=-Xms256m -Xmx256m "
+        - VERSION_CENTOS=7
+        - VERSION_EFK=7.7.1
+        - VERSION_ELASTICHQ=release-v3.5.12
+        - VERSION_FLUENTD=v1.11.0-debian-1.0
+        - VERSION_NGINX=1.19
+        - VERSION_PROJECT=2.0.0
+        - VERSION_PROM=v2.18.1
+        - VERSION_RUBY=2.7.1
+        - VERSION_UBUNTU=20.10
+      script: travis_retry bundle exec rspec
