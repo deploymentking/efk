@@ -1,0 +1,42 @@
+instances:
+  - name: elasticsearch
+    dns:
+      - elasticsearch
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: elasticsearch-warm
+    dns:
+      - elasticsearch-warm
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: elasticsearch-hot
+    dns:
+      - elasticsearch-hot
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: kibana
+    dns:
+      - kibana
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: fluentd
+    dns:
+      - fluentd
+      - localhost
+    ip:
+      - 127.0.0.1
+
+  - name: elastichq
+    dns:
+      - elastichq
+      - localhost
+    ip:
+      - 127.0.0.1

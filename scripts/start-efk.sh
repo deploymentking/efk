@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+set -x
+
 directory=$(cd `dirname $0` && pwd)
 source ${directory}/helpers/common.sh
 
 checkPreRequisites
 
-export $(cat .env | grep -v '^#')
+source ../.envrc
 
-docker-compose -p efk -f docker-compose.yml up -d --build
+docker-compose -f docker-compose.yml up -d --build
 
 while ! nc -z localhost 9200 </dev/null; do sleep 5; done
 while ! nc -z localhost 5601 </dev/null; do sleep 5; done
