@@ -17,7 +17,6 @@ function checkPreRequisites {
     echo "${green}Checking pre-requisites...${reset}"
     type ruby >/dev/null 2>&1 || { echo >&2 "${yellow}Ruby required but it's not installed.  Aborting.${reset}"; exit 1; }
     type docker >/dev/null 2>&1 || { echo >&2 "${yellow}Docker required but it's not installed.  Aborting.${reset}"; exit 1; }
-    type virtualbox >/dev/null 2>&1 || { echo >&2 "${yellow}VirtualBox required but it's not installed.  Aborting.${reset}"; exit 1; }
     type kubectl >/dev/null 2>&1 || { echo >&2 "${yellow}kubectl required but it's not installed.  Aborting.${reset}"; exit 1; }
     type minikube >/dev/null 2>&1 || { echo >&2 "${yellow}Minikube required but it's not installed.  Aborting.${reset}"; exit 1; }
 }
