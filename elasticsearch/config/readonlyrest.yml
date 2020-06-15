@@ -1,5 +1,6 @@
 readonlyrest:
   ssl:
+    enable: false
     # put the keystore in the same dir with elasticsearch.yml
 #    keystore_file: "keystore.jks"
 #    keystore_pass: readonlyrest

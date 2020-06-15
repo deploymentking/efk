@@ -49,6 +49,16 @@ task :k8s do
   sh './scripts/start-k8s.sh'
 end
 
+desc 'Show the logs of the docker-compose stack'
+task :logs do
+  trap('SIGINT') do
+    puts 'Cancelled log view...'
+    exit
+  end
+  sh 'docker-compose ps'
+  sh 'docker-compose logs -f'
+end
+
 desc 'Start the Prometheus stack component'
 task :prometheus do
   trap('SIGINT') do
@@ -88,8 +98,7 @@ task style: %w[rubocop]
 
 desc 'Run all the tests'
 task :test do
-  sh 'bundle install'
-  sh 'bundle exec rspec'
+  sh 'source .envrc && bundle install && bundle exec rspec'
 end
 
 desc 'Bring up the EFK stack with Kubernetes and all the sources'

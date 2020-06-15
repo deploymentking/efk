@@ -17,7 +17,6 @@ function checkPreRequisites {
     echo "${green}Checking pre-requisites...${reset}"
     type ruby >/dev/null 2>&1 || { echo >&2 "${yellow}Ruby required but it's not installed.  Aborting.${reset}"; exit 1; }
     type docker >/dev/null 2>&1 || { echo >&2 "${yellow}Docker required but it's not installed.  Aborting.${reset}"; exit 1; }
-    type virtualbox >/dev/null 2>&1 || { echo >&2 "${yellow}VirtualBox required but it's not installed.  Aborting.${reset}"; exit 1; }
     type kubectl >/dev/null 2>&1 || { echo >&2 "${yellow}kubectl required but it's not installed.  Aborting.${reset}"; exit 1; }
     type minikube >/dev/null 2>&1 || { echo >&2 "${yellow}Minikube required but it's not installed.  Aborting.${reset}"; exit 1; }
 }
@@ -41,7 +40,7 @@ function restartContainer {
     container=$1
     port=$2
 
-    docker-compose -p efk -f docker-compose.yml restart ${container}
+    docker-compose -f docker-compose.yml restart ${container}
 
     if [[ ! -z ${port} ]]; then
         while ! nc -z localhost ${port} </dev/null; do sleep 5; done
@@ -87,8 +86,10 @@ function createKibanaIndices {
         response=$(${kibanaCurlPrefix} --write-out %{http_code} --silent --output /dev/null ${url} -H 'kbn-xsrf: true')
 
         if [[ "${response}" == "200" ]] ; then
+            echo
             echo "${yellow}Index pattern $index_pattern already exists...${reset}"
         else
+            echo
             echo "${green}Creating index pattern $index_pattern...${reset}"
 
             data="{\"attributes\":{\"title\":\"$index_pattern\",\"timeFieldName\":\"@timestamp\"}}"

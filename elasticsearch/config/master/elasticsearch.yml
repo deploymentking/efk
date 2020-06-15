@@ -1,17 +1,58 @@
 ---
-cluster.name: elasticsearch
-discovery.zen.minimum_master_nodes: 1
-discovery.zen.ping.unicast.hosts:
-- elasticsearch
-gateway.recover_after_nodes: 1
-gateway.expected_nodes: 1
-gateway.recover_after_time: 10m
-http.type: ssl_netty4
-network.host: 0.0.0.0
-network.publish_host: 0.0.0.0
-node.name: "master"
-node.master: true
-node.data: false
-node.ingest: false
-search.remote.connect: false
-node.attr.box_type: master
+bootstrap:
+  memory_lock: true
+discovery:
+  seed_hosts:
+    - elasticsearch-hot
+    - elasticsearch-warm
+cluster:
+  initial_master_nodes:
+    - master
+  name: efk
+logger:
+  index:
+    indexing:
+      slowlog: "warn"
+    search:
+      slowlog: "warn"
+network:
+  host: 0.0.0.0
+  publish_host: 0.0.0.0
+node:
+  name: "master"
+  master: true
+  data: false
+  ingest: true
+  attr:
+    box_type: master
+xpack:
+  license:
+    self_generated:
+      type: trial
+  monitoring:
+    collection:
+      enabled: true
+  security:
+    enabled: true
+    audit:
+      enabled: true
+      logfile:
+        events:
+          emit_request_body: true
+    http:
+      ssl:
+        certificate_authorities: /usr/share/elasticsearch/config/certificates/ca/ca.crt
+        client_authentication: optional
+        enabled: true
+        keystore:
+          path: /usr/share/elasticsearch/config/certificates/elasticsearch/elasticsearch.p12
+    transport:
+      ssl:
+        certificate_authorities: /usr/share/elasticsearch/config/certificates/ca/ca.crt
+        enabled: true
+        verification_mode: certificate
+        keystore:
+          path: /usr/share/elasticsearch/config/certificates/elasticsearch/elasticsearch.p12
+path:
+  data: /usr/share/elasticsearch/data
+  logs: /usr/share/elasticsearch/logs

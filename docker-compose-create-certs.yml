@@ -1,0 +1,41 @@
+version: '2.2'
+
+services:
+  create_certs:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION_EFK}
+    container_name: create_certs
+    environment:
+      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
+    command: >
+      bash -c '
+        yum install -y -q -e 0 unzip openssl;
+        mkdir -p /certs/ca
+        bin/elasticsearch-certutil ca --silent \
+                                      --pass $${KEY_PASSPHRASE} \
+                                      --out ca.p12;
+        bin/elasticsearch-certutil cert --silent \
+                                        --pass $${KEY_PASSPHRASE} \
+                                        --out certs.zip \
+                                        --ca ca.p12 \
+                                        --ca-pass $${KEY_PASSPHRASE} \
+                                        --in instances.yml;
+        unzip -oq certs.zip -d /certs;
+        openssl pkcs12 -in ca.p12 -passin pass:$${KEY_PASSPHRASE} -out /certs/ca/ca.crt -passout pass: -nokeys;
+        openssl pkcs12 -in /certs/kibana/kibana.p12 -passin pass:$${KEY_PASSPHRASE} -out /certs/kibana/kibana.key -nodes -nocerts
+        openssl pkcs12 -in /certs/kibana/kibana.p12 -passin pass:$${KEY_PASSPHRASE} -out /certs/kibana/kibana.crt -nodes -nokeys
+        chown -R 1000:0 /certs && ls -laR /certs;
+      '
+    working_dir: /usr/share/elasticsearch
+    volumes:
+      - certs:/certs
+      - ./elasticsearch/certs/instances.yml:/usr/share/elasticsearch/instances.yml
+    networks:
+      - efk
+
+volumes:
+  certs:
+    driver: local
+
+networks:
+  efk:
+    driver: bridge
