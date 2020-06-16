@@ -30,12 +30,12 @@ services:
       - certs:/certs
       - ./elasticsearch/certs/instances.yml:/usr/share/elasticsearch/instances.yml
     networks:
-      - efk
+      - cluster
 
 volumes:
   certs:
     driver: local
 
 networks:
-  efk:
+  cluster:
     driver: bridge

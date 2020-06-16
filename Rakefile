@@ -9,6 +9,11 @@ task :all_sources do
   sh 'docker ps -a --format "table {{.ID}}\t{{.Status}}\t{{.Names}}\t{{.Ports}}"'
 end
 
+desc 'Generate the certs Docker volume'
+task :certs do
+  sh 'docker-compose -f docker-compose-create-certs.yml run --rm create_certs'
+end
+
 desc 'Clean some generated files'
 task :clean do
   %w[

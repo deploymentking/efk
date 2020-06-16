@@ -18,7 +18,7 @@ services:
       retries: 5
     hostname: elasticsearch
     networks:
-      - efk
+      - cluster
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -36,59 +36,59 @@ services:
       - ./elasticsearch/config/master/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
-  elasticsearch-hot:
-    build:
-      context: ./elasticsearch
-      args:
-        VERSION_EFK: ${VERSION_EFK}
-    command: /usr/share/elasticsearch/custom-entrypoint.sh
-    container_name: elasticsearch-hot
-    environment:
-      - ${ES_JAVA_OPTS:-/dev/null}
-      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
-    hostname: elasticsearch-hot
-    networks:
-      - efk
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - certs:$CERTS_DIR
-      - elasticsearch_hot:/usr/share/elasticsearch/data
-      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
-      - ./elasticsearch/config/hot/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
-
-  elasticsearch-warm:
-    build:
-      context: ./elasticsearch
-      args:
-        VERSION_EFK: ${VERSION_EFK}
-    command: /usr/share/elasticsearch/custom-entrypoint.sh
-    container_name: elasticsearch-warm
-    environment:
-      - ${ES_JAVA_OPTS:-/dev/null}
-      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
-    hostname: elasticsearch-warm
-    networks:
-      - efk
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - certs:$CERTS_DIR
-      - elasticsearch_warm:/usr/share/elasticsearch/data
-      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
-      - ./elasticsearch/config/warm/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
+#  elasticsearch-hot:
+#    build:
+#      context: ./elasticsearch
+#      args:
+#        VERSION_EFK: ${VERSION_EFK}
+#    command: /usr/share/elasticsearch/custom-entrypoint.sh
+#    container_name: elasticsearch-hot
+#    environment:
+#      - ${ES_JAVA_OPTS:-/dev/null}
+#      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
+#    hostname: elasticsearch-hot
+#    networks:
+#      - cluster
+#    ulimits:
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - certs:$CERTS_DIR
+#      - elasticsearch_hot:/usr/share/elasticsearch/data
+#      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
+#      - ./elasticsearch/config/hot/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
+#
+#  elasticsearch-warm:
+#    build:
+#      context: ./elasticsearch
+#      args:
+#        VERSION_EFK: ${VERSION_EFK}
+#    command: /usr/share/elasticsearch/custom-entrypoint.sh
+#    container_name: elasticsearch-warm
+#    environment:
+#      - ${ES_JAVA_OPTS:-/dev/null}
+#      - KEY_PASSPHRASE=${KEY_PASSPHRASE}
+#    hostname: elasticsearch-warm
+#    networks:
+#      - cluster
+#    ulimits:
+#      nofile:
+#        soft: 65536
+#        hard: 65536
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - certs:$CERTS_DIR
+#      - elasticsearch_warm:/usr/share/elasticsearch/data
+#      - ./elasticsearch/entrypoint.sh:/usr/share/elasticsearch/custom-entrypoint.sh
+#      - ./elasticsearch/config/warm/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#      - ./elasticsearch/config/readonlyrest.yml:/usr/share/elasticsearch/config/readonlyrest.yml
 
 #  fluentd:
 #    build:
@@ -103,7 +103,7 @@ services:
 #      - ./fluentd/fluentd.properties
 #    hostname: fluentd
 #    networks:
-#      - efk
+#      - cluster
 #    ports:
 #      - "5140:5140"
 #      - "5140:5140/udp"
@@ -117,25 +117,25 @@ services:
 #      - ./fluentd/config:/fluentd/etc
 #      - ./fluentd/certs:/fluentd/certs
 #
-  kibana:
-    build:
-      context: ./kibana
-      args:
-        VERSION_EFK: ${VERSION_EFK}
-    container_name: kibana
-    depends_on:
-      - elasticsearch
-    environment:
-      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}
-      SERVER_SSL_KEYPASSPHRASE: ${KEY_PASSPHRASE}
-    hostname: kibana
-    networks:
-      - efk
-    ports:
-      - 5601:5601
-    volumes:
-      - certs:/usr/share/kibana/config/certificates
-      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+#  kibana:
+#    build:
+#      context: ./kibana
+#      args:
+#        VERSION_EFK: ${VERSION_EFK}
+#    container_name: kibana
+#    depends_on:
+#      - elasticsearch
+#    environment:
+#      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_PASSWORD}
+#      SERVER_SSL_KEYPASSPHRASE: ${KEY_PASSPHRASE}
+#    hostname: kibana
+#    networks:
+#      - cluster
+#    ports:
+#      - 5601:5601
+#    volumes:
+#      - certs:/usr/share/kibana/config/certificates
+#      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
 
 #  elastichq:
 #    build:
@@ -152,14 +152,14 @@ services:
 #      HQ_VERIFY_CERTS: "False"
 #    hostname: elastichq
 #    networks:
-#      - efk
+#      - cluster
 #    ports:
 #      - 5000:5000
 #    volumes:
 #      - certs:/usr/share/elastichq
 
 networks:
-  efk:
+  cluster:
     driver: bridge
 
 volumes:
