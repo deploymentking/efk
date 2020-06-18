@@ -6,6 +6,4 @@ LABEL Description="Elasticsearch instance"
 LABEL Version="2.0.0"
 
 EXPOSE 9200 9300
-
-HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
-    CMD curl --silent --fail localhost:9200/_cluster/health || exit 1
+HEALTHCHECK --interval=5s --timeout=2s --retries=15 CMD nc -z elasticsearch 9200 || exit 1

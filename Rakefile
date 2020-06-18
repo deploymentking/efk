@@ -28,22 +28,32 @@ task :clean do
   ].each { |f| FileUtils.rm_rf(Dir.glob(f)) }
 end
 
-desc 'Stop the entire EFK stack, any additional sources and the minikube cluster'
-task :down do
-  sh './scripts/stop-efk.sh || true'
-end
 
-desc 'Start the EFK stack components (including elasticHQ)'
-task :efk do
+desc 'Start the client instances Kibana and ElasticHQ (Elasticsearch cluster must be up and running first)'
+task :clients do
   trap('SIGINT') do
-    puts 'Cancelled EFK stack launch...'
+    puts 'Cancelled Kibana launch...'
     exit
   end
-  sh './scripts/start-efk.sh'
+  sh './scripts/start-clients.sh'
+end
+
+desc 'Kill the entire EFK stack, any additional sources and the minikube cluster'
+task :down do
+  sh './scripts/down-es-cluster.sh || true'
+end
+
+desc 'Start the Elasticsearch cluster (including elasticHQ)'
+task :elasticsearch do
+  trap('SIGINT') do
+    puts 'Cancelled Elasticsearch cluster launch...'
+    exit
+  end
+  sh './scripts/start-es-cluster.sh'
 end
 
 desc 'Run ALL the rake tasks: clean test and build'
-task everything: %w[down clean style test efk k8s all_sources]
+task everything: %w[down clean style test elasticsearch kibana k8s all_sources]
 
 desc 'Start the Kubernetes Minikube components'
 task :k8s do
@@ -62,6 +72,15 @@ task :logs do
   end
   sh 'docker-compose ps'
   sh 'docker-compose logs -f'
+end
+
+task :passwords do
+  sh '
+    docker exec elasticsearch-master /bin/bash \
+      -c "bin/elasticsearch-setup-passwords auto \
+      --batch \
+      --url https://elasticsearch:9200" > es-passwords.txt
+  '
 end
 
 desc 'Start the Prometheus stack component'
@@ -96,6 +115,11 @@ end
 desc 'Start 1..n source containers'
 task :start, :source do |_task, args|
   sh "./scripts/start-source.sh #{args[:source]}"
+end
+
+desc 'Stop the EFK cluster'
+task :stop do
+  sh './scripts/stop-es-cluster.sh'
 end
 
 desc 'Run all style checks'

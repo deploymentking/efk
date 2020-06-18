@@ -5,11 +5,11 @@ green=`tput setaf 2`
 yellow=`tput setaf 3`
 reset=`tput sgr0`
 
-kibanaCurlPrefix="curl -u kibana:kibana"
-kibanaUrl="http://localhost:5601"
+kibanaCurlPrefix="curl -k -u kibana:${ELASTICSEARCH_KIBANA_PASSWORD}"
+kibanaUrl="https://kibana:5601"
 
-elasticsearchCurlPrefix="curl -u elastichq:elastichq"
-elasticsearchUrl="http://localhost:9200"
+elasticsearchCurlPrefix="curl -u elastichq:${ELASTICSEARCH_ELASTIC_PASSWORD}"
+elasticsearchUrl="https://localhost:9200"
 
 # Check if all the essential tools are installed
 function checkPreRequisites {

@@ -1,0 +1,47 @@
+version: '3.6'
+
+services:
+  kibana:
+    build:
+      context: ./kibana
+      args:
+        VERSION_EFK: ${VERSION_EFK}
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_PASSWORD: ${ELASTICSEARCH_KIBANA_PASSWORD}
+      SERVER_SSL_KEYPASSPHRASE: ${KEY_PASSPHRASE}
+    hostname: kibana
+    networks:
+      - cluster
+    ports:
+      - 5601:5601
+    volumes:
+      - certs:/usr/share/kibana/config/certificates
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+
+  elastichq:
+    build:
+      context: ./elasticHQ
+      args:
+        VERSION_ELASTICHQ: ${VERSION_ELASTICHQ}
+    container_name: elastichq
+    environment:
+      HQ_DEFAULT_URL: https://elastic:${ELASTICSEARCH_ELASTIC_PASSWORD}@elasticsearch:9200
+      HQ_ENABLE_SSL: "True"
+      HQ_CA_CERTS: /usr/share/elastichq/ca/ca.crt
+      HQ_VERIFY_CERTS: "False"
+    hostname: elastichq
+    networks:
+      - cluster
+    ports:
+      - 5000:5000
+    volumes:
+      - certs:/usr/share/elastichq
+
+networks:
+  cluster:
+    driver: bridge
+
+volumes:
+  certs:
+    driver: local
