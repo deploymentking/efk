@@ -24,3 +24,5 @@ target
 coverage
 VERSION
 output.log
+
+es-passwords.txt
