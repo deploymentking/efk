@@ -1,8 +1,9 @@
 # Log Aggregation using Elasticsearch, Fluentd and Kibana
 
+![Rubocop](https://github.com/deploymentking/efk/workflows/Rubocop/badge.svg)
 [![Build Status](https://travis-ci.org/deploymentking/efk.svg?branch=master)](https://travis-ci.org/deploymentking/efk)
 [![Coverage Status](https://coveralls.io/repos/github/deploymentking/efk/badge.svg?branch=master)](https://coveralls.io/github/deploymentking/efk?branch=master)
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This project allows for the quick deployment of a fully functioning EFK Stack.
 - (E)lasticsearch
