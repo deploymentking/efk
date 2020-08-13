@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bundler', '~> 2.1', '>= 2.1.4'
+gem 'code-scanning-rubocop', '~> 0.3.0'
 gem 'coveralls', require: false
 gem 'docker-compose-api', '~> 1.1', '>= 1.1.8'
 gem 'dockerspec', '~> 0.5.0'
