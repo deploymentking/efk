@@ -17,7 +17,7 @@ describe 'Elasticsearch Installation' do
     its(:arch) { should eq 'amd64' }
     its(:os) { should eq 'linux' }
 
-    describe docker_run(described_image, tag: 'efk_elasticsearch', env: {"discovery.type" => "single-node"}) do
+    describe docker_run(described_image, tag: 'efk_elasticsearch', env: { 'discovery.type' => 'single-node' }) do
       it 'is a Linux distro' do
         expect(command('uname').stdout).to include 'Linux'
       end

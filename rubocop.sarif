@@ -1,0 +1,157 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Rubocop",
+          "rules": [
+            {
+              "id": "Layout/SpaceInsideHashLiteralBraces",
+              "name": "Layout/SpaceInsideHashLiteralBraces",
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "precision": "very-high",
+                "description": "Use spaces inside hash literal braces - or don't.",
+                "tags": [
+                  "layout"
+                ]
+              },
+              "shortDescription": {
+                "text": "Use spaces inside hash literal braces - or don't."
+              },
+              "fullDescription": {
+                "text": "Use spaces inside hash literal braces - or don't."
+              }
+            },
+            {
+              "id": "Style/StringLiterals",
+              "name": "Style/StringLiterals",
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "precision": "very-high",
+                "description": "Checks if uses of quotes match the configured preference.",
+                "tags": [
+                  "style"
+                ]
+              },
+              "shortDescription": {
+                "text": "Checks if uses of quotes match the configured preference."
+              },
+              "fullDescription": {
+                "text": "Checks if uses of quotes match the configured preference."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "Layout/SpaceInsideHashLiteralBraces",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Layout/SpaceInsideHashLiteralBraces: Space inside { missing."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "spec/elasticsearch_spec.rb",
+                  "uriBaseId": "%SRCROOT%",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 73,
+                  "endColumn": 73
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+          }
+        },
+        {
+          "ruleId": "Style/StringLiterals",
+          "ruleIndex": 1,
+          "message": {
+            "text": "Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "spec/elasticsearch_spec.rb",
+                  "uriBaseId": "%SRCROOT%",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 74,
+                  "endColumn": 89
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+          }
+        },
+        {
+          "ruleId": "Style/StringLiterals",
+          "ruleIndex": 1,
+          "message": {
+            "text": "Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "spec/elasticsearch_spec.rb",
+                  "uriBaseId": "%SRCROOT%",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 94,
+                  "endColumn": 106
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+          }
+        },
+        {
+          "ruleId": "Layout/SpaceInsideHashLiteralBraces",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Layout/SpaceInsideHashLiteralBraces: Space inside } missing."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "spec/elasticsearch_spec.rb",
+                  "uriBaseId": "%SRCROOT%",
+                  "index": 0
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 107,
+                  "endColumn": 107
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+          }
+        }
+      ]
+    }
+  ]
+}
