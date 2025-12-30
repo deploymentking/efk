@@ -6,6 +6,4 @@ LABEL Description="ElasticHQ instance"
 LABEL Version="2.0.0"
 
 EXPOSE 5000
-
-HEALTHCHECK --interval=5s --timeout=2s --retries=15 \
-    CMD nc -z localhost 5000 || exit 1
+HEALTHCHECK --interval=5s --timeout=2s --retries=15 CMD nc -z localhost 5000 || exit 1
